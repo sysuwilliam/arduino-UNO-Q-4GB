@@ -1,0 +1,19 @@
+.history/
+
+# Arduino 编译生成目录
+build/
+.build/
+out/
+
+# 二进制固件
+*.hex
+*.elf
+*.bin
+*.o
+*.a
+*.map
+
+# 临时文件和日志
+*.log
+.DS_Store
+Thumbs.db
