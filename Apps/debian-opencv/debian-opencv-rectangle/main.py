@@ -22,26 +22,81 @@ latest_brightness = 0.0
 latest_result = {
     "status": latest_status,
     "brightness": latest_brightness,
-    "bright": False,
+    "rectangles_count": 0,
+    "rectangles": [],
 }
 lock = threading.Lock()
 
 
 def process_frame(frame):
-    """Apply basic OpenCV processing and return the processed frame plus result data."""
+    """Detect rectangular objects and draw bounding boxes on the frame."""
     brightness = float(frame.mean())
-    bright = brightness >= 80.0
 
-    label = "BRIGHT" if bright else "DARK"
-    color = (0, 255, 0) if bright else (0, 165, 255)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    edges = cv2.Canny(blurred, 60, 160)
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    closed = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+    contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    rectangles = []
+    min_area = 1200
+    frame_area = frame.shape[0] * frame.shape[1]
+
+    for contour in contours:
+        area = cv2.contourArea(contour)
+        if area < min_area or area > frame_area * 0.9:
+            continue
+
+        perimeter = cv2.arcLength(contour, True)
+        approx = cv2.approxPolyDP(contour, 0.03 * perimeter, True)
+        if len(approx) != 4 or not cv2.isContourConvex(approx):
+            continue
+
+        x, y, w, h = cv2.boundingRect(approx)
+        if w < 25 or h < 25:
+            continue
+
+        aspect_ratio = w / float(h)
+        if aspect_ratio < 0.2 or aspect_ratio > 5.0:
+            continue
+
+        rect_area = w * h
+        fill_ratio = area / float(rect_area)
+        if fill_ratio < 0.45:
+            continue
+
+        rectangles.append({
+            "x": int(x),
+            "y": int(y),
+            "width": int(w),
+            "height": int(h),
+            "area": round(float(area), 1),
+            "aspect_ratio": round(float(aspect_ratio), 2),
+        })
+
+        cv2.drawContours(frame, [approx], -1, (0, 255, 0), 3)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 180, 255), 2)
+        cv2.putText(
+            frame,
+            f"rect {w}x{h}",
+            (x, max(24, y - 8)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 255, 0),
+            2,
+            cv2.LINE_AA,
+        )
 
     cv2.putText(
         frame,
-        f"OpenCV {label} brightness={brightness:.1f}",
+        f"rectangles={len(rectangles)} brightness={brightness:.1f}",
         (20, 40),
         cv2.FONT_HERSHEY_SIMPLEX,
-        1.0,
-        color,
+        0.9,
+        (0, 255, 0),
         2,
         cv2.LINE_AA,
     )
@@ -49,8 +104,9 @@ def process_frame(frame):
     result = {
         "status": "streaming",
         "brightness": round(brightness, 1),
-        "bright": bright,
-        "label": label.lower(),
+        "rectangles_count": len(rectangles),
+        "rectangles": rectangles,
+        "label": "rectangle_detected" if rectangles else "no_rectangle",
     }
     return frame, result
 
@@ -70,7 +126,8 @@ def camera_loop():
             latest_result = {
                 "status": latest_status,
                 "brightness": latest_brightness,
-                "bright": False,
+                "rectangles_count": 0,
+                "rectangles": [],
                 "label": "error",
             }
         print("cannot open camera")
@@ -86,7 +143,8 @@ def camera_loop():
                 latest_result = {
                     "status": latest_status,
                     "brightness": latest_brightness,
-                    "bright": False,
+                    "rectangles_count": 0,
+                    "rectangles": [],
                     "label": "error",
                 }
             time.sleep(0.2)
