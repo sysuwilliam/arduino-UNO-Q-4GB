@@ -1,3 +1,4 @@
+import json
 import threading
 import time
 from http import HTTPStatus
@@ -18,29 +19,44 @@ JPEG_QUALITY = 80
 latest_frame = None
 latest_status = "starting"
 latest_brightness = 0.0
+latest_result = {
+    "status": latest_status,
+    "brightness": latest_brightness,
+    "bright": False,
+}
 lock = threading.Lock()
 
 
 def process_frame(frame):
-    """Apply OpenCV processing to each frame before streaming it."""
+    """Apply OpenCV processing and return the processed frame plus result data."""
     brightness = float(frame.mean())
+    bright = brightness >= 80.0
+
+    label = "BRIGHT" if bright else "DARK"
+    color = (0, 255, 0) if bright else (0, 165, 255)
 
     cv2.putText(
         frame,
-        f"OpenCV brightness={brightness:.1f}",
+        f"OpenCV {label} brightness={brightness:.1f}",
         (20, 40),
         cv2.FONT_HERSHEY_SIMPLEX,
         1.0,
-        (0, 255, 0),
+        color,
         2,
         cv2.LINE_AA,
     )
 
-    return frame, brightness
+    result = {
+        "status": "streaming",
+        "brightness": round(brightness, 1),
+        "bright": bright,
+        "label": label.lower(),
+    }
+    return frame, result
 
 
 def camera_loop():
-    global latest_frame, latest_status, latest_brightness
+    global latest_frame, latest_status, latest_brightness, latest_result
 
     cap = cv2.VideoCapture(CAMERA_INDEX, cv2.CAP_V4L2)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
@@ -51,6 +67,12 @@ def camera_loop():
     if not cap.isOpened():
         with lock:
             latest_status = "cannot open camera"
+            latest_result = {
+                "status": latest_status,
+                "brightness": latest_brightness,
+                "bright": False,
+                "label": "error",
+            }
         print("cannot open camera")
         return
 
@@ -61,15 +83,22 @@ def camera_loop():
         if not ok or frame is None:
             with lock:
                 latest_status = "failed to read frame"
+                latest_result = {
+                    "status": latest_status,
+                    "brightness": latest_brightness,
+                    "bright": False,
+                    "label": "error",
+                }
             time.sleep(0.2)
             continue
 
-        frame, brightness = process_frame(frame)
+        frame, result = process_frame(frame)
 
         with lock:
             latest_frame = frame
-            latest_brightness = brightness
-            latest_status = "streaming"
+            latest_status = result["status"]
+            latest_brightness = result["brightness"]
+            latest_result = result
 
         time.sleep(1 / FPS)
 
@@ -84,6 +113,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_snapshot()
         elif self.path == "/health":
             self.send_health()
+        elif self.path == "/result.json":
+            self.send_result_json()
         else:
             self.send_error(HTTPStatus.NOT_FOUND, "not found")
 
@@ -150,6 +181,9 @@ class Handler(BaseHTTPRequestHandler):
       object-fit: contain;
     }
     .meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
       color: #52606d;
       font-size: 14px;
     }
@@ -167,7 +201,10 @@ class Handler(BaseHTTPRequestHandler):
     <section class="viewer">
       <img src="/stream.mjpg" alt="OpenCV stream">
     </section>
-    <div class="meta"><a href="/health" target="_blank">Health</a></div>
+    <div class="meta">
+      <a href="/health" target="_blank">Health</a>
+      <a href="/result.json" target="_blank">Result JSON</a>
+    </div>
   </main>
 </body>
 </html>
@@ -229,6 +266,17 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(data)
+
+    def send_result_json(self):
+        with lock:
+            payload = json.dumps(latest_result).encode("utf-8")
+
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(payload)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(payload)
 
 
 threading.Thread(target=camera_loop, daemon=True).start()
