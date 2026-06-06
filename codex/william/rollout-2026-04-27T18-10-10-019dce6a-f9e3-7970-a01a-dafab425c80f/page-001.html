@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-27T18-10-10-019dce6a-f9e3-7970-a01a-dafab425c80f · Page 1</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-27T18-10-10-019dce6a-f9e3-7970-a01a-dafab425c80f</a></h1>
+  <p>Page 1 / 2</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <span>&larr; Prev</span>
+  
+  
+    
+    <span class="current">1</span>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+  
+  <a href="page-002.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-1">
+  <div class="turn-head">
+    <div class="turn-title">Turn 1 · 如何确认我的电脑上是否下载了rviz</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T10-10-34-121Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T10-10-34-121Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:34.121Z" data-timestamp="2026-04-27T10:10:34.121Z">2026-04-27T10:10:34.121Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>如何确认我的电脑上是否下载了rviz</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T10-10-37-872Z-2026-04-27T10-10-42-548Z">
+  <summary>Codex process (9 items: 2 Reasoning, Commentary, 2 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T10-10-37-872Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-10-37-872Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:37.872Z" data-timestamp="2026-04-27T10:10:37.872Z">2026-04-27T10:10:37.872Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T10-10-40-438Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T10-10-40-438Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.438Z" data-timestamp="2026-04-27T10:10:40.438Z">2026-04-27T10:10:40.438Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先直接检查系统里是否有 <code>rviz</code> 或 <code>rviz2</code> 可执行文件，再给你一套自己也能复查的方法。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-10-40-439Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-10-40-439Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.439Z" data-timestamp="2026-04-27T10:10:40.439Z">2026-04-27T10:10:40.439Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;command -v rviz&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-10-40-440Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-10-40-440Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.440Z" data-timestamp="2026-04-27T10:10:40.440Z">2026-04-27T10:10:40.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;command -v rviz2&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-10-40-508Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-10-40-508Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.508Z" data-timestamp="2026-04-27T10:10:40.508Z">2026-04-27T10:10:40.508Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_svthEYd8n2NdhA9fp2cvJbP1&quot;,
+  &quot;process_id&quot;: &quot;68401&quot;,
+  &quot;turn_id&quot;: &quot;019dce6b-5602-7313-8269-aacefe983575&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;command -v rviz2&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;command -v rviz2&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;/opt/ros/humble/bin/rviz2\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 9275
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-10-40-509Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-10-40-509Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.509Z" data-timestamp="2026-04-27T10:10:40.509Z">2026-04-27T10:10:40.509Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_AVzuP2v8V5OsDeDhLKgaUSbU&quot;,
+  &quot;process_id&quot;: &quot;70415&quot;,
+  &quot;turn_id&quot;: &quot;019dce6b-5602-7313-8269-aacefe983575&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;command -v rviz&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;command -v rviz&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 891
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;failed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-10-40-510Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-10-40-510Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.510Z" data-timestamp="2026-04-27T10:10:40.510Z">2026-04-27T10:10:40.510Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3edf6a
+Wall time: 0.0000 seconds
+Process exited with code 1
+Original token count: 0
+Output:
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-10-40-511Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-10-40-511Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:40.511Z" data-timestamp="2026-04-27T10:10:40.511Z">2026-04-27T10:10:40.511Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3488f0
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 7
+Output:
+/opt/ros/humble/bin/rviz2
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-27T10-10-42-548Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-10-42-548Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:42.548Z" data-timestamp="2026-04-27T10:10:42.548Z">2026-04-27T10:10:42.548Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T10-10-45-899Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T10-10-45-899Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:10:45.899Z" data-timestamp="2026-04-27T10:10:45.899Z">2026-04-27T10:10:45.899Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你的电脑上<strong>已经安装了 <code>rviz2</code></strong>，我查到可执行文件路径是：</p>
+<p><code>/opt/ros/humble/bin/rviz2</code></p>
+<p>这通常说明你装的是 <strong>ROS 2 Humble</strong> 里的 RViz，而不是 ROS 1 的 <code>rviz</code>。</p>
+<p>你自己也可以这样确认：</p>
+<pre><code class="language-bash">command -v rviz
+command -v rviz2
+</code></pre>
+<p>判断方法：
+- 有输出路径，比如 <code>/opt/ros/humble/bin/rviz2</code>，说明已安装
+- 没有输出，且退出码非 0，说明这个命令不存在</p>
+<p>如果你想进一步确认包是否安装，也可以运行：</p>
+<pre><code class="language-bash">dpkg -l ros-humble-rviz2
+</code></pre>
+<p>如果你愿意，我也可以继续帮你检查 <code>rviz2</code> 能不能正常启动。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-2">
+  <div class="turn-head">
+    <div class="turn-title">Turn 2 · 那gabzo呢</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T10-12-04-429Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T10-12-04-429Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:04.429Z" data-timestamp="2026-04-27T10:12:04.429Z">2026-04-27T10:12:04.429Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那gabzo呢</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T10-12-07-114Z-2026-04-27T10-12-10-513Z">
+  <summary>Codex process (11 items: Reasoning, Commentary, 3 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T10-12-07-114Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-12-07-114Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:07.114Z" data-timestamp="2026-04-27T10:12:07.114Z">2026-04-27T10:12:07.114Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T10-12-10-393Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T10-12-10-393Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.393Z" data-timestamp="2026-04-27T10:12:10.393Z">2026-04-27T10:12:10.393Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先按你输入的 <code>gabzo</code> 直接查命令是否存在；如果这是想问 <code>gazebo</code>，我也会顺手一起确认。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-12-10-395Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-12-10-395Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.395Z" data-timestamp="2026-04-27T10:12:10.395Z">2026-04-27T10:12:10.395Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;command -v gabzo&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-12-10-403Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-12-10-403Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.403Z" data-timestamp="2026-04-27T10:12:10.403Z">2026-04-27T10:12:10.403Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;command -v gazebo&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-12-10-403Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-12-10-403Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.403Z" data-timestamp="2026-04-27T10:12:10.403Z">2026-04-27T10:12:10.403Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;command -v gz&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-10-445Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-12-10-445Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.445Z" data-timestamp="2026-04-27T10:12:10.445Z">2026-04-27T10:12:10.445Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_W2sYv4GITRzKdHubrcA3t6Zy&quot;,
+  &quot;process_id&quot;: &quot;7319&quot;,
+  &quot;turn_id&quot;: &quot;019dce6c-b69e-7182-ac22-10a3dd905e4b&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;command -v gabzo&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;command -v gabzo&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4478
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;failed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-10-452Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-12-10-452Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.452Z" data-timestamp="2026-04-27T10:12:10.452Z">2026-04-27T10:12:10.452Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_ib5QtJMNE64gR4MP2gfyzxTG&quot;,
+  &quot;process_id&quot;: &quot;99035&quot;,
+  &quot;turn_id&quot;: &quot;019dce6c-b69e-7182-ac22-10a3dd905e4b&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;command -v gz&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;command -v gz&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 2855
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;failed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-10-455Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-12-10-455Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.455Z" data-timestamp="2026-04-27T10:12:10.455Z">2026-04-27T10:12:10.455Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_zFUKATrgKDkrwfQlTNeJdk0s&quot;,
+  &quot;process_id&quot;: &quot;84561&quot;,
+  &quot;turn_id&quot;: &quot;019dce6c-b69e-7182-ac22-10a3dd905e4b&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;command -v gazebo&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;command -v gazebo&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;&quot;,
+  &quot;exit_code&quot;: 1,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4127
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;failed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-12-10-512Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-12-10-512Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.512Z" data-timestamp="2026-04-27T10:12:10.512Z">2026-04-27T10:12:10.512Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 41535b
+Wall time: 0.0000 seconds
+Process exited with code 1
+Original token count: 0
+Output:
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-12-10-512Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-12-10-512Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.512Z" data-timestamp="2026-04-27T10:12:10.512Z">2026-04-27T10:12:10.512Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 46464a
+Wall time: 0.0000 seconds
+Process exited with code 1
+Original token count: 0
+Output:
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-12-10-513Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-12-10-513Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:10.513Z" data-timestamp="2026-04-27T10:12:10.513Z">2026-04-27T10:12:10.513Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 5a2199
+Wall time: 0.0000 seconds
+Process exited with code 1
+Original token count: 0
+Output:
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T10-12-15-142Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T10-12-15-142Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:15.142Z" data-timestamp="2026-04-27T10:12:15.142Z">2026-04-27T10:12:15.142Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>gabzo</code> 这个命令不存在。</p>
+<p>我也顺手查了：
+- <code>gazebo</code>：不存在
+- <code>gz</code>：不存在</p>
+<p>这说明你电脑上当前看起来<strong>没有装 Gazebo，至少相关命令不在 PATH 里</strong>。</p>
+<p>你也可以自己复查：</p>
+<pre><code class="language-bash">command -v gabzo
+command -v gazebo
+command -v gz
+</code></pre>
+<p>如果你想查的是 ROS 2 常配的新版 Gazebo，我可以继续帮你检查系统里有没有装相关包，比如 <code>gazebo</code>、<code>gz-sim</code>、<code>ignition</code>。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-3">
+  <div class="turn-head">
+    <div class="turn-title">Turn 3 · gazebo是什么</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T10-12-27-415Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T10-12-27-415Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:27.415Z" data-timestamp="2026-04-27T10:12:27.415Z">2026-04-27T10:12:27.415Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>gazebo是什么</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T10-12-35-324Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T10-12-35-324Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:35.324Z" data-timestamp="2026-04-27T10:12:35.324Z">2026-04-27T10:12:35.324Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>Gazebo 是一个<strong>机器人仿真器</strong>，常和 ROS/ROS 2 配合使用。它的作用是：在电脑里搭一个接近真实世界的 3D 虚拟环境，让机器人“先在仿真里跑起来”，不用一开始就上真机。</p>
+<p>它通常用来做这些事：
+- 模拟机器人本体，比如轮子、机械臂、激光雷达、相机
+- 模拟物理效果，比如重力、碰撞、摩擦
+- 测试导航、避障、控制算法
+- 在没有真实硬件时先开发和调试</p>
+<p>简单理解：
+- <code>rviz</code> 更偏向<strong>可视化工具</strong>
+- <code>Gazebo</code> 更偏向<strong>物理仿真环境</strong></p>
+<p>比如你做小车项目时：
+- 用 <code>rviz2</code> 看地图、雷达点云、机器人姿态
+- 用 <code>Gazebo</code> 让小车在虚拟房间里真正“开起来”</p>
+<p>补一句，现在生态里有两类常见说法：
+- 旧版常直接叫 <code>Gazebo</code>
+- 新版常见命令是 <code>gz</code>，有时也叫 <strong>Gazebo Sim</strong></p>
+<p>如果你要，我可以接着用你这台电脑的 ROS 2 Humble 环境，告诉你“应该装哪一版 Gazebo”。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-4">
+  <div class="turn-head">
+    <div class="turn-title">Turn 4 · 好的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T10-12-45-056Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T10-12-45-056Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:45.056Z" data-timestamp="2026-04-27T10:12:45.056Z">2026-04-27T10:12:45.056Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>好的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T10-12-48-379Z-2026-04-27T10-12-57-189Z">
+  <summary>Codex process (8 items: 4 Reasoning, Commentary, 3 Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T10-12-48-379Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-12-48-379Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:48.379Z" data-timestamp="2026-04-27T10:12:48.379Z">2026-04-27T10:12:48.379Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T10-12-48-993Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T10-12-48-993Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:48.993Z" data-timestamp="2026-04-27T10:12:48.993Z">2026-04-27T10:12:48.993Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先按 ROS 2 Humble 的兼容性查官方文档，给你一个直接可装的版本结论。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-51-760Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-27T10-12-51-760Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:51.760Z" data-timestamp="2026-04-27T10:12:51.760Z">2026-04-27T10:12:51.760Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_072baa5fa607927c0169ef36a0dddc819592b7ed4da6694f12&quot;,
+  &quot;query&quot;: &quot;ROS 2 Humble Gazebo compatibility official docs&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;ROS 2 Humble Gazebo compatibility official docs&quot;,
+    &quot;queries&quot;: [
+      &quot;ROS 2 Humble Gazebo compatibility official docs&quot;,
+      &quot;Gazebo ROS 2 Humble official installation&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-27T10-12-52-060Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-12-52-060Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:52.060Z" data-timestamp="2026-04-27T10:12:52.060Z">2026-04-27T10:12:52.060Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-53-335Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-27T10-12-53-335Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:53.335Z" data-timestamp="2026-04-27T10:12:53.335Z">2026-04-27T10:12:53.335Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_072baa5fa607927c0169ef36a3f00881959c5714e35bbb4fff&quot;,
+  &quot;query&quot;: &quot;https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Gazebo/Gazebo.html&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Gazebo/Gazebo.html&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-27T10-12-53-739Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-12-53-739Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:53.739Z" data-timestamp="2026-04-27T10:12:53.739Z">2026-04-27T10:12:53.739Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-12-56-573Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-27T10-12-56-573Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:56.573Z" data-timestamp="2026-04-27T10:12:56.573Z">2026-04-27T10:12:56.573Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_072baa5fa607927c0169ef36a5a4508195b89c241afc702f66&quot;,
+  &quot;query&quot;: &quot;&#x27;Humble officially supports Gazebo Fortress&#x27; in https://gazebosim.org/docs/jetty/ros_installation/&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;find_in_page&quot;,
+    &quot;url&quot;: &quot;https://gazebosim.org/docs/jetty/ros_installation/&quot;,
+    &quot;pattern&quot;: &quot;Humble officially supports Gazebo Fortress&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-27T10-12-57-189Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-12-57-189Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:12:57.189Z" data-timestamp="2026-04-27T10:12:57.189Z">2026-04-27T10:12:57.189Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T10-13-02-820Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T10-13-02-820Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:02.820Z" data-timestamp="2026-04-27T10:13:02.820Z">2026-04-27T10:13:02.820Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>如果你现在用的是 <strong>ROS 2 Humble</strong>，优先装 <strong>Gazebo Fortress</strong>。</p>
+<p>原因很直接：Gazebo 官方兼容表把 <strong>ROS 2 Humble (LTS)</strong> 和 <strong>Gazebo Fortress</strong> 标成推荐组合，官方还明确写了 <code>ROS 2 Humble: Gazebo Fortress</code>。Harmonic 也能配 Humble，但属于<strong>非默认、非官方 ROS 仓库主推</strong>的组合，更适合已经知道自己为什么要换版本的人。<br />
+来源：
+- ROS 2 Humble Gazebo 教程: https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Gazebo/Gazebo.html
+- Gazebo 官方 ROS 安装与兼容表: https://gazebosim.org/docs/jetty/ros_installation/</p>
+<p>你可以这样理解：
+- 新手/课程/常规开发：装 <strong>Fortress</strong>
+- 明确需要新特性，且能处理包冲突：再考虑 <strong>Harmonic</strong></p>
+<p>如果你后面要在你这台机器上安装，通常就是检查并安装和 Humble 对应的 Gazebo/<code>ros_gz</code> 包；另外 Humble 文档里示例命令还是 <code>ign gazebo ...</code>，说明这套生态对应的是 Fortress 这一代接口。<br />
+如果你要，我下一步可以直接帮你检查这台 Ubuntu 上应该执行哪几条安装命令。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-5">
+  <div class="turn-head">
+    <div class="turn-title">Turn 5 · 好的</div>
+    <div class="turn-status">aborted</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T10-13-17-595Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T10-13-17-595Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:17.595Z" data-timestamp="2026-04-27T10:13:17.595Z">2026-04-27T10:13:17.595Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>好的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T10-13-20-224Z-2026-04-27T10-15-34-006Z">
+  <summary>Codex process (11 items: Reasoning, Commentary, 3 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T10-13-20-224Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T10-13-20-224Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:20.224Z" data-timestamp="2026-04-27T10:13:20.224Z">2026-04-27T10:13:20.224Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T10-13-23-440Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T10-13-23-440Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.440Z" data-timestamp="2026-04-27T10:13:23.440Z">2026-04-27T10:13:23.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先确认你这台机器的 Ubuntu 版本和现有 ROS 源状态，再给你能直接执行的安装命令。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-13-23-441Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-13-23-441Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.441Z" data-timestamp="2026-04-27T10:13:23.441Z">2026-04-27T10:13:23.441Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;lsb_release -a&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-13-23-442Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-13-23-442Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.442Z" data-timestamp="2026-04-27T10:13:23.442Z">2026-04-27T10:13:23.442Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;apt-cache policy ros-humble-desktop&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T10-13-23-442Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T10-13-23-442Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.442Z" data-timestamp="2026-04-27T10:13:23.442Z">2026-04-27T10:13:23.442Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;apt-cache policy ros-humble-gazebo-ros-pkgs&#34;,&#34;workdir&#34;:&#34;/home/william&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1200}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-13-23-531Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-13-23-531Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.531Z" data-timestamp="2026-04-27T10:13:23.531Z">2026-04-27T10:13:23.531Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_arV5Edo53Bih9paSjPm3Zpfr&quot;,
+  &quot;process_id&quot;: &quot;19031&quot;,
+  &quot;turn_id&quot;: &quot;019dce6d-d473-7682-99a1-f2efa1405210&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;lsb_release -a&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;lsb_release -a&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;No LSB modules are available.\nDistributor ID:\tUbuntu\nDescription:\tUbuntu 22.04.5 LTS\nRelease:\t22.04\nCodename:\tjammy\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 6652
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-13-23-531Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-13-23-531Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.531Z" data-timestamp="2026-04-27T10:13:23.531Z">2026-04-27T10:13:23.531Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 45a617
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 29
+Output:
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.5 LTS
+Release:	22.04
+Codename:	jammy
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-13-23-533Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T10-13-23-533Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:13:23.533Z" data-timestamp="2026-04-27T10:13:23.533Z">2026-04-27T10:13:23.533Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_Mg5A9GZJQ7Bh5USI5WeQRas4&quot;,
+  &quot;process_id&quot;: &quot;24274&quot;,
+  &quot;turn_id&quot;: &quot;019dce6d-d473-7682-99a1-f2efa1405210&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;apt-cache policy ros-humble-gazebo-ros-pkgs&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;apt-cache policy ros-humble-gazebo-ros-pkgs&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;ros-humble-gazebo-ros-pkgs:\n  Installed: (none)\n  Candidate: 3.9.0-1jammy.20260326.010330\n  Version table:\n     3.9.0-1jammy.20260326.010330 500\n        500 https://mirrors.ustc.edu.cn/ros2/ubuntu jammy/main amd64 Packages\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 3817
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-15-33-963Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-15-33-963Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:15:33.963Z" data-timestamp="2026-04-27T10:15:33.963Z">2026-04-27T10:15:33.963Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>aborted by user after 130.6s</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T10-15-34-005Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T10-15-34-005Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:15:34.005Z" data-timestamp="2026-04-27T10:15:34.005Z">2026-04-27T10:15:34.005Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3f10ed
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 56
+Output:
+ros-humble-gazebo-ros-pkgs:
+  Installed: (none)
+  Candidate: 3.9.0-1jammy.20260326.010330
+  Version table:
+     3.9.0-1jammy.20260326.010330 500
+        500 https://mirrors.ustc.edu.cn/ros2/ubuntu jammy/main amd64 Packages
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T10-15-34-006Z">
+  <div class="message-header">
+    <span class="role-label">Turn Aborted</span>
+    <a href="#msg-2026-04-27T10-15-34-006Z" class="timestamp-link">
+      <time datetime="2026-04-27T10:15:34.006Z" data-timestamp="2026-04-27T10:15:34.006Z">2026-04-27T10:15:34.006Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>This turn was interrupted before completion.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <span>&larr; Prev</span>
+  
+  
+    
+    <span class="current">1</span>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+  
+  <a href="page-002.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

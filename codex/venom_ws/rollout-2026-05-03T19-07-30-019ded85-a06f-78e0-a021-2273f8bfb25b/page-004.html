@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b · Page 4</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b</a></h1>
+  <p>Page 4 / 16</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-003.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <span class="current">4</span>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <a href="page-016.html">16</a>
+    
+  
+  
+  <a href="page-005.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-16">
+  <div class="turn-head">
+    <div class="turn-title">Turn 16 · 那你在那个文件中再说明一下日常启动的流程，放在最前面</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-22-27-619Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-22-27-619Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:27.619Z" data-timestamp="2026-05-04T02:22:27.619Z">2026-05-04T02:22:27.619Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那你在那个文件中再说明一下日常启动的流程，放在最前面</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-04T02-22-32-075Z-2026-05-04T02-22-40-981Z">
+  <summary>Codex process (7 items: Commentary, 2 Tool Call, Exec Command End, ...)</summary>
+  <div class="process-group-body">
+<div class="message commentary" id="msg-2026-05-04T02-22-32-075Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-04T02-22-32-075Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:32.075Z" data-timestamp="2026-05-04T02:22:32.075Z">2026-05-04T02:22:32.075Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会把“日常启动流程”加到文档最前面，明确说明不需要每次 apt/rosdep，只需要 source 和 launch，其他安装编译步骤放在后面作为首次配置/排错。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-22-33-109Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-22-33-109Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:33.109Z" data-timestamp="2026-05-04T02:22:33.109Z">2026-05-04T02:22:33.109Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,80p&#39; navigation_simulation_startup.md&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-22-33-169Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-22-33-169Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:33.169Z" data-timestamp="2026-05-04T02:22:33.169Z">2026-05-04T02:22:33.169Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_ssaq7EzXPLgKZcnWS67Sl8My&quot;,
+  &quot;process_id&quot;: &quot;87681&quot;,
+  &quot;turn_id&quot;: &quot;019df0cb-4920-7a01-8fa8-c1142d40ef81&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;1,80p&#x27; navigation_simulation_startup.md&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;1,80p&#x27; navigation_simulation_startup.md&quot;,
+      &quot;name&quot;: &quot;navigation_simulation_startup.md&quot;,
+      &quot;path&quot;: &quot;navigation_simulation_startup.md&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;# 导航仿真启动记录\n\n本文记录当前工作区中 `venom_nav_simulation` 的启动流程、依赖关系和常见问题处理方法。\n\n## 工作区结构\n\n主工作区：\n\n```bash\n/home/william/venom_ws\n```\n\n导航仿真工作区：\n\n```bash\n/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation\n```\n\n`venom_nav_simulation` 是一个独立的 ROS 2 工作区，但它依赖主工作区中已经编译好的部分包，例如：\n\n- `livox_ros_driver2`\n- `point_lio`\n- `teb_local_planner`\n\n因此，编译和启动仿真工作区前，需要先 source 主工作区。\n\n## 一次性依赖安装\n\n安装 ROS 系统依赖：\n\n```bash\nsudo apt update\nsudo apt install -y \\\n  ros-humble-slam-toolbox \\\n  ros-humble-navigation2 \\\n  ros-humble-nav2-bringup \\\n  ros-humble-nav2-rviz-plugins\n```\n\n必要时使用 `rosdep` 安装工作区依赖：\n\n```bash\ncd /home/william/venom_ws\nsource /opt/ros/humble/setup.bash\nrosdep install -r --from-paths src --ignore-src --rosdistro humble -y\n```\n\n## 编译主工作区依赖\n\n编译仿真使用的 Point-LIO：\n\n```bash\ncd /home/william/venom_ws\nsource /opt/ros/humble/setup.bash\nsource install/setup.bash\n\ncolcon build --symlink-install --packages-select point_lio\nsource install/setup.bash\n```\n\n编译 Nav2 使用的 TEB 局部规划器插件：\n\n```bash\ncd /home/william/venom_ws\nsource /opt/ros/humble/setup.bash\nsource install/setup.bash\n\nrosdep install -r \\\n  --from-paths src/venom_vnv/planning/navigation/venom_teb_controller \\\n  --ignore-src \\\n  --rosdistro humble \\\n  -y\n\ncolcon build --symlink-install --packages-select teb_local_planner\nsource install/setup.bash\n```\n\n检查关键包是否可被 ROS 识别：\n\n```bash\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 7293
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-22-33-170Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-22-33-170Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:33.170Z" data-timestamp="2026-05-04T02:22:33.170Z">2026-05-04T02:22:33.170Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: bc3433
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 422
+Output:
+# 导航仿真启动记录
+
+本文记录当前工作区中 `venom_nav_simulation` 的启动流程、依赖关系和常见问题处理方法。
+
+## 工作区结构
+
+主工作区：
+
+```bash
+/home/william/venom_ws
+```
+
+导航仿真工作区：
+
+```bash
+/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation
+```
+
+`venom_nav_simulation` 是一个独立的 ROS 2 工作区，但它依赖主工作区中已经编译好的部分包，例如：
+
+- `livox_ros_driver2`
+- `point_lio`
+- `teb_local_planner`
+
+因此，编译和启动仿真工作区前，需要先 source 主工作区。
+
+## 一次性依赖安装
+
+安装 ROS 系统依赖：
+
+```bash
+sudo apt update
+sudo apt install -y \
+  ros-humble-slam-toolbox \
+  ros-humble-navigation2 \
+  ros-humble-nav2-bringup \
+  ros-humble-nav2-rviz-plugins
+```
+
+必要时使用 `rosdep` 安装工作区依赖：
+
+```bash
+cd /home/william/venom_ws
+source /opt/ros/humble/setup.bash
+rosdep install -r --from-paths src --ignore-src --rosdistro humble -y
+```
+
+## 编译主工作区依赖
+
+编译仿真使用的 Point-LIO：
+
+```bash
+cd /home/william/venom_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+
+colcon build --symlink-install --packages-select point_lio
+source install/setup.bash
+```
+
+编译 Nav2 使用的 TEB 局部规划器插件：
+
+```bash
+cd /home/william/venom_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+
+rosdep install -r \
+  --from-paths src/venom_vnv/planning/navigation/venom_teb_controller \
+  --ignore-src \
+  --rosdistro humble \
+  -y
+
+colcon build --symlink-install --packages-select teb_local_planner
+source install/setup.bash
+```
+
+检查关键包是否可被 ROS 识别：
+
+```bash
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-22-40-791Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-22-40-791Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:40.791Z" data-timestamp="2026-05-04T02:22:40.791Z">2026-05-04T02:22:40.791Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">apply_patch</div>
+  
+  <pre>*** Begin Patch
+*** Update File: /home/william/venom_ws/navigation_simulation_startup.md
+@@
+ # 导航仿真启动记录
+ 
+ 本文记录当前工作区中 `venom_nav_simulation` 的启动流程、依赖关系和常见问题处理方法。
+ 
++## 日常启动流程
++
++依赖安装和编译不需要每次都做。只要系统依赖已经安装、主工作区和仿真工作区已经编译完成，日常启动只需要 source 环境并 launch。
++
++如果上一次 Gazebo 或 RViz 没有正常退出，先清理残留进程：
++
++```bash
++pkill -f gzserver
++pkill -f gzclient
++pkill -f rviz2
++```
++
++启动 RMUL 导航仿真：
++
++```bash
++cd /home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation
++
++source /opt/ros/humble/setup.bash
++source /home/william/venom_ws/install/setup.bash
++source install/setup.bash
++
++ros2 launch rm_nav_bringup bringup_sim.launch.py \
++  world:=RMUL \
++  mode:=nav \
++  lio:=pointlio \
++  localization:=slam_toolbox \
++  lio_rviz:=False \
++  nav_rviz:=True
++```
++
++启动完成后，在 RViz2 里使用 Nav2 的目标点工具发送导航目标。终端出现以下日志说明导航成功：
++
++```text
++Managed nodes are active
++Goal succeeded
++```
++
++只有在第一次配置、拉取新代码、新增依赖、清理过 `build/install/log`，或编译/启动报缺包时，才需要执行后面的依赖安装和编译步骤。
++
+ ## 工作区结构
+ 
+ 主工作区：
+*** End Patch
+</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-22-40-918Z">
+  <div class="message-header">
+    <span class="role-label">Patch Apply End</span>
+    <a href="#msg-2026-05-04T02-22-40-918Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:40.918Z" data-timestamp="2026-05-04T02:22:40.918Z">2026-05-04T02:22:40.918Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;patch_apply_end&quot;,
+  &quot;call_id&quot;: &quot;call_lybMry1b5EwnvJj6O1PNRkVY&quot;,
+  &quot;turn_id&quot;: &quot;019df0cb-4920-7a01-8fa8-c1142d40ef81&quot;,
+  &quot;stdout&quot;: &quot;Success. Updated the following files:\nM /home/william/venom_ws/navigation_simulation_startup.md\n&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;success&quot;: true,
+  &quot;changes&quot;: {
+    &quot;/home/william/venom_ws/navigation_simulation_startup.md&quot;: {
+      &quot;type&quot;: &quot;update&quot;,
+      &quot;unified_diff&quot;: &quot;@@ -4,2 +4,41 @@\n \n+## 日常启动流程\n+\n+依赖安装和编译不需要每次都做。只要系统依赖已经安装、主工作区和仿真工作区已经编译完成，日常启动只需要 source 环境并 launch。\n+\n+如果上一次 Gazebo 或 RViz 没有正常退出，先清理残留进程：\n+\n+```bash\n+pkill -f gzserver\n+pkill -f gzclient\n+pkill -f rviz2\n+```\n+\n+启动 RMUL 导航仿真：\n+\n+```bash\n+cd /home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation\n+\n+source /opt/ros/humble/setup.bash\n+source /home/william/venom_ws/install/setup.bash\n+source install/setup.bash\n+\n+ros2 launch rm_nav_bringup bringup_sim.launch.py \\\n+  world:=RMUL \\\n+  mode:=nav \\\n+  lio:=pointlio \\\n+  localization:=slam_toolbox \\\n+  lio_rviz:=False \\\n+  nav_rviz:=True\n+```\n+\n+启动完成后，在 RViz2 里使用 Nav2 的目标点工具发送导航目标。终端出现以下日志说明导航成功：\n+\n+```text\n+Managed nodes are active\n+Goal succeeded\n+```\n+\n+只有在第一次配置、拉取新代码、新增依赖、清理过 `build/install/log`，或编译/启动报缺包时，才需要执行后面的依赖安装和编译步骤。\n+\n ## 工作区结构\n&quot;,
+      &quot;move_path&quot;: null
+    }
+  },
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-22-40-981Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-22-40-981Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:40.981Z" data-timestamp="2026-05-04T02:22:40.981Z">2026-05-04T02:22:40.981Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Success. Updated the following files:
+M /home/william/venom_ws/navigation_simulation_startup.md
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-04T02-22-45-390Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-22-45-390Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:22:45.390Z" data-timestamp="2026-05-04T02:22:45.390Z">2026-05-04T02:22:45.390Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>已更新 <a href="/home/william/venom_ws/navigation_simulation_startup.md">navigation_simulation_startup.md</a>。</p>
+<p>我把“日常启动流程”放到了最前面，并说明了依赖安装、<code>rosdep</code>、编译都不是每次启动都要做，只有首次配置或缺包/更新代码时才需要。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-17">
+  <div class="turn-head">
+    <div class="turn-title">Turn 17 · 我现在这个仿真中接的是项目里的TEB吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-24-47-414Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-24-47-414Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:24:47.414Z" data-timestamp="2026-05-04T02:24:47.414Z">2026-05-04T02:24:47.414Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我现在这个仿真中接的是项目里的TEB吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-24-54-242Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-24-54-242Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:24:54.242Z" data-timestamp="2026-05-04T02:24:54.242Z">2026-05-04T02:24:54.242Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>是的，你现在这个仿真接的是项目里的 TEB。</p>
+<p>依据是启动日志里有：</p>
+<pre><code class="language-text">Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>而这个插件来自主仓库这里：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller
+</code></pre>
+<p>它的 ROS 包名是：</p>
+<pre><code class="language-text">teb_local_planner
+</code></pre>
+<p>你之前执行的：</p>
+<pre><code class="language-bash">colcon build --symlink-install --packages-select teb_local_planner
+</code></pre>
+<p>就是在主工作区编译这个项目内置的 TEB 插件。</p>
+<p>仿真使用的 Nav2 配置文件是：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+</code></pre>
+<p>里面指定了：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>所以链路是：</p>
+<pre><code class="language-text">仿真 Nav2 controller_server
+-&gt; FollowPath
+-&gt; teb_local_planner::TebLocalPlannerROS
+-&gt; 项目里的 venom_teb_controller/venom_teb_controller
+</code></pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-18">
+  <div class="turn-head">
+    <div class="turn-title">Turn 18 · 我现在想要调节TEB参数，如何处理</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-26-02-671Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-26-02-671Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:26:02.671Z" data-timestamp="2026-05-04T02:26:02.671Z">2026-05-04T02:26:02.671Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我现在想要调节TEB参数，如何处理</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-26-15-278Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-26-15-278Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:26:15.278Z" data-timestamp="2026-05-04T02:26:15.278Z">2026-05-04T02:26:15.278Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你现在有两种调法：临时动态调参，或者永久改 YAML。</p>
+<p><strong>方式 1：运行时临时调参</strong></p>
+<p>仿真正在跑的时候，另开一个终端：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation
+
+source /opt/ros/humble/setup.bash
+source /home/william/venom_ws/install/setup.bash
+source install/setup.bash
+</code></pre>
+<p>先看 TEB 参数：</p>
+<pre><code class="language-bash">ros2 param list /controller_server | grep FollowPath
+</code></pre>
+<p>查看当前值：</p>
+<pre><code class="language-bash">ros2 param get /controller_server FollowPath.max_vel_x
+ros2 param get /controller_server FollowPath.max_vel_y
+ros2 param get /controller_server FollowPath.max_vel_theta
+ros2 param get /controller_server FollowPath.min_obstacle_dist
+</code></pre>
+<p>临时修改：</p>
+<pre><code class="language-bash">ros2 param set /controller_server FollowPath.max_vel_x 1.5
+ros2 param set /controller_server FollowPath.max_vel_y 1.5
+ros2 param set /controller_server FollowPath.max_vel_theta 3.0
+ros2 param set /controller_server FollowPath.min_obstacle_dist 0.35
+ros2 param set /controller_server FollowPath.inflation_dist 0.8
+</code></pre>
+<p>然后直接在 RViz2 里重新发目标点，看局部轨迹和机器人运动变化。</p>
+<p>这些改动重启仿真后会丢失。</p>
+<p><strong>方式 2：永久改配置文件</strong></p>
+<p>改这个文件：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+</code></pre>
+<p>找到：</p>
+<pre><code class="language-yaml">controller_server:
+  ros__parameters:
+    FollowPath:
+      plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>下面就是 TEB 参数，例如：</p>
+<pre><code class="language-yaml">max_vel_x: 3.0
+max_vel_x_backwards: 3.0
+max_vel_theta: 6.0
+acc_lim_x: 4.0
+acc_lim_theta: 6.0
+max_vel_y: 3.0
+acc_lim_y: 4.0
+min_obstacle_dist: 0.25
+inflation_dist: 0.6
+weight_obstacle: 100.0
+weight_optimaltime: 0.1
+</code></pre>
+<p>改完后重启仿真即可生效。</p>
+<p>常用调参方向：</p>
+<pre><code class="language-text">机器人太快：
+  降 max_vel_x / max_vel_y / max_vel_theta
+
+加减速太猛：
+  降 acc_lim_x / acc_lim_y / acc_lim_theta
+
+离障碍物太近：
+  增 min_obstacle_dist / inflation_dist / weight_obstacle
+
+路径太绕或太保守：
+  降 weight_obstacle 或 inflation_dist
+
+想更快到目标：
+  增 weight_optimaltime，适当提高 max_vel_x
+
+局部轨迹抖动：
+  增 dt_ref，降低速度/加速度，适当提高 obstacle 距离
+</code></pre>
+<p>建议流程：</p>
+<ol>
+<li>先用 <code>ros2 param set</code> 动态试。</li>
+<li>在 RViz2 连续发几个目标点验证。</li>
+<li>确认参数合适后，写回 <code>nav2_params_sim.yaml</code>。</li>
+<li>重启仿真确认效果。</li>
+</ol></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-19">
+  <div class="turn-head">
+    <div class="turn-title">Turn 19 · 为什么参数设置是在simulation里的，如果是实际小车呢，不应该在venom_vnv中的bringup中修改吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-28-39-653Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-28-39-653Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:28:39.653Z" data-timestamp="2026-05-04T02:28:39.653Z">2026-05-04T02:28:39.653Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>为什么参数设置是在simulation里的，如果是实际小车呢，不应该在venom_vnv中的bringup中修改吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-04T02-28-46-464Z-2026-05-04T02-28-46-464Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-04T02-28-46-464Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-04T02-28-46-464Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:28:46.464Z" data-timestamp="2026-05-04T02:28:46.464Z">2026-05-04T02:28:46.464Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-04T02-28-53-606Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-28-53-606Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:28:53.606Z" data-timestamp="2026-05-04T02:28:53.606Z">2026-05-04T02:28:53.606Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>对，你理解是对的。</p>
+<p>现在参数在 <code>simulation/venom_nav_simulation/.../nav2_params_sim.yaml</code> 里，是因为你当前跑的是“导航仿真工作区”的 bringup：</p>
+<pre><code class="language-bash">ros2 launch rm_nav_bringup bringup_sim.launch.py
+</code></pre>
+<p>这个 launch 用的是仿真自己的 Nav2 参数文件：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+</code></pre>
+<p>所以仿真调参应该先改这里。</p>
+<p>实际小车则应该改主工程 <code>venom_vnv</code> 里的 bringup 配置，例如：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml
+/home/william/venom_ws/src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml
+/home/william/venom_ws/src/venom_vnv/venom_bringup/config/infantry/...
+</code></pre>
+<p>具体改哪个，取决于实际小车启动时用了哪个 launch、哪个 <code>robot_type</code>、哪个 <code>params_file</code>。</p>
+<p>可以这样理解：</p>
+<pre><code class="language-text">TEB 源码：
+  venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller
+
+仿真参数：
+  simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+
+实车参数：
+  venom_vnv/venom_bringup/config/&lt;robot_type&gt;/nav2_params.yaml
+</code></pre>
+<p>也就是说：</p>
+<ul>
+<li>TEB 算法代码是同一套，来自主项目里的 <code>teb_local_planner</code></li>
+<li>仿真和实车可以加载不同的参数文件</li>
+<li>你现在调仿真，只影响仿真</li>
+<li>要让实际小车生效，需要把验证好的参数迁移到 <code>venom_bringup/config/...</code> 里对应机器人配置</li>
+</ul>
+<p>推荐流程是：</p>
+<ol>
+<li>先在仿真里调 <code>nav2_params_sim.yaml</code></li>
+<li>用 RViz2 多测几个目标点</li>
+<li>参数稳定后，复制到实车对应的 <code>venom_bringup/config/&lt;robot&gt;/nav2_params.yaml</code></li>
+<li>实车低速验证，再逐步放开速度/加速度参数</li>
+</ol>
+<p>运行时动态调参也是同理：<code>ros2 param set /controller_server FollowPath.xxx</code> 只改当前正在运行的 Nav2，不区分仿真还是实车；但重启后还是回到对应 YAML。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-20">
+  <div class="turn-head">
+    <div class="turn-title">Turn 20 · 所以说仿真的参数调好后迁移到实际的就行了吗？为什么仿真里面已经有参数表了？仿真和实际用的都是项目中的同一套TEB吗？</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-32-04-267Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-32-04-267Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:32:04.267Z" data-timestamp="2026-05-04T02:32:04.267Z">2026-05-04T02:32:04.267Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以说仿真的参数调好后迁移到实际的就行了吗？为什么仿真里面已经有参数表了？仿真和实际用的都是项目中的同一套TEB吗？</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-32-17-955Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-32-17-955Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:32:17.955Z" data-timestamp="2026-05-04T02:32:17.955Z">2026-05-04T02:32:17.955Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>是的，大体流程就是：<strong>先在仿真里调好一组参数，再迁移到实车配置里做低速验证</strong>。但不能理解成“仿真调好就一定直接适用于实车”，只能作为实车初值。</p>
+<p>原因是仿真和实车虽然用的是同一套 TEB 代码，但环境不同。</p>
+<p>你现在的 TEB 代码来自这里：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller
+</code></pre>
+<p>ROS 包名是：</p>
+<pre><code class="language-text">teb_local_planner
+</code></pre>
+<p>仿真 Nav2 配置里使用的是：</p>
+<pre><code class="language-yaml">plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>所以仿真和实车如果也配置成这个 plugin，那么用的就是同一套项目里的 TEB 插件。</p>
+<p>为什么仿真里也有一份参数表？因为仿真是一个独立工作区，有自己的 bringup：</p>
+<pre><code class="language-text">simulation/venom_nav_simulation
+</code></pre>
+<p>它需要自己能启动 Gazebo、LIO、slam_toolbox、Nav2，所以它有自己的 Nav2 参数文件：</p>
+<pre><code class="language-text">simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+</code></pre>
+<p>这份参数是给“仿真场景”用的。</p>
+<p>实车则由主项目 bringup 启动，参数应该在：</p>
+<pre><code class="language-text">venom_bringup/config/&lt;robot_type&gt;/nav2_params.yaml
+</code></pre>
+<p>例如：</p>
+<pre><code class="language-text">venom_bringup/config/scout_mini/nav2_params.yaml
+venom_bringup/config/sentry/nav2_params.yaml
+</code></pre>
+<p>可以这样理解：</p>
+<pre><code class="language-text">TEB 源码：
+  同一套
+
+仿真参数：
+  给 Gazebo + 仿真雷达 + 仿真底盘 + 仿真地图用
+
+实车参数：
+  给真实底盘 + 真实雷达 + 真实 TF + 真实延迟/摩擦/控制响应用
+</code></pre>
+<p>仿真参数不能完全等同于实车参数，因为实车有这些差异：</p>
+<ul>
+<li>真实底盘速度响应有延迟</li>
+<li>真实轮胎/地面摩擦不同</li>
+<li>雷达噪声、盲区、点云密度不同</li>
+<li>TF 和外参可能有误差</li>
+<li>控制话题到下位机还有串口/CAN 延迟</li>
+<li>实车安全距离要求更保守</li>
+<li>真实机器人尺寸和 footprint 必须更准确</li>
+</ul>
+<p>所以推荐流程是：</p>
+<ol>
+<li>在仿真里调出一组能稳定导航的 TEB 参数</li>
+<li>把核心参数迁移到实车 <code>venom_bringup/config/&lt;robot_type&gt;/nav2_params.yaml</code></li>
+<li>实车先降低速度和加速度</li>
+<li>在空旷场地验证</li>
+<li>再逐步提高速度、缩小安全距离或优化权重</li>
+</ol>
+<p>迁移时优先迁移这些参数：</p>
+<pre><code class="language-yaml">max_vel_x
+max_vel_y
+max_vel_theta
+acc_lim_x
+acc_lim_y
+acc_lim_theta
+min_obstacle_dist
+inflation_dist
+dt_ref
+dt_hysteresis
+weight_obstacle
+weight_inflation
+weight_optimaltime
+weight_kinematics_nh
+weight_kinematics_forward_drive
+</code></pre>
+<p>一句话：<strong>仿真和实车可以共用同一套 TEB 算法代码，但应该保留两套参数文件；仿真调参结果是实车调参的起点，不是最终答案。</strong></p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-003.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <span class="current">4</span>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <a href="page-016.html">16</a>
+    
+  
+  
+  <a href="page-005.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

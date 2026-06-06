@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-05-07T20-09-42-019e0258-027a-70a2-9bce-1e36fb2d63fa · Page 1</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-05-07T20-09-42-019e0258-027a-70a2-9bce-1e36fb2d63fa</a></h1>
+  <p>Page 1 / 3</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <span>&larr; Prev</span>
+  
+  
+    
+    <span class="current">1</span>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+  
+  <a href="page-002.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-1">
+  <div class="turn-head">
+    <div class="turn-title">Turn 1 · 你好</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T12-09-46-946Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T12-09-46-946Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:09:46.946Z" data-timestamp="2026-05-07T12:09:46.946Z">2026-05-07T12:09:46.946Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>你好</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T12-09-49-350Z-2026-05-07T12-09-49-350Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T12-09-49-350Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-09-49-350Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:09:49.350Z" data-timestamp="2026-05-07T12:09:49.350Z">2026-05-07T12:09:49.350Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T12-09-49-473Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T12-09-49-473Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:09:49.473Z" data-timestamp="2026-05-07T12:09:49.473Z">2026-05-07T12:09:49.473Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你好。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-2">
+  <div class="turn-head">
+    <div class="turn-title">Turn 2 · 根据https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/，教我如何配置网卡静态 IP</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T12-10-24-695Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T12-10-24-695Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:24.695Z" data-timestamp="2026-05-07T12:10:24.695Z">2026-05-07T12:10:24.695Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>根据https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/，教我如何配置网卡静态 IP</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T12-10-27-149Z-2026-05-07T12-10-40-027Z">
+  <summary>Codex process (6 items: 3 Reasoning, Commentary, 2 Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T12-10-27-149Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-10-27-149Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:27.149Z" data-timestamp="2026-05-07T12:10:27.149Z">2026-05-07T12:10:27.149Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T12-10-27-826Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T12-10-27-826Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:27.826Z" data-timestamp="2026-05-07T12:10:27.826Z">2026-05-07T12:10:27.826Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先去核对文档里的步骤，再按你的系统给出可直接照做的静态 IP 配置方法。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T12-10-30-195Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-10-30-195Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:30.195Z" data-timestamp="2026-05-07T12:10:30.195Z">2026-05-07T12:10:30.195Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0420f42cb08734f40169fc8133ace4819b825bdac8708cabf4&quot;,
+  &quot;query&quot;: &quot;site:venom-algorithm.github.io Venom VNV lidar setup static IP 网卡 静态 IP&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:venom-algorithm.github.io Venom VNV lidar setup static IP 网卡 静态 IP&quot;,
+    &quot;queries&quot;: [
+      &quot;site:venom-algorithm.github.io Venom VNV lidar setup static IP 网卡 静态 IP&quot;,
+      &quot;site:venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/ static IP&quot;,
+      &quot;Venom_VNV lidar_setup static IP&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-10-30-606Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-10-30-606Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:30.606Z" data-timestamp="2026-05-07T12:10:30.606Z">2026-05-07T12:10:30.606Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T12-10-31-811Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-10-31-811Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:31.811Z" data-timestamp="2026-05-07T12:10:31.811Z">2026-05-07T12:10:31.811Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0420f42cb08734f40169fc81367370819bb3c83f3ce7fd9267&quot;,
+  &quot;query&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-10-40-027Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-10-40-027Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:40.027Z" data-timestamp="2026-05-07T12:10:40.027Z">2026-05-07T12:10:40.027Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T12-10-43-763Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T12-10-43-763Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:10:43.763Z" data-timestamp="2026-05-07T12:10:43.763Z">2026-05-07T12:10:43.763Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>按文档里的做法，给连接 Mid360 的有线网卡设静态 IP，走的是桌面网络设置界面：</p>
+<ol>
+<li>点击左上角网络图标，进入 <code>Settings</code></li>
+<li>打开 <code>Networks</code></li>
+<li>找到 <code>Wired</code>，点右侧设置齿轮</li>
+<li>进 <code>IPv4</code></li>
+<li>把 <code>Method</code> 从自动改成 <code>Manual</code></li>
+<li>填入：</li>
+<li><code>IP address</code>: <code>192.168.1.50</code></li>
+<li><code>Netmask</code>: <code>255.255.255.0</code></li>
+<li><code>Gateway</code>: <code>192.168.1.1</code></li>
+</ol>
+<p>文档同时说明，Mid360 默认地址通常是 <code>192.168.1.1xx</code>，所以主机和雷达要在同一网段里。WiFi 可以继续保持联网，不影响 SSH 或远程桌面。来源见官方文档的“配置网卡静态 IP”部分：<br />
+<a href="https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/">Venom VNV 雷达配置</a></p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-3">
+  <div class="turn-head">
+    <div class="turn-title">Turn 3 · network proxy是啥</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T12-13-03-091Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T12-13-03-091Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:13:03.091Z" data-timestamp="2026-05-07T12:13:03.091Z">2026-05-07T12:13:03.091Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>network proxy是啥</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T12-13-06-278Z-2026-05-07T12-13-06-278Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T12-13-06-278Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-13-06-278Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:13:06.278Z" data-timestamp="2026-05-07T12:13:06.278Z">2026-05-07T12:13:06.278Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T12-13-10-948Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T12-13-10-948Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:13:10.948Z" data-timestamp="2026-05-07T12:13:10.948Z">2026-05-07T12:13:10.948Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>network proxy</code> 就是“网络代理”。</p>
+<p>它的作用是让你的电脑先把网络请求发给一个代理服务器，再由代理服务器去访问外网。常见用途是：</p>
+<ul>
+<li>统一公司/校园网出口</li>
+<li>访问被限制的内网资源</li>
+<li>做缓存、审计、过滤</li>
+<li>让某些程序走指定网络路径</li>
+</ul>
+<p>一般有这些类型：</p>
+<ul>
+<li><code>HTTP proxy</code>：给网页和多数 HTTP 请求用</li>
+<li><code>HTTPS proxy</code>：给加密网页请求用</li>
+<li><code>SOCKS proxy</code>：更通用，很多程序都能用</li>
+<li><code>Auto / PAC</code>：自动配置代理规则</li>
+<li><code>None</code>：不使用代理</li>
+</ul>
+<p>和你刚才说的静态 IP 不一样：</p>
+<ul>
+<li>静态 IP 是给网卡固定一个本机地址</li>
+<li>Proxy 是给“上网流量”加一层中转</li>
+</ul>
+<p>如果你只是想让雷达网卡和设备直连，通常 <code>network proxy</code> 不用管，保持关闭就行。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-4">
+  <div class="turn-head">
+    <div class="turn-title">Turn 4 · https://venom-algorithm.github.io/Venom_VNV/deployment/realsense_setup/这个是干啥的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T12-17-50-805Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T12-17-50-805Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:17:50.805Z" data-timestamp="2026-05-07T12:17:50.805Z">2026-05-07T12:17:50.805Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>https://venom-algorithm.github.io/Venom_VNV/deployment/realsense_setup/这个是干啥的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T12-17-54-336Z-2026-05-07T12-18-05-349Z">
+  <summary>Codex process (6 items: 3 Web Search End, 3 Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message system" id="msg-2026-05-07T12-17-54-336Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-17-54-336Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:17:54.336Z" data-timestamp="2026-05-07T12:17:54.336Z">2026-05-07T12:17:54.336Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0fd8447e99d1d8330169fc82f0f700819b9239457d7f59ba7a&quot;,
+  &quot;query&quot;: &quot;&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-17-54-638Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-17-54-638Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:17:54.638Z" data-timestamp="2026-05-07T12:17:54.638Z">2026-05-07T12:17:54.638Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T12-17-56-094Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-17-56-094Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:17:56.094Z" data-timestamp="2026-05-07T12:17:56.094Z">2026-05-07T12:17:56.094Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0fd8447e99d1d8330169fc82f275d4819ba11f3a039aea7420&quot;,
+  &quot;query&quot;: &quot;site:venom-algorithm.github.io/Venom_VNV/deployment/realsense_setup Venom VNV realsense setup&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:venom-algorithm.github.io/Venom_VNV/deployment/realsense_setup Venom VNV realsense setup&quot;,
+    &quot;queries&quot;: [
+      &quot;site:venom-algorithm.github.io/Venom_VNV/deployment/realsense_setup Venom VNV realsense setup&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-17-57-735Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-17-57-735Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:17:57.735Z" data-timestamp="2026-05-07T12:17:57.735Z">2026-05-07T12:17:57.735Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T12-18-01-759Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-18-01-759Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:01.759Z" data-timestamp="2026-05-07T12:18:01.759Z">2026-05-07T12:18:01.759Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0fd8447e99d1d8330169fc82f58524819b8a49503bf8e21e54&quot;,
+  &quot;query&quot;: &quot;Venom VNV RealSense setup Intel RealSense depth camera&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;Venom VNV RealSense setup Intel RealSense depth camera&quot;,
+    &quot;queries&quot;: [
+      &quot;Venom VNV RealSense setup Intel RealSense depth camera&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-18-05-349Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-18-05-349Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:05.349Z" data-timestamp="2026-05-07T12:18:05.349Z">2026-05-07T12:18:05.349Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T12-18-10-341Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T12-18-10-341Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:10.341Z" data-timestamp="2026-05-07T12:18:10.341Z">2026-05-07T12:18:10.341Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这个页面大概率是在讲 <code>Intel RealSense</code> 深度相机的部署和初始化。</p>
+<p>它的用途通常是：</p>
+<ul>
+<li>让系统识别 RealSense 相机</li>
+<li>安装/配置驱动和 <code>librealsense</code></li>
+<li>检查 RGB、深度、点云能否正常输出</li>
+<li>可能还包括固件更新、USB 权限、运行示例程序</li>
+</ul>
+<p>在 Venom 这类机器人/感知系统里，RealSense 一般是作为 <code>RGB-D</code> 相机，用来提供彩色图像 + 深度信息，给定位、建图、避障或目标识别用。</p>
+<p>简单说，这页不是讲网络那类基础配置，而是讲“怎么把 RealSense 相机接到系统里并跑起来”。</p>
+<p>参考：
+- Intel RealSense 官方入门页: https://www.realsenseai.com/get-started-depth-camera/
+- Intel Robotics 摄像头配置说明: https://docs.openedgeplatform.intel.com/dev/edge-ai-suites/robotics-ai-suite/rvc/getstarted/camera_setup.html</p>
+<p>如果你愿意，我可以继续把这个页面可能包含的步骤，按“接线 - 安装 - 测试 - 常见报错”给你拆开讲。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-5">
+  <div class="turn-head">
+    <div class="turn-title">Turn 5 · https://venom-algorithm.github.io/Venom_VNV/deployment/chassis_can_setup/教我怎么部署</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T12-18-29-303Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T12-18-29-303Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:29.303Z" data-timestamp="2026-05-07T12:18:29.303Z">2026-05-07T12:18:29.303Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>https://venom-algorithm.github.io/Venom_VNV/deployment/chassis_can_setup/教我怎么部署</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T12-18-32-142Z-2026-05-07T12-18-36-436Z">
+  <summary>Codex process (4 items: 2 Reasoning, Commentary, Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T12-18-32-142Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-18-32-142Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:32.142Z" data-timestamp="2026-05-07T12:18:32.142Z">2026-05-07T12:18:32.142Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T12-18-32-761Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T12-18-32-761Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:32.761Z" data-timestamp="2026-05-07T12:18:32.761Z">2026-05-07T12:18:32.761Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我去把这页的具体步骤核对出来，再整理成能直接照着做的部署流程。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T12-18-34-026Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T12-18-34-026Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:34.026Z" data-timestamp="2026-05-07T12:18:34.026Z">2026-05-07T12:18:34.026Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0fc5a4b5967fd5f00169fc831899d0819a86d5bb13029959c9&quot;,
+  &quot;query&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/chassis_can_setup/&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/chassis_can_setup/&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T12-18-36-436Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T12-18-36-436Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:36.436Z" data-timestamp="2026-05-07T12:18:36.436Z">2026-05-07T12:18:36.436Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T12-18-44-960Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T12-18-44-960Z" class="timestamp-link">
+      <time datetime="2026-05-07T12:18:44.960Z" data-timestamp="2026-05-07T12:18:44.960Z">2026-05-07T12:18:44.960Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这页讲的是 <code>Scout Mini / Scout Mini Omni</code> 这类底盘的 <code>CAN</code> 总线部署，核心就是把 <code>CAN-USB</code> 适配器拉起来，然后启动底盘 ROS 2 节点。</p>
+<p>按文档做，流程是：</p>
+<ol>
+<li>首次配置 CAN 适配器  </li>
+</ol>
+<pre><code class="language-bash">bash ~/venom_ws/src/venom_vnv/driver/ugv_sdk/scripts/setup_can2usb.bash
+</code></pre>
+<p>这一步实际会做：</p>
+<pre><code class="language-bash">sudo modprobe gs_usb
+sudo ip link set can0 up type can bitrate 500000
+sudo apt install -y can-utils
+</code></pre>
+<ol>
+<li>之后每次重新插拔 CAN-USB 后，通常只需要重新拉起接口  </li>
+</ol>
+<pre><code class="language-bash">bash ~/venom_ws/src/venom_vnv/driver/ugv_sdk/scripts/bringup_can2usb_500k.bash
+</code></pre>
+<ol>
+<li>检查 <code>can0</code> 是否起来了  </li>
+</ol>
+<pre><code class="language-bash">ifconfig -a | grep can
+ip -details link show can0
+</code></pre>
+<ol>
+<li>排查总线是否有数据  </li>
+</ol>
+<pre><code class="language-bash">candump can0
+</code></pre>
+<ol>
+<li>启动底盘 ROS 2 节点  </li>
+</ol>
+<pre><code class="language-bash">cd ~/venom_ws
+source install/setup.bash
+ros2 launch scout_base scout_mini_base.launch.py
+</code></pre>
+<p>如果是别的型号，文档还给了：</p>
+<pre><code class="language-bash">ros2 launch scout_base scout_base.launch.py
+ros2 launch scout_base scout_mini_omni_base.launch.py
+</code></pre>
+<ol>
+<li>测试遥控  </li>
+</ol>
+<pre><code class="language-bash">ros2 run teleop_twist_keyboard teleop_twist_keyboard
+</code></pre>
+<p>文档里强调的关键参数是 <code>bitrate=500000</code>，而且主要适用于 <code>scout_ros2 + ugv_sdk</code> 这套底盘驱动。原文在这里：<br />
+<a href="https://venom-algorithm.github.io/Venom_VNV/deployment/chassis_can_setup/">底盘 CAN 部署</a></p>
+<p>如果你现在是“已经插上了但不通”，我可以继续按这个页给你做一份逐项排障清单。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <span>&larr; Prev</span>
+  
+  
+    
+    <span class="current">1</span>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+  
+  <a href="page-002.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

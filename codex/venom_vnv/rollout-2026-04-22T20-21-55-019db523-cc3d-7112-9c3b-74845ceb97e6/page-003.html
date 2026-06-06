@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6 · Page 3</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6</a></h1>
+  <p>Page 3 / 7</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-002.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <span class="current">3</span>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+  
+  <a href="page-004.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-11">
+  <div class="turn-head">
+    <div class="turn-title">Turn 11 · 此时推荐约定：</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T12-41-33-215Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T12-41-33-215Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:41:33.215Z" data-timestamp="2026-04-22T12:41:33.215Z">2026-04-22T12:41:33.215Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>此时推荐约定：</p>
+<p>origin 指向你自己的 fork
+upstream 指向组织仓库
+如果你需要方便 push，也可以把自己 fork 的 pushurl 改成 SSH。使用方案1。，你教我怎么做</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T12-41-49-862Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T12-41-49-862Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:41:49.862Z" data-timestamp="2026-04-22T12:41:49.862Z">2026-04-22T12:41:49.862Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>按方案 1 做就行，本质上是在现有本地仓库里把 remote 关系整理成规范推荐的样子。</p>
+<p>你现在要达到的目标是：</p>
+<ul>
+<li><code>origin</code> 指向你自己的 fork：<code>sysuwilliam/Venom_VNV</code></li>
+<li><code>upstream</code> 指向官方仓库：<code>Venom-Algorithm/Venom_VNV</code></li>
+</ul>
+<p>在当前仓库里依次执行：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git remote -v
+</code></pre>
+<p>先看当前状态。因为你最初是从官方仓库 clone 的，大概率现在只有：</p>
+<ul>
+<li><code>origin -&gt; Venom-Algorithm/Venom_VNV</code></li>
+</ul>
+<p>然后执行：</p>
+<pre><code class="language-bash">git remote rename origin upstream
+git remote add origin https://github.com/sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>这三条命令的意思分别是：</p>
+<ol>
+<li>
+<p><code>git remote rename origin upstream</code>
+   把原来指向官方仓库的 <code>origin</code> 改名成 <code>upstream</code></p>
+</li>
+<li>
+<p><code>git remote add origin https://github.com/sysuwilliam/Venom_VNV.git</code>
+   新增一个 <code>origin</code>，让它指向你自己的 fork</p>
+</li>
+<li>
+<p><code>git remote -v</code>
+   检查结果是不是对的</p>
+</li>
+</ol>
+<p>执行完以后，应该类似这样：</p>
+<pre><code class="language-bash">origin    https://github.com/sysuwilliam/Venom_VNV.git (fetch)
+origin    https://github.com/sysuwilliam/Venom_VNV.git (push)
+upstream  https://github.com/Venom-Algorithm/Venom_VNV.git (fetch)
+upstream  https://github.com/Venom-Algorithm/Venom_VNV.git (push)
+</code></pre>
+<p>如果你之后想让 <code>push</code> 更方便，可以把你自己 fork 的 <code>origin</code> 改成 SSH，命令是：</p>
+<pre><code class="language-bash">git remote set-url origin git@github.com:sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>这样通常是：</p>
+<ul>
+<li><code>fetch</code> 也走 SSH</li>
+<li><code>push</code> 也走 SSH</li>
+</ul>
+<p>如果你想保留 HTTPS 拉取，只把 push 改成 SSH，也可以用：</p>
+<pre><code class="language-bash">git remote set-url --push origin git@github.com:sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>这样会变成：</p>
+<ul>
+<li><code>origin</code> 的 fetch 用 HTTPS</li>
+<li><code>origin</code> 的 push 用 SSH</li>
+</ul>
+<p>你之前要求任何修改前都先说明并经你确认。这里虽然不改代码文件，但会改 git 配置，所以我先把要动的地方再明确一下：</p>
+<p>准备修改：
+- 当前仓库 remote 配置</p>
+<p>修改位置：
+- <code>/home/william/venom_ws/src/venom_vnv/.git/config</code></p>
+<p>准备执行的命令：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git remote rename origin upstream
+git remote add origin https://github.com/sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>你确认后，我可以直接帮你执行。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-12">
+  <div class="turn-head">
+    <div class="turn-title">Turn 12 · william@william:~/venom_ws/src/venom_vnv$ git remote -v</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T12-44-45-497Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T12-44-45-497Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:44:45.497Z" data-timestamp="2026-04-22T12:44:45.497Z">2026-04-22T12:44:45.497Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~/venom_ws/src/venom_vnv$ git remote -v
+origin  https://github.com/sysuwilliam/Venom_VNV.git (fetch)
+origin  https://github.com/sysuwilliam/Venom_VNV.git (push)
+upstream        https://github.com/Venom-Algorithm/Venom_VNV (fetch)
+upstream        git@github.com:Venom-Algorithm/Venom_VNV.git (push)这样以后怎么做</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T12-45-02-425Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T12-45-02-425Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:45:02.425Z" data-timestamp="2026-04-22T12:45:02.425Z">2026-04-22T12:45:02.425Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你这个 remote 现在已经基本对了，可以正常用了。</p>
+<p>当前含义是：</p>
+<ul>
+<li><code>origin</code>：你的 fork <code>sysuwilliam/Venom_VNV</code></li>
+<li><code>upstream</code>：官方仓库 <code>Venom-Algorithm/Venom_VNV</code></li>
+</ul>
+<p>以后日常开发就按这个流程走。</p>
+<p><strong>平时开始一个新任务</strong></p>
+<p>先同步官方最新代码：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+</code></pre>
+<p>然后从最新 <code>master</code> 创建你自己的分支：</p>
+<pre><code class="language-bash">git checkout -b feat/xxx
+</code></pre>
+<p>比如：</p>
+<pre><code class="language-bash">git checkout -b fix/robot-bringup
+</code></pre>
+<p><strong>开发过程中</strong></p>
+<p>在你自己的分支上改代码、提交：</p>
+<pre><code class="language-bash">git status
+git add &lt;files&gt;
+git commit -m &quot;fix: correct robot bringup launch flow&quot;
+git push -u origin fix/robot-bringup
+</code></pre>
+<p>第一次 push 用 <code>-u</code>，后面再 push 直接：</p>
+<pre><code class="language-bash">git push
+</code></pre>
+<p><strong>做完以后</strong></p>
+<p>去 GitHub 上你的 fork 页面，会出现一个 <code>Compare &amp; pull request</code> 按钮。<br />
+然后把你的分支提 PR 到官方仓库：</p>
+<ul>
+<li>base：<code>Venom-Algorithm/Venom_VNV:master</code></li>
+<li>compare：<code>sysuwilliam/Venom_VNV:fix/robot-bringup</code></li>
+</ul>
+<p><strong>以后一直重复这个模式</strong></p>
+<p>每做一个新需求或修复：</p>
+<ol>
+<li>先回 <code>master</code></li>
+<li>同步 <code>upstream/master</code></li>
+<li>再新建一个新分支</li>
+<li>不要长期直接在 <code>master</code> 上开发</li>
+</ol>
+<p>命令模板就是：</p>
+<pre><code class="language-bash">git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+git checkout -b feat/new-topic
+</code></pre>
+<p><strong>你现在这个 remote 还有一个小点</strong></p>
+<p>你这里的 <code>upstream</code> 是：</p>
+<ul>
+<li>fetch 用 HTTPS</li>
+<li>push 用 SSH</li>
+</ul>
+<p>虽然技术上可以，但通常 <code>upstream</code> 不需要 push，因为你一般没有官方仓库写权限。更常见的是统一都设成 HTTPS，避免误解。<br />
+不过这不是问题，不改也能用，因为你平时 push 都应该推到 <code>origin</code>，不是 <code>upstream</code>。</p>
+<p>如果你愿意，我下一步可以继续教你“现在如何创建第一个规范分支”。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-13">
+  <div class="turn-head">
+    <div class="turn-title">Turn 13 · william@william:~/venom_ws/src/venom_vnv$ git remote -v</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T12-46-40-590Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T12-46-40-590Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:46:40.590Z" data-timestamp="2026-04-22T12:46:40.590Z">2026-04-22T12:46:40.590Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~/venom_ws/src/venom_vnv$ git remote -v
+origin  git@github.com:sysuwilliam/Venom_VNV.git (fetch)
+origin  git@github.com:sysuwilliam/Venom_VNV.git (push)
+upstream        https://github.com/Venom-Algorithm/Venom_VNV (fetch)
+upstream        git@github.com:Venom-Algorithm/Venom_VNV.git (push)我的fetchurl也改成ssh了，不要这样</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T12-46-52-125Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T12-46-52-125Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:46:52.125Z" data-timestamp="2026-04-22T12:46:52.125Z">2026-04-22T12:46:52.125Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以改回去，而且只需要改 <code>origin</code> 的 fetch URL。</p>
+<p>你现在想要的效果应该是：</p>
+<ul>
+<li><code>origin</code> fetch 用 HTTPS</li>
+<li><code>origin</code> push 用 SSH</li>
+<li><code>upstream</code> fetch 用 HTTPS</li>
+<li><code>upstream</code> push 其实无所谓，最好也统一成 HTTPS 或者干脆不管它</li>
+</ul>
+<p>如果只改 <code>origin</code>，命令是：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git remote set-url origin https://github.com/sysuwilliam/Venom_VNV.git
+git remote set-url --push origin git@github.com:sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>执行后，理想结果是：</p>
+<pre><code class="language-bash">origin    https://github.com/sysuwilliam/Venom_VNV.git (fetch)
+origin    git@github.com:sysuwilliam/Venom_VNV.git (push)
+upstream  https://github.com/Venom-Algorithm/Venom_VNV (fetch)
+upstream  git@github.com:Venom-Algorithm/Venom_VNV.git (push)
+</code></pre>
+<p>如果你也想顺手把 <code>upstream</code> 弄规范一点，通常可以改成 fetch/push 都是 HTTPS：</p>
+<pre><code class="language-bash">git remote set-url upstream https://github.com/Venom-Algorithm/Venom_VNV.git
+git remote set-url --push upstream https://github.com/Venom-Algorithm/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>不过严格说，<code>upstream</code> 的 push 基本用不到，因为你一般不会往官方仓库 push。</p>
+<p>按你之前的要求，我先说明这次会改什么：</p>
+<p>准备修改：
+- git remote URL 配置</p>
+<p>修改位置：
+- <code>/home/william/venom_ws/src/venom_vnv/.git/config</code></p>
+<p>准备执行的命令：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git remote set-url origin https://github.com/sysuwilliam/Venom_VNV.git
+git remote set-url --push origin git@github.com:sysuwilliam/Venom_VNV.git
+git remote -v
+</code></pre>
+<p>你确认后，我再帮你执行。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-14">
+  <div class="turn-head">
+    <div class="turn-title">Turn 14 · william@william:~/venom_ws/src/venom_vnv$ git remote -v</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T12-47-45-242Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T12-47-45-242Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:47:45.242Z" data-timestamp="2026-04-22T12:47:45.242Z">2026-04-22T12:47:45.242Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~/venom_ws/src/venom_vnv$ git remote -v
+origin  https://github.com/sysuwilliam/Venom_VNV.git (fetch)
+origin  git@github.com:sysuwilliam/Venom_VNV.git (push)
+upstream        https://github.com/Venom-Algorithm/Venom_VNV (fetch)
+upstream        git@github.com:Venom-Algorithm/Venom_VNV.git (push)可以了</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T12-47-51-318Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T12-47-51-318Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:47:51.318Z" data-timestamp="2026-04-22T12:47:51.318Z">2026-04-22T12:47:51.318Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以了，这个配置很合适。</p>
+<p>以后你就按这个习惯用：</p>
+<ul>
+<li><code>git fetch upstream</code> 拉官方最新代码</li>
+<li><code>git push origin &lt;你的分支名&gt;</code> 推到你自己的 fork</li>
+</ul>
+<p>标准流程是：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+git checkout -b feat/&lt;topic&gt;
+</code></pre>
+<p>之后在新分支上开发，提交并推送：</p>
+<pre><code class="language-bash">git add &lt;files&gt;
+git commit -m &quot;feat: xxx&quot;
+git push -u origin feat/&lt;topic&gt;
+</code></pre>
+<p>你现在这一步已经完成了。下一步就是创建你自己的开发分支。<br />
+如果你要，我可以继续直接教你怎么从当前仓库创建第一个规范分支。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-15">
+  <div class="turn-head">
+    <div class="turn-title">Turn 15 · cd ~/venom_ws/src/venom_vnv</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T12-49-38-254Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T12-49-38-254Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:49:38.254Z" data-timestamp="2026-04-22T12:49:38.254Z">2026-04-22T12:49:38.254Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>cd ~/venom_ws/src/venom_vnv
+git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+git submodule sync --recursive
+git submodule update --init --recursive这是官方推荐的同步上游，我应该怎么做</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T12-49-53-282Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T12-49-53-282Z" class="timestamp-link">
+      <time datetime="2026-04-22T12:49:53.282Z" data-timestamp="2026-04-22T12:49:53.282Z">2026-04-22T12:49:53.282Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>就按这套做，但我先把每一步的含义讲清楚，这样你不会机械执行。</p>
+<p>你现在这个 remote 已经是规范状态了，所以这组命令正好适用：</p>
+<pre><code class="language-bash">cd ~/venom_ws/src/venom_vnv
+git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+git submodule sync --recursive
+git submodule update --init --recursive
+</code></pre>
+<p>含义分别是：</p>
+<ol>
+<li>
+<p><code>git fetch upstream</code>
+   从官方仓库抓最新提交，但不直接改你工作区。</p>
+</li>
+<li>
+<p><code>git checkout master</code>
+   切回本地 <code>master</code> 分支。</p>
+</li>
+<li>
+<p><code>git merge --ff-only upstream/master</code>
+   用“只允许快进”的方式，把你本地 <code>master</code> 更新到官方最新进度。
+   <code>--ff-only</code> 很重要，因为它不会随便产生一条 merge commit；如果你的本地 <code>master</code> 已经偏离，它会直接报错，提醒你先处理。</p>
+</li>
+<li>
+<p><code>git push origin master</code>
+   把你本地更新后的 <code>master</code> 同步到你自己的 fork。</p>
+</li>
+<li>
+<p><code>git submodule sync --recursive</code>
+   同步子模块 URL 配置，避免上游子模块地址调整后你这里还用旧地址。</p>
+</li>
+<li>
+<p><code>git submodule update --init --recursive</code>
+   初始化并更新所有子模块到当前仓库记录的版本。</p>
+</li>
+</ol>
+<p>你实际使用时，建议这样理解：</p>
+<ul>
+<li>每次准备开始新任务前，先跑这一套</li>
+<li>然后再从最新 <code>master</code> 拉新分支</li>
+</ul>
+<p>完整日常流程：</p>
+<pre><code class="language-bash">cd ~/venom_ws/src/venom_vnv
+git fetch upstream
+git checkout master
+git merge --ff-only upstream/master
+git push origin master
+git submodule sync --recursive
+git submodule update --init --recursive
+git checkout -b feat/&lt;topic&gt;
+</code></pre>
+<p>有两个前提你要注意：</p>
+<ol>
+<li>
+<p><code>git checkout master</code> 前，当前工作区最好是干净的
+   用：
+   <code>bash
+   git status</code>
+   如果你还有未提交改动，先不要直接同步上游。</p>
+</li>
+<li>
+<p><code>git submodule update --init --recursive</code> 可能会下载东西
+   如果网络慢或者子模块较多，会花一点时间，这是正常的。</p>
+</li>
+</ol>
+<p>你之前要求任何修改前都先说明。这里虽然不是改代码文件，但这组命令会更新本地仓库状态和子模块工作区，所以我先明确一下：</p>
+<p>准备执行的操作：
+- 同步官方上游 <code>master</code>
+- 更新你自己 fork 的 <code>master</code>
+- 同步并更新子模块</p>
+<p>会影响的位置：
+- 当前仓库 <code>.git/</code>
+- 子模块目录内容和子模块记录版本
+- 本地 <code>master</code> 分支指针</p>
+<p>如果你想让我帮你执行，我建议先分两步：</p>
+<ol>
+<li>先只读检查当前是否适合同步：</li>
+<li><code>git status --short</code></li>
+<li><code>git branch --show-current</code></li>
+<li>如果工作区干净，再执行官方推荐同步命令</li>
+</ol>
+<p>如果你愿意，我下一步先帮你做这一步只读检查。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-002.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <span class="current">3</span>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+  
+  <a href="page-004.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

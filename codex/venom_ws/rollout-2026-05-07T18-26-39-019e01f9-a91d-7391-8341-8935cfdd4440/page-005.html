@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-05-07T18-26-39-019e01f9-a91d-7391-8341-8935cfdd4440 · Page 5</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-05-07T18-26-39-019e01f9-a91d-7391-8341-8935cfdd4440</a></h1>
+  <p>Page 5 / 6</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-21">
+  <div class="turn-head">
+    <div class="turn-title">Turn 21 · william@william:~/venom_ws/src/venom_vnv/simulation/venom_nav_simulation$ ros2 launch rm_nav_bringup bringup_sim.launch.py \</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T11-06-54-070Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T11-06-54-070Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:06:54.070Z" data-timestamp="2026-05-07T11:06:54.070Z">2026-05-07T11:06:54.070Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~/venom_ws/src/venom_vnv/simulation/venom_nav_simulation$ ros2 launch rm_nav_bringup bringup_sim.launch.py \
+    world:=RMUL \
+    mode:=nav \
+    lio:=pointlio \
+    localization:=slam_toolbox \
+    lio_rviz:=False \
+    nav_rviz:=False \
+    nav2_params_file:=~/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/config/sentry/nav2_teb_params.yaml 
+[INFO] [launch]: All log files can be found below /home/william/.ros/log/2026-05-07-19-06-41-576820-william-43229
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): [Errno 2] No such file or directory: '~/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/config/sentry/nav2_teb_params.yaml'</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-07T11-07-03-423Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T11-07-03-423Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:07:03.423Z" data-timestamp="2026-05-07T11:07:03.423Z">2026-05-07T11:07:03.423Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>launch</code> 不会展开 <code>~</code>，所以它把 <code>~</code> 当成普通字符了。改成绝对路径：</p>
+<pre><code class="language-bash">ros2 launch rm_nav_bringup bringup_sim.launch.py \
+  world:=RMUL \
+  mode:=nav \
+  lio:=pointlio \
+  localization:=slam_toolbox \
+  lio_rviz:=False \
+  nav_rviz:=False \
+  nav2_params_file:=/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/config/sentry/nav2_teb_params.yaml
+</code></pre>
+<p>或者用 <code>$HOME</code>，这个由 shell 展开：</p>
+<pre><code class="language-bash">nav2_params_file:=$HOME/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/config/sentry/nav2_teb_params.yaml
+</code></pre>
+<p>推荐先用第一种绝对路径。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-22">
+  <div class="turn-head">
+    <div class="turn-title">Turn 22 · ns to activate</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T11-08-23-411Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T11-08-23-411Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:23.411Z" data-timestamp="2026-05-07T11:08:23.411Z">2026-05-07T11:08:23.411Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>ns to activate
+[component_container_mt-13]     See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-13] [INFO] [1778152075.855003797] [global_costmap.global_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/planner_server' in container '/nav2_container'
+[component_container_mt-13] [INFO] [1778152075.859072250] [nav2_container]: Load Library: /opt/ros/humble/lib/libbehavior_server_core.so
+[component_container_mt-13] [INFO] [1778152075.861871725] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-13] [INFO] [1778152075.861895690] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-13] [INFO] [1778152075.878191351] [behavior_server]: 
+[component_container_mt-13]     behavior_server lifecycle node launched. 
+[component_container_mt-13]     Waiting on external lifecycle transitions to activate
+[component_container_mt-13]     See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/behavior_server' in container '/nav2_container'
+[component_container_mt-13] [INFO] [1778152075.883566701] [nav2_container]: Load Library: /opt/ros/humble/lib/libbt_navigator_core.so
+[component_container_mt-13] [INFO] [1778152075.884870413] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-13] [INFO] [1778152075.884914696] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-13] [INFO] [1778152075.905252038] [bt_navigator]: 
+[component_container_mt-13]     bt_navigator lifecycle node launched. 
+[component_container_mt-13]     Waiting on external lifecycle transitions to activate
+[component_container_mt-13]     See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/bt_navigator' in container '/nav2_container'
+[component_container_mt-13] [INFO] [1778152075.905322110] [bt_navigator]: Creating
+[component_container_mt-13] [INFO] [1778152075.907190354] [nav2_container]: Load Library: /opt/ros/humble/lib/libwaypoint_follower_core.so
+[component_container_mt-13] [INFO] [1778152075.907703479] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-13] [INFO] [1778152075.907734548] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-13] [INFO] [1778152075.925843158] [waypoint_follower]: 
+[component_container_mt-13]     waypoint_follower lifecycle node launched. 
+[component_container_mt-13]     Waiting on external lifecycle transitions to activate
+[component_container_mt-13]     See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-13] [INFO] [1778152075.926615771] [waypoint_follower]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/waypoint_follower' in container '/nav2_container'
+[component_container_mt-13] [INFO] [1778152075.929109241] [nav2_container]: Load Library: /opt/ros/humble/lib/libvelocity_smoother_core.so
+[component_container_mt-13] [INFO] [1778152075.929710903] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-13] [INFO] [1778152075.929723046] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-13] [INFO] [1778152075.947147900] [velocity_smoother]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/velocity_smoother' in container '/nav2_container'
+[component_container_mt-13]     velocity_smoother lifecycle node launched. 
+[component_container_mt-13]     Waiting on external lifecycle transitions to activate
+[component_container_mt-13]     See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-13] [INFO] [1778152075.948961821] [nav2_container]: Load Library: /opt/ros/humble/lib/libnav2_lifecycle_manager_core.so
+[component_container_mt-13] [INFO] [1778152075.949586907] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-13] [INFO] [1778152075.949608668] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-13] [INFO] [1778152075.966560322] [lifecycle_manager_navigation]: Creating
+[component_container_mt-13] [INFO] [1778152075.971524810] [lifecycle_manager_navigation]: Creating and initializing lifecycle service clients
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_navigation' in container '/nav2_container'
+[pointcloud_to_laserscan_node-8] [WARN] [1778152075.988812255] [pointcloud_to_laserscan]: New subscription discovered on topic '/scan', requesting incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY
+[component_container_mt-13] [INFO] [1778152075.994586156] [lifecycle_manager_navigation]: Starting managed nodes bringup...
+[component_container_mt-13] [INFO] [1778152075.994636100] [lifecycle_manager_navigation]: Configuring controller_server
+[component_container_mt-13] [INFO] [1778152075.995683039] [controller_server]: Configuring controller interface
+[component_container_mt-13] [INFO] [1778152075.996042695] [controller_server]: getting goal checker plugins..
+[component_container_mt-13] [INFO] [1778152075.996185834] [controller_server]: Controller frequency set to 20.0000Hz
+[component_container_mt-13] [INFO] [1778152075.996229557] [local_costmap.local_costmap]: Configuring
+[component_container_mt-13] [INFO] [1778152076.003954266] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[component_container_mt-13] [INFO] [1778152076.007923932] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[component_container_mt-13] [INFO] [1778152076.014301768] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[component_container_mt-13] [INFO] [1778152076.014340962] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[component_container_mt-13] [INFO] [1778152076.016749612] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-13] [INFO] [1778152076.031605184] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[component_container_mt-13] [INFO] [1778152076.032817885] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-13] [INFO] [1778152076.033420819] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[component_container_mt-13] [INFO] [1778152076.037775750] [controller_server]: Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS
+[component_container_mt-13] [WARN] [1778152076.038147409] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[component_container_mt-13] [ERROR] [1778152076.068285355] [controller_server]: Caught exception in callback for transition 10
+[component_container_mt-13] [ERROR] [1778152076.068344616] [controller_server]: Original error: parameter 'FollowPath.teb_autosize' has invalid type: Wrong parameter type, parameter {FollowPath.teb_autosize} is of type {bool}, setting it to {double} is not allowed.
+[component_container_mt-13] [WARN] [1778152076.068368621] [controller_server]: Callback returned ERROR during the transition: configure
+[component_container_mt-13] [FATAL] [1778152076.068380183] [controller_server]: Lifecycle node controller_server does not have error state implemented
+[component_container_mt-13] [ERROR] [1778152076.068761129] [lifecycle_manager_navigation]: Failed to change state for node: controller_server
+[component_container_mt-13] [ERROR] [1778152076.068787960] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+[rviz2-14] [ERROR] [1778152076.113578235] [rviz2]: Error retrieving file [model://mid360.stl]: Protocol "model" not supported or disabled in libcurl
+[rviz2-14] [ERROR] [1778152076.113678103] [rviz2]: Error retrieving file [model://mid360.stl]: Protocol "model" not supported or disabled in libcurl
+[rviz2-14] [INFO] [1778152076.138544613] [rviz2]: Trying to create a map of size 272 x 210 using 1 swatches
+[rviz2-14] [ERROR] [1778152076.142035499] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+[rviz2-14] active samplers with a different type refer to the same texture image unit
+[spawn_entity.py-4] [INFO] [1778152078.596766103] [spawn_entity]: Calling service /spawn_entity
+[spawn_entity.py-4] [INFO] [1778152078.610151008] [spawn_entity]: Spawn status: Entity [robot] already exists.
+[spawn_entity.py-4] [ERROR] [1778152078.610468375] [spawn_entity]: Spawn service failed. Exiting.
+[ERROR] [spawn_entity.py-4]: process has died [pid 45014, exit code 1, cmd '/opt/ros/humble/lib/gazebo_ros/spawn_entity.py -entity robot -topic robot_description -x 4.3 -y 3.35 -z 1.16 -Y 0.0 --ros-args'].
+[pointlio_mapping-10] lidar_type: 1
+[pointlio_mapping-10] ~~~~/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/Point-LIO/ file opened
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[pointlio_mapping-10] [WARN] [1778152088.311668856] [laserMapping]: catch sig 2
+[INFO] [pointlio_mapping-10]: process has finished cleanly [pid 45026]
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 45012]
+[INFO] [fake_vel_transform_node-12]: process has finished cleanly [pid 45030]
+[INFO] [pointcloud_to_laserscan_node-8]: process has finished cleanly [pid 45022]
+[INFO] [complementary_filter_node-6]: process has finished cleanly [pid 45018]
+[INFO] [static_transform_publisher-9]: process has finished cleanly [pid 45024]
+[INFO] [ground_segmentation_node-7]: process has finished cleanly [pid 45020]
+[INFO] [localization_slam_toolbox_node-11]: process has finished cleanly [pid 45028]
+[INFO] [joint_state_publisher-2]: process has finished cleanly [pid 45010]
+[INFO] [component_container_mt-13]: process has finished cleanly [pid 45032]
+[INFO] [gzclient-1]: process has finished cleanly [pid 45008]
+[complementary_filter_node-6] [INFO] [1778152088.311720333] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[fake_vel_transform_node-12] [INFO] [1778152088.311707538] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rviz2-14] [INFO] [1778152088.311724330] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[localization_slam_toolbox_node-11] [INFO] [1778152088.311752253] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ground_segmentation_node-7] [INFO] [1778152088.311774524] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-9] [INFO] [1778152088.311777300] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1778152088.312223258] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[pointcloud_to_laserscan_node-8] [INFO] [1778152088.312935568] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-13] [INFO] [1778152088.313967118] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-13] [INFO] [1778152088.314114525] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[component_container_mt-13] [INFO] [1778152088.358501086] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[component_container_mt-13] [INFO] [1778152088.358610342] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358623747] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[component_container_mt-13] [INFO] [1778152088.358644817] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358654916] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[component_container_mt-13] [INFO] [1778152088.358671427] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358683620] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[component_container_mt-13] [INFO] [1778152088.358700471] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358710681] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[component_container_mt-13] [INFO] [1778152088.358723104] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358736740] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[component_container_mt-13] [INFO] [1778152088.358754062] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.358764622] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[component_container_mt-13] [INFO] [1778152088.358780111] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1778152088.378286739] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[component_container_mt-13] [INFO] [1778152088.393254189] [velocity_smoother]: Destroying
+[component_container_mt-13] [INFO] [1778152088.401798910] [waypoint_follower]: Destroying
+[component_container_mt-13] [INFO] [1778152088.411310118] [bt_navigator]: Destroying
+[component_container_mt-13] [INFO] [1778152088.427757952] [behavior_server]: Destroying
+[component_container_mt-13] [INFO] [1778152088.440930327] [global_costmap.global_costmap]: Destroying
+[component_container_mt-13] [INFO] [1778152088.451687058] [planner_server]: Destroying
+[component_container_mt-13] [INFO] [1778152088.460830845] [smoother_server]: Destroying
+[component_container_mt-13] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[component_container_mt-13]          at line 127 in ./src/class_loader.cpp
+[component_container_mt-13] [INFO] [1778152088.472969515] [local_costmap.local_costmap]: Destroying
+[component_container_mt-13] [ERROR] [1778152088.473025340] [local_costmap.local_costmap]: Unable to start transition 2 from current state cleaningup: Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:389, at ./src/rcl_lifecycle.c:368
+[component_container_mt-13] [INFO] [1778152088.479286947] [controller_server]: Destroying
+[complementary_filter_node-6] [INFO] [1778152088.347920667] [complementary_filter_gain_node]: Destroying ComplementaryFilterROS
+[ERROR] [rviz2-14]: process has died [pid 45034, exit code -11, cmd '/opt/ros/humble/lib/rviz2/rviz2 -d /home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/rm_navigation/share/rm_navigation/rviz/nav2.rviz --ros-args'].
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): Cannot shutdown a ROS adapter that is not running</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T11-08-33-675Z-2026-05-07T11-09-19-025Z">
+  <summary>Codex process (30 items: 5 Reasoning, 4 Commentary, 7 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T11-08-33-675Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-08-33-675Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:33.675Z" data-timestamp="2026-05-07T11:08:33.675Z">2026-05-07T11:08:33.675Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T11-08-37-225Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T11-08-37-225Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.225Z" data-timestamp="2026-05-07T11:08:37.225Z">2026-05-07T11:08:37.225Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>TEB 已经被加载到了，关键日志是 <code>Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS</code>。现在失败点不是“没打开 TEB”，而是 TEB 参数类型不兼容：<code>FollowPath.teb_autosize</code> 在 YAML 里是布尔值，但这个 ROS2 端口代码按 double 读取。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-08-37-289Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-08-37-289Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.289Z" data-timestamp="2026-05-07T11:08:37.289Z">2026-05-07T11:08:37.289Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;rg -n \&#34;teb_autosize|declare_parameter|get_parameter\&#34; venom_teb_controller/src venom_teb_controller/include&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:20000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-08-37-336Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-08-37-336Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.336Z" data-timestamp="2026-05-07T11:08:37.336Z">2026-05-07T11:08:37.336Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;rg -n \&#34;teb_autosize|global_plan_overwrite_orientation|allow_init_with_backwards_motion|exact_arc_length|publish_feedback|free_goal_vel|include_costmap_obstacles|include_dynamic_obstacles|costmap_converter_spin_thread|optimization_activate|optimization_verbose|enable_homotopy_class_planning|enable_multithreading\&#34; venom_teb_controller/config/sentry/nav2_teb_params.yaml venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:20000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-08-37-359Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-08-37-359Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.359Z" data-timestamp="2026-05-07T11:08:37.359Z">2026-05-07T11:08:37.359Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_DmS2i2ZTas2eGtYlPBTCfCfg&quot;,
+  &quot;process_id&quot;: &quot;68549&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;rg -n \&quot;teb_autosize|declare_parameter|get_parameter\&quot; venom_teb_controller/src venom_teb_controller/include&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;rg -n &#x27;teb_autosize|declare_parameter|get_parameter&#x27; venom_teb_controller/src venom_teb_controller/include&quot;,
+      &quot;query&quot;: &quot;teb_autosize|declare_parameter|get_parameter&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;venom_teb_controller/src/teb_local_planner_ros.cpp:64:using nav2_util::declare_parameter_if_not_declared;\nvenom_teb_controller/src/teb_local_planner_ros.cpp:146:    node-&gt;get_parameter(\&quot;controller_frequency\&quot;, controller_frequency);\nvenom_teb_controller/src/optimal_planner.cpp:203:    if (cfg_-&gt;trajectory.teb_autosize)\nvenom_teb_controller/src/teb_config.cpp:41:using nav2_util::declare_parameter_if_not_declared;\nvenom_teb_controller/src/teb_config.cpp:49:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;odom_topic\&quot;, rclcpp::ParameterValue(odom_topic));\nvenom_teb_controller/src/teb_config.cpp:52:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;teb_autosize\&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));\nvenom_teb_controller/src/teb_config.cpp:53:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;dt_ref\&quot;, rclcpp::ParameterValue(trajectory.dt_ref));\nvenom_teb_controller/src/teb_config.cpp:54:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;dt_hysteresis\&quot;, rclcpp::ParameterValue(trajectory.dt_hysteresis));\nvenom_teb_controller/src/teb_config.cpp:55:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;min_samples\&quot;, rclcpp::ParameterValue(trajectory.min_samples));\nvenom_teb_controller/src/teb_config.cpp:56:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_samples\&quot;, rclcpp::ParameterValue(trajectory.max_samples));\nvenom_teb_controller/src/teb_config.cpp:57:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_overwrite_orientation\&quot;, rclcpp::ParameterValue(trajectory.global_plan_overwrite_orientation));\nvenom_teb_controller/src/teb_config.cpp:58:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;allow_init_with_backwards_motion\&quot;, rclcpp::ParameterValue(trajectory.allow_init_with_backwards_motion));\nvenom_teb_controller/src/teb_config.cpp:59:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_viapoint_sep\&quot;, rclcpp::ParameterValue(trajectory.global_plan_viapoint_sep));\nvenom_teb_controller/src/teb_config.cpp:60:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;via_points_ordered\&quot;, rclcpp::ParameterValue(trajectory.via_points_ordered));\nvenom_teb_controller/src/teb_config.cpp:61:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_global_plan_lookahead_dist\&quot;, rclcpp::ParameterValue(trajectory.max_global_plan_lookahead_dist));\nvenom_teb_controller/src/teb_config.cpp:62:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_prune_distance\&quot;, rclcpp::ParameterValue(trajectory.global_plan_prune_distance));\nvenom_teb_controller/src/teb_config.cpp:63:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;exact_arc_length\&quot;, rclcpp::ParameterValue(trajectory.exact_arc_length));\nvenom_teb_controller/src/teb_config.cpp:64:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_dist\&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_dist));\nvenom_teb_controller/src/teb_config.cpp:65:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_angular\&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_angular));\nvenom_teb_controller/src/teb_config.cpp:66:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;feasibility_check_no_poses\&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_no_poses));\nvenom_teb_controller/src/teb_config.cpp:67:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;publish_feedback\&quot;, rclcpp::ParameterValue(trajectory.publish_feedback));\nvenom_teb_controller/src/teb_config.cpp:68:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;min_resolution_collision_check_angular\&quot;, rclcpp::ParameterValue(trajectory.min_resolution_collision_check_angular));\nvenom_teb_controller/src/teb_config.cpp:69:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;control_look_ahead_poses\&quot;, rclcpp::ParameterValue(trajectory.control_look_ahead_poses));\nvenom_teb_controller/src/teb_config.cpp:70:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;feasibility_check_lookahead_distance\&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_lookahead_distance));\nvenom_teb_controller/src/teb_config.cpp:73:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_vel_x\&quot;, rclcpp::ParameterValue(robot.max_vel_x));\nvenom_teb_controller/src/teb_config.cpp:74:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_vel_x_backwards\&quot;, rclcpp::ParameterValue(robot.max_vel_x_backwards));\nvenom_teb_controller/src/teb_config.cpp:75:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_vel_y\&quot;, rclcpp::ParameterValue(robot.max_vel_y));\nvenom_teb_controller/src/teb_config.cpp:76:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_vel_theta\&quot;, rclcpp::ParameterValue(robot.max_vel_theta));\nvenom_teb_controller/src/teb_config.cpp:77:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;acc_lim_x\&quot;, rclcpp::ParameterValue(robot.acc_lim_x));\nvenom_teb_controller/src/teb_config.cpp:78:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;acc_lim_y\&quot;, rclcpp::ParameterValue(robot.acc_lim_y));\nvenom_teb_controller/src/teb…32154 chars truncated…nfig.cpp:292:  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;oscillation_recovery_min_duration\&quot;, recovery.oscillation_recovery_min_duration, recovery.oscillation_recovery_min_duration);\nvenom_teb_controller/src/teb_config.cpp:293:  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;oscillation_filter_duration\&quot;, recovery.oscillation_filter_duration, recovery.oscillation_filter_duration);\nvenom_teb_controller/src/teb_config.cpp:294:  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;divergence_detection_enable\&quot;, recovery.divergence_detection_enable, recovery.divergence_detection_enable);\nvenom_teb_controller/src/teb_config.cpp:295:  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;divergence_detection_max_chi_squared\&quot;, recovery.divergence_detection_max_chi_squared, recovery.divergence_detection_max_chi_squared);\nvenom_teb_controller/src/teb_config.cpp:298:  if (!nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.type\&quot;, model_name))\nvenom_teb_controller/src/teb_config.cpp:314:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.radius\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);\nvenom_teb_controller/src/teb_config.cpp:317:    if (!nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.radius\&quot;, radius))\nvenom_teb_controller/src/teb_config.cpp:333:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.line_start\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY);\nvenom_teb_controller/src/teb_config.cpp:334:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.line_end\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY);\nvenom_teb_controller/src/teb_config.cpp:337:    if (!nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.line_start\&quot;, line_start) || !nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.line_end\&quot;, line_end))\nvenom_teb_controller/src/teb_config.cpp:362:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.front_offset\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);\nvenom_teb_controller/src/teb_config.cpp:363:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.front_radius\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);\nvenom_teb_controller/src/teb_config.cpp:364:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.rear_offset\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);\nvenom_teb_controller/src/teb_config.cpp:365:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.rear_radius\&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);\nvenom_teb_controller/src/teb_config.cpp:367:    if (!nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.front_offset\&quot;, dummy) || !nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.front_radius\&quot;, dummy)\nvenom_teb_controller/src/teb_config.cpp:368:        || !nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.rear_offset\&quot;, dummy) || !nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.rear_radius\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:376:    nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.front_offset\&quot;, front_offset);\nvenom_teb_controller/src/teb_config.cpp:377:    nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.front_radius\&quot;, front_radius);\nvenom_teb_controller/src/teb_config.cpp:378:    nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.rear_offset\&quot;, rear_offset);\nvenom_teb_controller/src/teb_config.cpp:379:    nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.rear_radius\&quot;, rear_radius);\nvenom_teb_controller/src/teb_config.cpp:390:    declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;footprint_model.vertices\&quot;, rclcpp::ParameterType::PARAMETER_STRING);\nvenom_teb_controller/src/teb_config.cpp:393:    if (!nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;footprint_model.vertices\&quot;, footprint_string) )\nvenom_teb_controller/src/teb_config.cpp:668:        if (name == node_name + \&quot;.teb_autosize\&quot;) {\nvenom_teb_controller/src/teb_config.cpp:669:        trajectory.teb_autosize = parameter.as_bool();\nvenom_teb_controller/src/teb_config.cpp:866:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;line_obstacle_poses_affected\&quot;, dummy) || nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;polygon_obstacle_poses_affected\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:869:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;weight_point_obstacle\&quot;, dummy) || nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;weight_line_obstacle\&quot;, dummy) || nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;weight_poly_obstacle\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:872:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;costmap_obstacles_front_only\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:875:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;costmap_emergency_stop_dist\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:878:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;alternative_time_cost\&quot;, dummy))\nvenom_teb_controller/src/teb_config.cpp:881:  if (nh-&gt;get_parameter(name + \&quot;.\&quot; + \&quot;global_plan_via_point_sep\&quot;, dummy))\nvenom_teb_controller/include/teb_local_planner/teb_config.h:79:    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)\nvenom_teb_controller/include/teb_local_planner/teb_config.h:256:    trajectory.teb_autosize = true;\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 188254
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-08-37-407Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-08-37-407Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.407Z" data-timestamp="2026-05-07T11:08:37.407Z">2026-05-07T11:08:37.407Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3fbdb6
+Wall time: 0.0002 seconds
+Process exited with code 0
+Original token count: 10539
+Output:
+Total output lines: 245
+
+venom_teb_controller/src/teb_local_planner_ros.cpp:64:using nav2_util::declare_parameter_if_not_declared;
+venom_teb_controller/src/teb_local_planner_ros.cpp:146:    node-&gt;get_parameter(&quot;controller_frequency&quot;, controller_frequency);
+venom_teb_controller/src/optimal_planner.cpp:203:    if (cfg_-&gt;trajectory.teb_autosize)
+venom_teb_controller/src/teb_config.cpp:41:using nav2_util::declare_parameter_if_not_declared;
+venom_teb_controller/src/teb_config.cpp:49:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;odom_topic&quot;, rclcpp::ParameterValue(odom_topic));
+venom_teb_controller/src/teb_config.cpp:52:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;teb_autosize&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));
+venom_teb_controller/src/teb_config.cpp:53:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;dt_ref&quot;, rclcpp::ParameterValue(trajectory.dt_ref));
+venom_teb_controller/src/teb_config.cpp:54:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;dt_hysteresis&quot;, rclcpp::ParameterValue(trajectory.dt_hysteresis));
+venom_teb_controller/src/teb_config.cpp:55:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_samples&quot;, rclcpp::ParameterValue(trajectory.min_samples));
+venom_teb_controller/src/teb_config.cpp:56:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_samples&quot;, rclcpp::ParameterValue(trajectory.max_samples));
+venom_teb_controller/src/teb_config.cpp:57:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_overwrite_orientation&quot;, rclcpp::ParameterValue(trajectory.global_plan_overwrite_orientation));
+venom_teb_controller/src/teb_config.cpp:58:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;allow_init_with_backwards_motion&quot;, rclcpp::ParameterValue(trajectory.allow_init_with_backwards_motion));
+venom_teb_controller/src/teb_config.cpp:59:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_viapoint_sep&quot;, rclcpp::ParameterValue(trajectory.global_plan_viapoint_sep));
+venom_teb_controller/src/teb_config.cpp:60:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;via_points_ordered&quot;, rclcpp::ParameterValue(trajectory.via_points_ordered));
+venom_teb_controller/src/teb_config.cpp:61:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_global_plan_lookahead_dist&quot;, rclcpp::ParameterValue(trajectory.max_global_plan_lookahead_dist));
+venom_teb_controller/src/teb_config.cpp:62:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_prune_distance&quot;, rclcpp::ParameterValue(trajectory.global_plan_prune_distance));
+venom_teb_controller/src/teb_config.cpp:63:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;exact_arc_length&quot;, rclcpp::ParameterValue(trajectory.exact_arc_length));
+venom_teb_controller/src/teb_config.cpp:64:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;force_reinit_new_goal_dist&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_dist));
+venom_teb_controller/src/teb_config.cpp:65:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;force_reinit_new_goal_angular&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_angular));
+venom_teb_controller/src/teb_config.cpp:66:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;feasibility_check_no_poses&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_no_poses));
+venom_teb_controller/src/teb_config.cpp:67:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;publish_feedback&quot;, rclcpp::ParameterValue(trajectory.publish_feedback));
+venom_teb_controller/src/teb_config.cpp:68:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_resolution_collision_check_angular&quot;, rclcpp::ParameterValue(trajectory.min_resolution_collision_check_angular));
+venom_teb_controller/src/teb_config.cpp:69:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;control_look_ahead_poses&quot;, rclcpp::ParameterValue(trajectory.control_look_ahead_poses));
+venom_teb_controller/src/teb_config.cpp:70:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;feasibility_check_lookahead_distance&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_lookahead_distance));
+venom_teb_controller/src/teb_config.cpp:73:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_vel_x&quot;, rclcpp::ParameterValue(robot.max_vel_x));
+venom_teb_controller/src/teb_config.cpp:74:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_vel_x_backwards&quot;, rclcpp::ParameterValue(robot.max_vel_x_backwards));
+venom_teb_controller/src/teb_config.cpp:75:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_vel_y&quot;, rclcpp::ParameterValue(robot.max_vel_y));
+venom_teb_controller/src/teb_config.cpp:76:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_vel_theta&quot;, rclcpp::ParameterValue(robot.max_vel_theta));
+venom_teb_controller/src/teb_config.cpp:77:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;acc_lim_x&quot;, rclcpp::ParameterValue(robot.acc_lim_x));
+venom_teb_controller/src/teb_config.cpp:78:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;acc_lim_y&quot;, rclcpp::ParameterValue(robot.acc_lim_y));
+venom_teb_controller/src/teb_config.cpp:79:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;acc_lim_theta&quot;, rclcpp::ParameterValue(robot.acc_lim_theta));
+venom_teb_controller/src/teb_config.cpp:80:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_turning_radius&quot;, rclcpp::ParameterValue(robot.min_turning_radius));
+venom_teb_controller/src/teb_config.cpp:81:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;wheelbase&quot;, rclcpp::ParameterValue(robot.wheelbase));
+venom_teb_controller/src/teb_config.cpp:82:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;cmd_angle_instead_rotvel&quot;, rclcpp::ParameterValue(robot.cmd_angle_instead_rotvel));
+venom_teb_controller/src/teb_config.cpp:83:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;is_footprint_dynamic&quot;, rclcpp::ParameterValue(robot.is_footprint_dynamic));
+venom_teb_controller/src/teb_config.cpp:86:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;free_goal_vel&quot;, rclcpp::ParameterValue(goal_tolerance.free_goal_vel));
+venom_teb_controller/src/teb_config.cpp:89:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_obstacle_dist&quot;, rclcpp::ParameterValue(obstacles.min_obstacle_dist));
+venom_teb_controller/src/teb_config.cpp:90:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;inflation_dist&quot;, rclcpp::ParameterValue(obstacles.inflation_dist));
+venom_teb_controller/src/teb_config.cpp:91:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;dynamic_obstacle_inflation_dist&quot;, rclcpp::ParameterValue(obstacles.dynamic_obstacle_inflation_dist));
+venom_teb_controller/src/teb_config.cpp:92:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;include_dynamic_obstacles&quot;, rclcpp::ParameterValue(obstacles.include_dynamic_obstacles));
+venom_teb_controller/src/teb_config.cpp:93:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;include_costmap_obstacles&quot;, rclcpp::ParameterValue(obstacles.include_costmap_obstacles));
+venom_teb_controller/src/teb_config.cpp:94:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;costmap_obstacles_behind_robot_dist&quot;, rclcpp::ParameterValue(obstacles.costmap_obstacles_behind_robot_dist));
+venom_teb_controller/src/teb_config.cpp:95:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_poses_affected&quot;, rclcpp::ParameterValue(obstacles.obstacle_poses_affected));
+venom_teb_controller/src/teb_config.cpp:96:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;legacy_obstacle_association&quot;, rclcpp::ParameterValue(obstacles.legacy_obstacle_association));
+venom_teb_controller/src/teb_config.cpp:97:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_association_force_inclusion_factor&quot;, rclcpp::ParameterValue(obstacles.obstacle_association_force_inclusion_factor));
+venom_teb_controller/src/teb_config.cpp:98:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_association_cutoff_factor&quot;, rclcpp::ParameterValue(obstacles.obstacle_association_cutoff_factor));
+venom_teb_controller/src/teb_config.cpp:99:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;costmap_converter_plugin&quot;, rclcpp::ParameterValue(obstacles.costmap_converter_plugin));
+venom_teb_controller/src/teb_config.cpp:100:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;costmap_converter_spin_thread&quot;, rclcpp::ParameterValue(obstacles.costmap_converter_spin_thread));
+venom_teb_controller/src/teb_config.cpp:101:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_proximity_ratio_max_vel&quot;,  rclcpp::ParameterValue(obstacles.obstacle_proximity_ratio_max_vel));
+venom_teb_controller/src/teb_config.cpp:102:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_proximity_lower_bound&quot;, rclcpp::ParameterValue(obstacles.obstacle_proximity_lower_bound));
+venom_teb_controller/src/teb_config.cpp:103:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_proximity_upper_bound&quot;, rclcpp::ParameterValue(obstacles.obstacle_proximity_upper_bound));
+venom_teb_controller/src/teb_config.cpp:106:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;no_inner_iterations&quot;, rclcpp::ParameterValue(optim.no_inner_iterations));
+venom_teb_controller/src/teb_config.cpp:107:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;no_outer_iterations&quot;, rclcpp::ParameterValue(optim.no_outer_iterations));
+venom_teb_controller/src/teb_config.cpp:108:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;optimization_activate&quot;, rclcpp::ParameterValue(optim.optimization_activate));
+venom_teb_controller/src/teb_config.cpp:109:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;optimization_verbose&quot;, rclcpp::ParameterValue(optim.optimization_verbose));
+venom_teb_controller/src/teb_config.cpp:110:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;penalty_epsilon&quot;, rclcpp::ParameterValue(optim.penalty_epsilon));
+venom_teb_controller/src/teb_config.cpp:111:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_max_vel_x&quot;, rclcpp::ParameterValue(optim.weight_max_vel_x));
+venom_teb_controller/src/teb_config.cpp:112:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_max_vel_y&quot;, rclcpp::ParameterValue(optim.weight_max_vel_y));
+venom_teb_controller/src/teb_config.cpp:113:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_max_vel_theta&quot;, rclcpp::ParameterValue(optim.weight_max_vel_theta));
+venom_teb_controller/src/teb_config.cpp:114:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_acc_lim_x&quot;, rclcpp::ParameterValue(optim.weight_acc_lim_x));
+venom_teb_controller/src/teb_config.cpp:115:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_acc_lim_y&quot;, rclcpp::ParameterValue(optim.weight_acc_lim_y));
+venom_teb_controller/src/teb_config.cpp:116:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_acc_lim_theta&quot;, rclcpp::ParameterValue(optim.weight_acc_lim_theta));
+venom_teb_controller/src/teb_config.cpp:117:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_kinematics_nh&quot;, rclcpp::ParameterValue(optim.weight_kinematics_nh));
+venom_teb_controller/src/teb_config.cpp:118:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_kinematics_forward_drive&quot;, rclcpp::ParameterValue(optim.weight_kinematics_forward_drive));
+venom_teb_controller/src/teb_config.cpp:119:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_kinematics_turning_radius&quot;, rclcpp::ParameterValue(optim.weight_kinematics_turning_radius));
+venom_teb_controller/src/teb_config.cpp:120:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_optimaltime&quot;, rclcpp::ParameterValue(optim.weight_optimaltime));
+venom_teb_controller/src/teb_config.cpp:121:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_shortest_path&quot;, rclcpp::ParameterValue(optim.weight_shortest_path));
+venom_teb_controller/src/teb_config.cpp:122:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_obstacle&quot;, rclcpp::ParameterValue(optim.weight_obstacle));
+venom_teb_controller/src/teb_config.cpp:123:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_inflation&quot;, rclcpp::ParameterValue(optim.weight_inflation));
+venom_teb_controller/src/teb_config.cpp:124:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_dynamic_obstacle&quot;, rclcpp::ParameterValue(optim.weight_dynamic_obstacle));
+venom_teb_controller/src/teb_config.cpp:125:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_dynamic_obstacle_inflation&quot;, rclcpp::ParameterValue(optim.weight_dynamic_obstacle_inflation));
+venom_teb_controller/src/teb_config.cpp:126:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_viapoint&quot;, rclcpp::ParameterValue(optim.weight_viapoint));
+venom_teb_controller/src/teb_config.cpp:127:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_prefer_rotdir&quot;, rclcpp::ParameterValue(optim.weight_prefer_rotdir));
+venom_teb_controller/src/teb_config.cpp:128:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_adapt_factor&quot;, rclcpp::ParameterValue(optim.weight_adapt_factor));
+venom_teb_controller/src/teb_config.cpp:129:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_cost_exponent&quot;, rclcpp::ParameterValue(optim.obstacle_cost_exponent));
+venom_teb_controller/src/teb_config.cpp:130:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;weight_velocity_obstacle_ratio&quot;, rclcpp::ParameterValue(optim.weight_velocity_obstacle_ratio));
+venom_teb_controller/src/teb_config.cpp:133:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;enable_homotopy_class_planning&quot;, rclcpp::ParameterValue(hcp.enable_homotopy_class_planning));
+venom_teb_controller/src/teb_config.cpp:134:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;enable_multithreading&quot;, rclcpp::ParameterValue(hcp.enable_multithreading));
+venom_teb_controller/src/teb_config.cpp:135:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;simple_exploration&quot;, rclcpp::ParameterValue(hcp.simple_exploration));
+venom_teb_controller/src/teb_config.cpp:136:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_number_classes&quot;, rclcpp::ParameterValue(hcp.max_number_classes));
+venom_teb_controller/src/teb_config.cpp:137:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_obst_cost_scale&quot;, rclcpp::ParameterValue(hcp.selection_obst_cost_scale));
+venom_teb_controller/src/teb_config.cpp:138:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_prefer_initial_plan&quot;, rclcpp::ParameterValue(hcp.selection_prefer_initial_plan));
+venom_teb_controller/src/teb_config.cpp:139:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_viapoint_cost_scale&quot;, rclcpp::ParameterValue(hcp.selection_viapoint_cost_scale));
+venom_teb_controller/src/teb_config.cpp:140:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_cost_hysteresis&quot;, rclcpp::ParameterValue(hcp.selection_cost_hysteresis));
+venom_teb_controller/src/teb_config.cpp:141:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_alternative_time_cost&quot;, rclcpp::ParameterValue(hcp.selection_alternative_time_cost));
+venom_teb_controller/src/teb_config.cpp:142:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;switching_blocking_period&quot;, rclcpp::ParameterValue(hcp.switching_blocking_period));
+venom_teb_controller/src/teb_config.cpp:143:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;roadmap_graph_samples&quot;, rclcpp::ParameterValue(hcp.roadmap_graph_no_samples));
+venom_teb_controller/src/teb_config.cpp:144:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;roadmap_graph_area_width&quot;, rclcpp::ParameterValue(hcp.roadmap_graph_area_width));
+venom_teb_controller/src/teb_config.cpp:145:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;roadmap_graph_area_length_scale&quot;, rclcpp::ParameterValue(hcp.roadmap_graph_area_length_scale));
+venom_teb_controller/src/teb_config.cpp:146:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;h_signature_prescaler&quot;, rclcpp::ParameterValue(hcp.h_signature_prescaler));
+venom_teb_controller/src/teb_config.cpp:147:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;h_signature_threshold&quot;, rclcpp::ParameterValue(hcp.h_signature_threshold));
+venom_teb_controller/src/teb_config.cpp:148:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_keypoint_offset&quot;, rclcpp::ParameterValue(hcp.obstacle_keypoint_offset));
+venom_teb_controller/src/teb_config.cpp:149:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;obstacle_heading_threshold&quot;, rclcpp::ParameterValue(hcp.obstacle_heading_threshold));
+venom_teb_controller/src/teb_config.cpp:150:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;viapoints_all_candidates&quot;, rclcpp::ParameterValue(hcp.viapoints_all_candidates));
+venom_teb_controller/src/teb_config.cpp:151:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;visualize_hc_graph&quot;, rclcpp::ParameterValue(hcp.visualize_hc_graph));
+venom_teb_controller/src/teb_config.cpp:152:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;visualize_with_time_as_z_axis_scale&quot;, rclcpp::ParameterValue(hcp.visualize_with_time_as_z_axis_scale));
+venom_teb_controller/src/teb_config.cpp:153:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;delete_detours_backwards&quot;, rclcpp::ParameterValue(hcp.delete_detours_backwards));
+venom_teb_controller/src/teb_config.cpp:154:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;detours_orientation_tolerance&quot;, rclcpp::ParameterValue(hcp.detours_orientation_tolerance));
+venom_teb_controller/src/teb_config.cpp:155:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;length_start_orientation_vector&quot;, rclcpp::ParameterValue(hcp.length_start_orientation_vector));
+venom_teb_controller/src/teb_config.cpp:156:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_ratio_detours_duration_best_duration&quot;, rclcpp::ParameterValue(hcp.max_ratio_detours_duration_best_duration));
+venom_teb_controller/src/teb_config.cpp:157:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;selection_dropping_probability&quot;, rclcpp::ParameterValue(hcp.selection_dropping_probability));
+venom_teb_controller/src/teb_config.cpp:160:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;shrink_horizon_backup&quot;, rclcpp::ParameterValue(recovery.shrink_horizon_backup));
+venom_teb_controller/src/teb_config.cpp:161:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;shrink_horizon_min_duration&quot;, rclcpp::ParameterValue(recovery.shrink_horizon_min_duration));
+venom_teb_controller/src/teb_config.cpp:162:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;oscillation_recovery&quot;, rclcpp::ParameterValue(recovery.oscillation_recovery));
+venom_teb_controller/src/teb_config.cpp:163:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;oscillation_v_eps&quot;, rclcpp::ParameterValue(recovery.oscillation_v_eps));
+venom_teb_controller/src/teb_config.cpp:164:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;oscillation_omega_eps&quot;, rclcpp::ParameterValue(recovery.oscillation_omega_eps));
+venom_teb_controller/src/teb_config.cpp:165:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;oscillation_recovery_min_duration&quot;, rclcpp::ParameterValue(recovery.oscillation_recovery_min_duration));
+venom_teb_controller/src/teb_config.cpp:166:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;oscillation_filter_duration&quot;, rclcpp::ParameterValue(recovery.oscillation_filter_duration));
+venom_teb_controller/src/teb_config.cpp:167:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;divergence_detection_enable&quot;, rclcpp::ParameterValue(recovery.divergence_detection_enable));
+venom_teb_controller/src/teb_config.cpp:168:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;divergence_detection_max_chi_squared&quot;, rclcpp::ParameterValue(recovery.divergence_detection_max_chi_squared));
+venom_teb_controller/src/teb_config.cpp:171:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.type&quot;, rclcpp::ParameterType::PARAMETER_STRING);
+venom_teb_controller/src/teb_config.cpp:176:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;odom_topic&quot;, odom_topic, odom_topic);
+venom_teb_controller/src/teb_config.cpp:179:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;teb_autosize&quot;, trajectory.teb_autosize, trajectory.teb_autosize);
+venom_teb_controller/src/teb_con…539 tokens truncated…jectory.force_reinit_new_goal_angular, trajectory.force_reinit_new_goal_angular);
+venom_teb_controller/src/teb_config.cpp:193:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;feasibility_check_no_poses&quot;, trajectory.feasibility_check_no_poses, trajectory.feasibility_check_no_poses);
+venom_teb_controller/src/teb_config.cpp:194:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;publish_feedback&quot;, trajectory.publish_feedback, trajectory.publish_feedback);
+venom_teb_controller/src/teb_config.cpp:195:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;min_resolution_collision_check_angular&quot;, trajectory.min_resolution_collision_check_angular, trajectory.min_resolution_collision_check_angular);
+venom_teb_controller/src/teb_config.cpp:196:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;control_look_ahead_poses&quot;, trajectory.control_look_ahead_poses, trajectory.control_look_ahead_poses);
+venom_teb_controller/src/teb_config.cpp:197:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;feasibility_check_lookahead_distance&quot;, trajectory.feasibility_check_lookahead_distance, trajectory.feasibility_check_lookahead_distance);
+venom_teb_controller/src/teb_config.cpp:200:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_vel_x&quot;, robot.max_vel_x, robot.max_vel_x);
+venom_teb_controller/src/teb_config.cpp:201:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_vel_x_backwards&quot;, robot.max_vel_x_backwards, robot.max_vel_x_backwards);
+venom_teb_controller/src/teb_config.cpp:202:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_vel_y&quot;, robot.max_vel_y, robot.max_vel_y);
+venom_teb_controller/src/teb_config.cpp:203:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_vel_theta&quot;, robot.max_vel_theta, robot.max_vel_theta);
+venom_teb_controller/src/teb_config.cpp:204:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;acc_lim_x&quot;, robot.acc_lim_x, robot.acc_lim_x);
+venom_teb_controller/src/teb_config.cpp:205:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;acc_lim_y&quot;, robot.acc_lim_y, robot.acc_lim_y);
+venom_teb_controller/src/teb_config.cpp:206:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;acc_lim_theta&quot;, robot.acc_lim_theta, robot.acc_lim_theta);
+venom_teb_controller/src/teb_config.cpp:207:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;min_turning_radius&quot;, robot.min_turning_radius, robot.min_turning_radius);
+venom_teb_controller/src/teb_config.cpp:208:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;wheelbase&quot;, robot.wheelbase, robot.wheelbase);
+venom_teb_controller/src/teb_config.cpp:209:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;cmd_angle_instead_rotvel&quot;, robot.cmd_angle_instead_rotvel, robot.cmd_angle_instead_rotvel);
+venom_teb_controller/src/teb_config.cpp:210:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;is_footprint_dynamic&quot;, robot.is_footprint_dynamic, robot.is_footprint_dynamic);
+venom_teb_controller/src/teb_config.cpp:213:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;free_goal_vel&quot;, goal_tolerance.free_goal_vel, goal_tolerance.free_goal_vel);
+venom_teb_controller/src/teb_config.cpp:216:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;min_obstacle_dist&quot;, obstacles.min_obstacle_dist, obstacles.min_obstacle_dist);
+venom_teb_controller/src/teb_config.cpp:217:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;inflation_dist&quot;, obstacles.inflation_dist, obstacles.inflation_dist);
+venom_teb_controller/src/teb_config.cpp:218:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;dynamic_obstacle_inflation_dist&quot;, obstacles.dynamic_obstacle_inflation_dist, obstacles.dynamic_obstacle_inflation_dist);
+venom_teb_controller/src/teb_config.cpp:219:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;include_dynamic_obstacles&quot;, obstacles.include_dynamic_obstacles, obstacles.include_dynamic_obstacles);
+venom_teb_controller/src/teb_config.cpp:220:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;include_costmap_obstacles&quot;, obstacles.include_costmap_obstacles, obstacles.include_costmap_obstacles);
+venom_teb_controller/src/teb_config.cpp:221:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;costmap_obstacles_behind_robot_dist&quot;, obstacles.costmap_obstacles_behind_robot_dist, obstacles.costmap_obstacles_behind_robot_dist);
+venom_teb_controller/src/teb_config.cpp:222:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_poses_affected&quot;, obstacles.obstacle_poses_affected, obstacles.obstacle_poses_affected);
+venom_teb_controller/src/teb_config.cpp:223:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;legacy_obstacle_association&quot;, obstacles.legacy_obstacle_association, obstacles.legacy_obstacle_association);
+venom_teb_controller/src/teb_config.cpp:224:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_association_force_inclusion_factor&quot;, obstacles.obstacle_association_force_inclusion_factor, obstacles.obstacle_association_force_inclusion_factor);
+venom_teb_controller/src/teb_config.cpp:225:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_association_cutoff_factor&quot;, obstacles.obstacle_association_cutoff_factor, obstacles.obstacle_association_cutoff_factor);
+venom_teb_controller/src/teb_config.cpp:226:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;costmap_converter_plugin&quot;, obstacles.costmap_converter_plugin, obstacles.costmap_converter_plugin);
+venom_teb_controller/src/teb_config.cpp:227:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;costmap_converter_spin_thread&quot;, obstacles.costmap_converter_spin_thread, obstacles.costmap_converter_spin_thread);
+venom_teb_controller/src/teb_config.cpp:228:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_proximity_ratio_max_vel&quot;, obstacles.obstacle_proximity_ratio_max_vel, obstacles.obstacle_proximity_ratio_max_vel);
+venom_teb_controller/src/teb_config.cpp:229:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_proximity_lower_bound&quot;, obstacles.obstacle_proximity_lower_bound, obstacles.obstacle_proximity_lower_bound);
+venom_teb_controller/src/teb_config.cpp:230:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_proximity_upper_bound&quot;, obstacles.obstacle_proximity_upper_bound, obstacles.obstacle_proximity_upper_bound);
+venom_teb_controller/src/teb_config.cpp:233:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;no_inner_iterations&quot;, optim.no_inner_iterations, optim.no_inner_iterations);
+venom_teb_controller/src/teb_config.cpp:234:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;no_outer_iterations&quot;, optim.no_outer_iterations, optim.no_outer_iterations);
+venom_teb_controller/src/teb_config.cpp:235:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;optimization_activate&quot;, optim.optimization_activate, optim.optimization_activate);
+venom_teb_controller/src/teb_config.cpp:236:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;optimization_verbose&quot;, optim.optimization_verbose, optim.optimization_verbose);
+venom_teb_controller/src/teb_config.cpp:237:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;penalty_epsilon&quot;, optim.penalty_epsilon, optim.penalty_epsilon);
+venom_teb_controller/src/teb_config.cpp:238:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_max_vel_x&quot;, optim.weight_max_vel_x, optim.weight_max_vel_x);
+venom_teb_controller/src/teb_config.cpp:239:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_max_vel_y&quot;, optim.weight_max_vel_y, optim.weight_max_vel_y);
+venom_teb_controller/src/teb_config.cpp:240:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_max_vel_theta&quot;, optim.weight_max_vel_theta, optim.weight_max_vel_theta);
+venom_teb_controller/src/teb_config.cpp:241:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_acc_lim_x&quot;, optim.weight_acc_lim_x, optim.weight_acc_lim_x);
+venom_teb_controller/src/teb_config.cpp:242:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_acc_lim_y&quot;, optim.weight_acc_lim_y, optim.weight_acc_lim_y);
+venom_teb_controller/src/teb_config.cpp:243:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_acc_lim_theta&quot;, optim.weight_acc_lim_theta, optim.weight_acc_lim_theta);
+venom_teb_controller/src/teb_config.cpp:244:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_kinematics_nh&quot;, optim.weight_kinematics_nh, optim.weight_kinematics_nh);
+venom_teb_controller/src/teb_config.cpp:245:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_kinematics_forward_drive&quot;, optim.weight_kinematics_forward_drive, optim.weight_kinematics_forward_drive);
+venom_teb_controller/src/teb_config.cpp:246:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_kinematics_turning_radius&quot;, optim.weight_kinematics_turning_radius, optim.weight_kinematics_turning_radius);
+venom_teb_controller/src/teb_config.cpp:247:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_optimaltime&quot;, optim.weight_optimaltime, optim.weight_optimaltime);
+venom_teb_controller/src/teb_config.cpp:248:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_shortest_path&quot;, optim.weight_shortest_path, optim.weight_shortest_path);
+venom_teb_controller/src/teb_config.cpp:249:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_obstacle&quot;, optim.weight_obstacle, optim.weight_obstacle);
+venom_teb_controller/src/teb_config.cpp:250:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_inflation&quot;, optim.weight_inflation, optim.weight_inflation);
+venom_teb_controller/src/teb_config.cpp:251:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_dynamic_obstacle&quot;, optim.weight_dynamic_obstacle, optim.weight_dynamic_obstacle);
+venom_teb_controller/src/teb_config.cpp:252:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_dynamic_obstacle_inflation&quot;, optim.weight_dynamic_obstacle_inflation, optim.weight_dynamic_obstacle_inflation);
+venom_teb_controller/src/teb_config.cpp:253:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_viapoint&quot;, optim.weight_viapoint, optim.weight_viapoint);
+venom_teb_controller/src/teb_config.cpp:254:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_prefer_rotdir&quot;, optim.weight_prefer_rotdir, optim.weight_prefer_rotdir);
+venom_teb_controller/src/teb_config.cpp:255:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_adapt_factor&quot;, optim.weight_adapt_factor, optim.weight_adapt_factor);
+venom_teb_controller/src/teb_config.cpp:256:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_cost_exponent&quot;, optim.obstacle_cost_exponent, optim.obstacle_cost_exponent);
+venom_teb_controller/src/teb_config.cpp:257:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;weight_velocity_obstacle_ratio&quot;, optim.weight_velocity_obstacle_ratio, optim.weight_velocity_obstacle_ratio);
+venom_teb_controller/src/teb_config.cpp:260:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;enable_homotopy_class_planning&quot;, hcp.enable_homotopy_class_planning, hcp.enable_homotopy_class_planning);
+venom_teb_controller/src/teb_config.cpp:261:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;enable_multithreading&quot;, hcp.enable_multithreading, hcp.enable_multithreading);
+venom_teb_controller/src/teb_config.cpp:262:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;simple_exploration&quot;, hcp.simple_exploration, hcp.simple_exploration);
+venom_teb_controller/src/teb_config.cpp:263:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_number_classes&quot;, hcp.max_number_classes, hcp.max_number_classes);
+venom_teb_controller/src/teb_config.cpp:264:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_obst_cost_scale&quot;, hcp.selection_obst_cost_scale, hcp.selection_obst_cost_scale);
+venom_teb_controller/src/teb_config.cpp:265:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_prefer_initial_plan&quot;, hcp.selection_prefer_initial_plan, hcp.selection_prefer_initial_plan);
+venom_teb_controller/src/teb_config.cpp:266:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_viapoint_cost_scale&quot;, hcp.selection_viapoint_cost_scale, hcp.selection_viapoint_cost_scale);
+venom_teb_controller/src/teb_config.cpp:267:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_cost_hysteresis&quot;, hcp.selection_cost_hysteresis, hcp.selection_cost_hysteresis);
+venom_teb_controller/src/teb_config.cpp:268:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_alternative_time_cost&quot;, hcp.selection_alternative_time_cost, hcp.selection_alternative_time_cost);
+venom_teb_controller/src/teb_config.cpp:269:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;switching_blocking_period&quot;, hcp.switching_blocking_period, hcp.switching_blocking_period);
+venom_teb_controller/src/teb_config.cpp:270:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;roadmap_graph_samples&quot;, hcp.roadmap_graph_no_samples, hcp.roadmap_graph_no_samples);
+venom_teb_controller/src/teb_config.cpp:271:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;roadmap_graph_area_width&quot;, hcp.roadmap_graph_area_width, hcp.roadmap_graph_area_width);
+venom_teb_controller/src/teb_config.cpp:272:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;roadmap_graph_area_length_scale&quot;, hcp.roadmap_graph_area_length_scale, hcp.roadmap_graph_area_length_scale);
+venom_teb_controller/src/teb_config.cpp:273:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;h_signature_prescaler&quot;, hcp.h_signature_prescaler, hcp.h_signature_prescaler);
+venom_teb_controller/src/teb_config.cpp:274:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;h_signature_threshold&quot;, hcp.h_signature_threshold, hcp.h_signature_threshold);
+venom_teb_controller/src/teb_config.cpp:275:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_keypoint_offset&quot;, hcp.obstacle_keypoint_offset, hcp.obstacle_keypoint_offset);
+venom_teb_controller/src/teb_config.cpp:276:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;obstacle_heading_threshold&quot;, hcp.obstacle_heading_threshold, hcp.obstacle_heading_threshold);
+venom_teb_controller/src/teb_config.cpp:277:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;viapoints_all_candidates&quot;, hcp.viapoints_all_candidates, hcp.viapoints_all_candidates);
+venom_teb_controller/src/teb_config.cpp:278:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;visualize_hc_graph&quot;, hcp.visualize_hc_graph, hcp.visualize_hc_graph);
+venom_teb_controller/src/teb_config.cpp:279:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;visualize_with_time_as_z_axis_scale&quot;, hcp.visualize_with_time_as_z_axis_scale, hcp.visualize_with_time_as_z_axis_scale);
+venom_teb_controller/src/teb_config.cpp:280:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;delete_detours_backwards&quot;, hcp.delete_detours_backwards, hcp.delete_detours_backwards);
+venom_teb_controller/src/teb_config.cpp:281:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;detours_orientation_tolerance&quot;, hcp.detours_orientation_tolerance, hcp.detours_orientation_tolerance);
+venom_teb_controller/src/teb_config.cpp:282:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;length_start_orientation_vector&quot;, hcp.length_start_orientation_vector, hcp.length_start_orientation_vector);
+venom_teb_controller/src/teb_config.cpp:283:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_ratio_detours_duration_best_duration&quot;, hcp.max_ratio_detours_duration_best_duration, hcp.max_ratio_detours_duration_best_duration);
+venom_teb_controller/src/teb_config.cpp:284:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;selection_dropping_probability&quot;, hcp.selection_dropping_probability, hcp.selection_dropping_probability);
+venom_teb_controller/src/teb_config.cpp:287:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;shrink_horizon_backup&quot;, recovery.shrink_horizon_backup, recovery.shrink_horizon_backup);
+venom_teb_controller/src/teb_config.cpp:288:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;shrink_horizon_min_duration&quot;, recovery.shrink_horizon_min_duration, recovery.shrink_horizon_min_duration);
+venom_teb_controller/src/teb_config.cpp:289:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;oscillation_recovery&quot;, recovery.oscillation_recovery, recovery.oscillation_recovery);
+venom_teb_controller/src/teb_config.cpp:290:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;oscillation_v_eps&quot;, recovery.oscillation_v_eps, recovery.oscillation_v_eps);
+venom_teb_controller/src/teb_config.cpp:291:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;oscillation_omega_eps&quot;, recovery.oscillation_omega_eps, recovery.oscillation_omega_eps);
+venom_teb_controller/src/teb_config.cpp:292:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;oscillation_recovery_min_duration&quot;, recovery.oscillation_recovery_min_duration, recovery.oscillation_recovery_min_duration);
+venom_teb_controller/src/teb_config.cpp:293:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;oscillation_filter_duration&quot;, recovery.oscillation_filter_duration, recovery.oscillation_filter_duration);
+venom_teb_controller/src/teb_config.cpp:294:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;divergence_detection_enable&quot;, recovery.divergence_detection_enable, recovery.divergence_detection_enable);
+venom_teb_controller/src/teb_config.cpp:295:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;divergence_detection_max_chi_squared&quot;, recovery.divergence_detection_max_chi_squared, recovery.divergence_detection_max_chi_squared);
+venom_teb_controller/src/teb_config.cpp:298:  if (!nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.type&quot;, model_name))
+venom_teb_controller/src/teb_config.cpp:314:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.radius&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);
+venom_teb_controller/src/teb_config.cpp:317:    if (!nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.radius&quot;, radius))
+venom_teb_controller/src/teb_config.cpp:333:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.line_start&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY);
+venom_teb_controller/src/teb_config.cpp:334:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.line_end&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY);
+venom_teb_controller/src/teb_config.cpp:337:    if (!nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.line_start&quot;, line_start) || !nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.line_end&quot;, line_end))
+venom_teb_controller/src/teb_config.cpp:362:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.front_offset&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);
+venom_teb_controller/src/teb_config.cpp:363:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.front_radius&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);
+venom_teb_controller/src/teb_config.cpp:364:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.rear_offset&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);
+venom_teb_controller/src/teb_config.cpp:365:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.rear_radius&quot;, rclcpp::ParameterType::PARAMETER_DOUBLE);
+venom_teb_controller/src/teb_config.cpp:367:    if (!nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.front_offset&quot;, dummy) || !nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.front_radius&quot;, dummy)
+venom_teb_controller/src/teb_config.cpp:368:        || !nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.rear_offset&quot;, dummy) || !nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.rear_radius&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:376:    nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.front_offset&quot;, front_offset);
+venom_teb_controller/src/teb_config.cpp:377:    nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.front_radius&quot;, front_radius);
+venom_teb_controller/src/teb_config.cpp:378:    nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.rear_offset&quot;, rear_offset);
+venom_teb_controller/src/teb_config.cpp:379:    nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.rear_radius&quot;, rear_radius);
+venom_teb_controller/src/teb_config.cpp:390:    declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;footprint_model.vertices&quot;, rclcpp::ParameterType::PARAMETER_STRING);
+venom_teb_controller/src/teb_config.cpp:393:    if (!nh-&gt;get_parameter(name + &quot;.&quot; + &quot;footprint_model.vertices&quot;, footprint_string) )
+venom_teb_controller/src/teb_config.cpp:668:        if (name == node_name + &quot;.teb_autosize&quot;) {
+venom_teb_controller/src/teb_config.cpp:669:        trajectory.teb_autosize = parameter.as_bool();
+venom_teb_controller/src/teb_config.cpp:866:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;line_obstacle_poses_affected&quot;, dummy) || nh-&gt;get_parameter(name + &quot;.&quot; + &quot;polygon_obstacle_poses_affected&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:869:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;weight_point_obstacle&quot;, dummy) || nh-&gt;get_parameter(name + &quot;.&quot; + &quot;weight_line_obstacle&quot;, dummy) || nh-&gt;get_parameter(name + &quot;.&quot; + &quot;weight_poly_obstacle&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:872:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;costmap_obstacles_front_only&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:875:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;costmap_emergency_stop_dist&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:878:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;alternative_time_cost&quot;, dummy))
+venom_teb_controller/src/teb_config.cpp:881:  if (nh-&gt;get_parameter(name + &quot;.&quot; + &quot;global_plan_via_point_sep&quot;, dummy))
+venom_teb_controller/include/teb_local_planner/teb_config.h:79:    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)
+venom_teb_controller/include/teb_local_planner/teb_config.h:256:    trajectory.teb_autosize = true;
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-08-37-408Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-08-37-408Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.408Z" data-timestamp="2026-05-07T11:08:37.408Z">2026-05-07T11:08:37.408Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_ZzG1rL4Akvt0oRC1ge7TAdZ1&quot;,
+  &quot;process_id&quot;: &quot;50270&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;rg -n \&quot;teb_autosize|global_plan_overwrite_orientation|allow_init_with_backwards_motion|exact_arc_length|publish_feedback|free_goal_vel|include_costmap_obstacles|include_dynamic_obstacles|costmap_converter_spin_thread|optimization_activate|optimization_verbose|enable_homotopy_class_planning|enable_multithreading\&quot; venom_teb_controller/config/sentry/nav2_teb_params.yaml venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;rg -n &#x27;teb_autosize|global_plan_overwrite_orientation|allow_init_with_backwards_motion|exact_arc_length|publish_feedback|free_goal_vel|include_costmap_obstacles|include_dynamic_obstacles|costmap_converter_spin_thread|optimization_activate|optimization_verbose|enable_homotopy_class_planning|enable_multithreading&#x27; venom_teb_controller/config/sentry/nav2_teb_params.yaml venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&quot;,
+      &quot;query&quot;: &quot;teb_autosize|global_plan_overwrite_orientation|allow_init_with_backwards_motion|exact_arc_length|publish_feedback|free_goal_vel|include_costmap_obstacles|include_dynamic_obstacles|costmap_converter_spin_thread|optimization_activate|optimization_verbose|enable_homotopy_class_planning|enable_multithreading&quot;,
+      &quot;path&quot;: &quot;nav2_teb_params.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;venom_teb_controller/config/sentry/nav2_teb_params.yaml:144:      teb_autosize: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:148:      global_plan_overwrite_orientation: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:149:      allow_init_with_backwards_motion: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:153:      exact_arc_length: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:155:      publish_feedback: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:170:      free_goal_vel: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:176:      include_costmap_obstacles: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:181:      include_dynamic_obstacles: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:184:      costmap_converter_spin_thread: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:191:      optimization_activate: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:192:      optimization_verbose: False\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:213:      enable_homotopy_class_planning: True\nvenom_teb_controller/config/sentry/nav2_teb_params.yaml:214:      enable_multithreading: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:144:      teb_autosize: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:148:      global_plan_overwrite_orientation: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:149:      allow_init_with_backwards_motion: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:153:      exact_arc_length: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:155:      publish_feedback: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:170:      free_goal_vel: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:176:      include_costmap_obstacles: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:181:      include_dynamic_obstacles: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:184:      costmap_converter_spin_thread: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:191:      optimization_activate: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:192:      optimization_verbose: False\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:213:      enable_homotopy_class_planning: True\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:214:      enable_multithreading: True\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 8706
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-08-37-409Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-08-37-409Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:37.409Z" data-timestamp="2026-05-07T11:08:37.409Z">2026-05-07T11:08:37.409Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: a9a11a
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 637
+Output:
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:144:      teb_autosize: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:148:      global_plan_overwrite_orientation: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:149:      allow_init_with_backwards_motion: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:153:      exact_arc_length: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:155:      publish_feedback: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:170:      free_goal_vel: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:176:      include_costmap_obstacles: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:181:      include_dynamic_obstacles: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:184:      costmap_converter_spin_thread: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:191:      optimization_activate: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:192:      optimization_verbose: False
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:213:      enable_homotopy_class_planning: True
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:214:      enable_multithreading: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:144:      teb_autosize: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:148:      global_plan_overwrite_orientation: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:149:      allow_init_with_backwards_motion: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:153:      exact_arc_length: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:155:      publish_feedback: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:170:      free_goal_vel: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:176:      include_costmap_obstacles: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:181:      include_dynamic_obstacles: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:184:      costmap_converter_spin_thread: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:191:      optimization_activate: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:192:      optimization_verbose: False
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:213:      enable_homotopy_class_planning: True
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:214:      enable_multithreading: True
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T11-08-42-656Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-08-42-656Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:42.656Z" data-timestamp="2026-05-07T11:08:42.656Z">2026-05-07T11:08:42.656Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T11-08-43-276Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T11-08-43-276Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:43.276Z" data-timestamp="2026-05-07T11:08:43.276Z">2026-05-07T11:08:43.276Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会修 TEB 代码里的参数声明类型问题，而不是把 YAML 布尔值改成数字。<code>teb_autosize</code> 在配置结构里本来就是 bool，代码运行时却先按 double 声明了，导致 Nav2 configure 阶段崩掉。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-08-44-113Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-08-44-113Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:44.113Z" data-timestamp="2026-05-07T11:08:44.113Z">2026-05-07T11:08:44.113Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;45,72p&#39; venom_teb_controller/src/teb_config.cpp &amp;&amp; sed -n &#39;176,198p&#39; venom_teb_controller/src/teb_config.cpp&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-08-44-182Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-08-44-182Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:44.182Z" data-timestamp="2026-05-07T11:08:44.182Z">2026-05-07T11:08:44.182Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_O8i7mCcDzZ1kU1wnt8iNx2E2&quot;,
+  &quot;process_id&quot;: &quot;60778&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;45,72p&#x27; venom_teb_controller/src/teb_config.cpp &amp;&amp; sed -n &#x27;176,198p&#x27; venom_teb_controller/src/teb_config.cpp&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;45,72p&#x27; venom_teb_controller/src/teb_config.cpp&quot;,
+      &quot;name&quot;: &quot;teb_config.cpp&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/src/teb_config.cpp&quot;
+    },
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;176,198p&#x27; venom_teb_controller/src/teb_config.cpp&quot;,
+      &quot;name&quot;: &quot;teb_config.cpp&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/src/teb_config.cpp&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;\nvoid TebConfig::declareParameters(const nav2_util::LifecycleNode::SharedPtr nh, const std::string name) {\n  node_name = name;\n\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;odom_topic\&quot;, rclcpp::ParameterValue(odom_topic));\n\n  // Trajectory\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;teb_autosize\&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;dt_ref\&quot;, rclcpp::ParameterValue(trajectory.dt_ref));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;dt_hysteresis\&quot;, rclcpp::ParameterValue(trajectory.dt_hysteresis));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;min_samples\&quot;, rclcpp::ParameterValue(trajectory.min_samples));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_samples\&quot;, rclcpp::ParameterValue(trajectory.max_samples));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_overwrite_orientation\&quot;, rclcpp::ParameterValue(trajectory.global_plan_overwrite_orientation));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;allow_init_with_backwards_motion\&quot;, rclcpp::ParameterValue(trajectory.allow_init_with_backwards_motion));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_viapoint_sep\&quot;, rclcpp::ParameterValue(trajectory.global_plan_viapoint_sep));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;via_points_ordered\&quot;, rclcpp::ParameterValue(trajectory.via_points_ordered));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;max_global_plan_lookahead_dist\&quot;, rclcpp::ParameterValue(trajectory.max_global_plan_lookahead_dist));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;global_plan_prune_distance\&quot;, rclcpp::ParameterValue(trajectory.global_plan_prune_distance));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;exact_arc_length\&quot;, rclcpp::ParameterValue(trajectory.exact_arc_length));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_dist\&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_dist));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_angular\&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_angular));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;feasibility_check_no_poses\&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_no_poses));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;publish_feedback\&quot;, rclcpp::ParameterValue(trajectory.publish_feedback));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;min_resolution_collision_check_angular\&quot;, rclcpp::ParameterValue(trajectory.min_resolution_collision_check_angular));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;control_look_ahead_poses\&quot;, rclcpp::ParameterValue(trajectory.control_look_ahead_poses));\n  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;feasibility_check_lookahead_distance\&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_lookahead_distance));\n\n  // Robot\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;odom_topic\&quot;, odom_topic, odom_topic);\n  \n  // Trajectory\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;teb_autosize\&quot;, trajectory.teb_autosize, trajectory.teb_autosize);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;dt_ref\&quot;, trajectory.dt_ref, trajectory.dt_ref);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;dt_hysteresis\&quot;, trajectory.dt_hysteresis, trajectory.dt_hysteresis);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;min_samples\&quot;, trajectory.min_samples, trajectory.min_samples);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;max_samples\&quot;, trajectory.max_samples, trajectory.max_samples);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;global_plan_overwrite_orientation\&quot;, trajectory.global_plan_overwrite_orientation, trajectory.global_plan_overwrite_orientation);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;allow_init_with_backwards_motion\&quot;, trajectory.allow_init_with_backwards_motion, trajectory.allow_init_with_backwards_motion);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;global_plan_viapoint_sep\&quot;, trajectory.global_plan_viapoint_sep, trajectory.global_plan_viapoint_sep);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;via_points_ordered\&quot;, trajectory.via_points_ordered, trajectory.via_points_ordered);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;max_global_plan_lookahead_dist\&quot;, trajectory.max_global_plan_lookahead_dist, trajectory.max_global_plan_lookahead_dist);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;global_plan_prune_distance\&quot;, trajectory.global_plan_prune_distance, trajectory.global_plan_prune_distance);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;exact_arc_length\&quot;, trajectory.exact_arc_length, trajectory.exact_arc_length);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_dist\&quot;, trajectory.force_reinit_new_goal_dist, trajectory.force_reinit_new_goal_dist);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;force_reinit_new_goal_angular\&quot;, trajectory.force_reinit_new_goal_angular, trajectory.force_reinit_new_goal_angular);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;feasibility_check_no_poses\&quot;, trajectory.feasibility_check_no_poses, trajectory.feasibility_check_no_poses);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;publish_feedback\&quot;, trajectory.publish_feedback, trajectory.publish_feedback);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;min_resolution_collision_check_angular\&quot;, trajectory.min_resolution_collision_check_angular, trajectory.min_resolution_collision_check_angular);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;control_look_ahead_poses\&quot;, trajectory.control_look_ahead_poses, trajectory.control_look_ahead_poses);\n  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;feasibility_check_lookahead_distance\&quot;, trajectory.feasibility_check_lookahead_distance, trajectory.feasibility_check_lookahead_distance);\n\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 10901
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-08-44-183Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-08-44-183Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:08:44.183Z" data-timestamp="2026-05-07T11:08:44.183Z">2026-05-07T11:08:44.183Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 0e4f6b
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 1393
+Output:
+
+void TebConfig::declareParameters(const nav2_util::LifecycleNode::SharedPtr nh, const std::string name) {
+  node_name = name;
+
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;odom_topic&quot;, rclcpp::ParameterValue(odom_topic));
+
+  // Trajectory
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;teb_autosize&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;dt_ref&quot;, rclcpp::ParameterValue(trajectory.dt_ref));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;dt_hysteresis&quot;, rclcpp::ParameterValue(trajectory.dt_hysteresis));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_samples&quot;, rclcpp::ParameterValue(trajectory.min_samples));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_samples&quot;, rclcpp::ParameterValue(trajectory.max_samples));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_overwrite_orientation&quot;, rclcpp::ParameterValue(trajectory.global_plan_overwrite_orientation));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;allow_init_with_backwards_motion&quot;, rclcpp::ParameterValue(trajectory.allow_init_with_backwards_motion));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_viapoint_sep&quot;, rclcpp::ParameterValue(trajectory.global_plan_viapoint_sep));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;via_points_ordered&quot;, rclcpp::ParameterValue(trajectory.via_points_ordered));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;max_global_plan_lookahead_dist&quot;, rclcpp::ParameterValue(trajectory.max_global_plan_lookahead_dist));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;global_plan_prune_distance&quot;, rclcpp::ParameterValue(trajectory.global_plan_prune_distance));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;exact_arc_length&quot;, rclcpp::ParameterValue(trajectory.exact_arc_length));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;force_reinit_new_goal_dist&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_dist));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;force_reinit_new_goal_angular&quot;, rclcpp::ParameterValue(trajectory.force_reinit_new_goal_angular));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;feasibility_check_no_poses&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_no_poses));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;publish_feedback&quot;, rclcpp::ParameterValue(trajectory.publish_feedback));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;min_resolution_collision_check_angular&quot;, rclcpp::ParameterValue(trajectory.min_resolution_collision_check_angular));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;control_look_ahead_poses&quot;, rclcpp::ParameterValue(trajectory.control_look_ahead_poses));
+  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;feasibility_check_lookahead_distance&quot;, rclcpp::ParameterValue(trajectory.feasibility_check_lookahead_distance));
+
+  // Robot
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;odom_topic&quot;, odom_topic, odom_topic);
+  
+  // Trajectory
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;teb_autosize&quot;, trajectory.teb_autosize, trajectory.teb_autosize);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;dt_ref&quot;, trajectory.dt_ref, trajectory.dt_ref);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;dt_hysteresis&quot;, trajectory.dt_hysteresis, trajectory.dt_hysteresis);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;min_samples&quot;, trajectory.min_samples, trajectory.min_samples);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_samples&quot;, trajectory.max_samples, trajectory.max_samples);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;global_plan_overwrite_orientation&quot;, trajectory.global_plan_overwrite_orientation, trajectory.global_plan_overwrite_orientation);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;allow_init_with_backwards_motion&quot;, trajectory.allow_init_with_backwards_motion, trajectory.allow_init_with_backwards_motion);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;global_plan_viapoint_sep&quot;, trajectory.global_plan_viapoint_sep, trajectory.global_plan_viapoint_sep);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;via_points_ordered&quot;, trajectory.via_points_ordered, trajectory.via_points_ordered);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;max_global_plan_lookahead_dist&quot;, trajectory.max_global_plan_lookahead_dist, trajectory.max_global_plan_lookahead_dist);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;global_plan_prune_distance&quot;, trajectory.global_plan_prune_distance, trajectory.global_plan_prune_distance);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;exact_arc_length&quot;, trajectory.exact_arc_length, trajectory.exact_arc_length);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;force_reinit_new_goal_dist&quot;, trajectory.force_reinit_new_goal_dist, trajectory.force_reinit_new_goal_dist);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;force_reinit_new_goal_angular&quot;, trajectory.force_reinit_new_goal_angular, trajectory.force_reinit_new_goal_angular);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;feasibility_check_no_poses&quot;, trajectory.feasibility_check_no_poses, trajectory.feasibility_check_no_poses);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;publish_feedback&quot;, trajectory.publish_feedback, trajectory.publish_feedback);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;min_resolution_collision_check_angular&quot;, trajectory.min_resolution_collision_check_angular, trajectory.min_resolution_collision_check_angular);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;control_look_ahead_poses&quot;, trajectory.control_look_ahead_poses, trajectory.control_look_ahead_poses);
+  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;feasibility_check_lookahead_distance&quot;, trajectory.feasibility_check_lookahead_distance, trajectory.feasibility_check_lookahead_distance);
+
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T11-09-00-871Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-09-00-871Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:00.871Z" data-timestamp="2026-05-07T11:09:00.871Z">2026-05-07T11:09:00.871Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-09-01-642Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-09-01-642Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:01.642Z" data-timestamp="2026-05-07T11:09:01.642Z">2026-05-07T11:09:01.642Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;640,690p&#39; venom_teb_controller/src/teb_config.cpp&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-09-01-708Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-09-01-708Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:01.708Z" data-timestamp="2026-05-07T11:09:01.708Z">2026-05-07T11:09:01.708Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_SUnhAutrbtbaN1vNuPPID0G1&quot;,
+  &quot;process_id&quot;: &quot;24290&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;640,690p&#x27; venom_teb_controller/src/teb_config.cpp&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;640,690p&#x27; venom_teb_controller/src/teb_config.cpp&quot;,
+      &quot;name&quot;: &quot;teb_config.cpp&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/src/teb_config.cpp&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;      } else if (name == node_name + \&quot;.control_look_ahead_poses\&quot;) {\n        trajectory.control_look_ahead_poses = parameter.as_int();\n      }\n      // Robot\n      // GoalTolerance\n      // Obstacles\n      else if (name == node_name + \&quot;.obstacle_poses_affected\&quot;) {\n        obstacles.obstacle_poses_affected = parameter.as_int();\n      } else if (name == node_name + \&quot;.costmap_converter_rate\&quot;) {\n        obstacles.costmap_converter_rate = parameter.as_int();\n      }\n      // Optimization\n      else if (name == node_name + \&quot;.no_inner_iterations\&quot;) {\n        optim.no_inner_iterations = parameter.as_int();\n      } else if (name == node_name + \&quot;.no_outer_iterations\&quot;) {\n        optim.no_outer_iterations = parameter.as_int();\n      }\n      // Homotopy Class Planner\n      else if (name == node_name + \&quot;.max_number_classes\&quot;) {\n        hcp.max_number_classes = parameter.as_int();\n      } else if (name == node_name + \&quot;.roadmap_graph_no_samples\&quot;) {\n        hcp.roadmap_graph_no_samples = parameter.as_int();\n      }\n      // Recovery\n    }\n\n    else if (type == rcl_interfaces::msg::ParameterType::PARAMETER_BOOL) {\n      // Trajectory\n        if (name == node_name + \&quot;.teb_autosize\&quot;) {\n        trajectory.teb_autosize = parameter.as_bool();\n      } else if (name == node_name + \&quot;.global_plan_overwrite_orientation\&quot;) {\n        trajectory.global_plan_overwrite_orientation = parameter.as_bool();\n      } else if (name == node_name + \&quot;.allow_init_with_backwards_motion\&quot;) {\n        trajectory.allow_init_with_backwards_motion = parameter.as_bool();\n      } else if (name == node_name + \&quot;.via_points_ordered\&quot;) {\n        trajectory.via_points_ordered = parameter.as_bool();\n      } else if (name == node_name + \&quot;.exact_arc_length\&quot;) {\n        trajectory.exact_arc_length = parameter.as_bool();\n      } else if (name == node_name + \&quot;.publish_feedback\&quot;) {\n        trajectory.publish_feedback = parameter.as_bool();\n      }\n      // Robot\n      else if (name == node_name + \&quot;.cmd_angle_instead_rotvel\&quot;) {\n        robot.cmd_angle_instead_rotvel = parameter.as_bool();\n      } else if (name == node_name + \&quot;.is_footprint_dynamic\&quot;) {\n        robot.is_footprint_dynamic = parameter.as_bool();\n      }\n      // GoalTolerance\n      else if (name == node_name + \&quot;.free_goal_vel\&quot;) {\n        goal_tolerance.free_goal_vel = parameter.as_bool();\n      }\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 7534
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-09-01-710Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-09-01-710Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:01.710Z" data-timestamp="2026-05-07T11:09:01.710Z">2026-05-07T11:09:01.710Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: c7ee5f
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 583
+Output:
+      } else if (name == node_name + &quot;.control_look_ahead_poses&quot;) {
+        trajectory.control_look_ahead_poses = parameter.as_int();
+      }
+      // Robot
+      // GoalTolerance
+      // Obstacles
+      else if (name == node_name + &quot;.obstacle_poses_affected&quot;) {
+        obstacles.obstacle_poses_affected = parameter.as_int();
+      } else if (name == node_name + &quot;.costmap_converter_rate&quot;) {
+        obstacles.costmap_converter_rate = parameter.as_int();
+      }
+      // Optimization
+      else if (name == node_name + &quot;.no_inner_iterations&quot;) {
+        optim.no_inner_iterations = parameter.as_int();
+      } else if (name == node_name + &quot;.no_outer_iterations&quot;) {
+        optim.no_outer_iterations = parameter.as_int();
+      }
+      // Homotopy Class Planner
+      else if (name == node_name + &quot;.max_number_classes&quot;) {
+        hcp.max_number_classes = parameter.as_int();
+      } else if (name == node_name + &quot;.roadmap_graph_no_samples&quot;) {
+        hcp.roadmap_graph_no_samples = parameter.as_int();
+      }
+      // Recovery
+    }
+
+    else if (type == rcl_interfaces::msg::ParameterType::PARAMETER_BOOL) {
+      // Trajectory
+        if (name == node_name + &quot;.teb_autosize&quot;) {
+        trajectory.teb_autosize = parameter.as_bool();
+      } else if (name == node_name + &quot;.global_plan_overwrite_orientation&quot;) {
+        trajectory.global_plan_overwrite_orientation = parameter.as_bool();
+      } else if (name == node_name + &quot;.allow_init_with_backwards_motion&quot;) {
+        trajectory.allow_init_with_backwards_motion = parameter.as_bool();
+      } else if (name == node_name + &quot;.via_points_ordered&quot;) {
+        trajectory.via_points_ordered = parameter.as_bool();
+      } else if (name == node_name + &quot;.exact_arc_length&quot;) {
+        trajectory.exact_arc_length = parameter.as_bool();
+      } else if (name == node_name + &quot;.publish_feedback&quot;) {
+        trajectory.publish_feedback = parameter.as_bool();
+      }
+      // Robot
+      else if (name == node_name + &quot;.cmd_angle_instead_rotvel&quot;) {
+        robot.cmd_angle_instead_rotvel = parameter.as_bool();
+      } else if (name == node_name + &quot;.is_footprint_dynamic&quot;) {
+        robot.is_footprint_dynamic = parameter.as_bool();
+      }
+      // GoalTolerance
+      else if (name == node_name + &quot;.free_goal_vel&quot;) {
+        goal_tolerance.free_goal_vel = parameter.as_bool();
+      }
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T11-09-06-360Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-09-06-360Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:06.360Z" data-timestamp="2026-05-07T11:09:06.360Z">2026-05-07T11:09:06.360Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T11-09-08-800Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T11-09-08-800Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.800Z" data-timestamp="2026-05-07T11:09:08.800Z">2026-05-07T11:09:08.800Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>teb_autosize</code> 在头文件里是 bool，但运行时报它要用 double 设置，说明这个 ROS2 端口的参数声明/读取链路里有类型错配。我继续定位具体是哪个默认值或动态参数路径把它当成 double。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-09-08-800Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-09-08-800Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.800Z" data-timestamp="2026-05-07T11:09:08.800Z">2026-05-07T11:09:08.800Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;60,95p&#39; venom_teb_controller/include/teb_local_planner/teb_config.h&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-09-08-800Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-09-08-800Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.800Z" data-timestamp="2026-05-07T11:09:08.800Z">2026-05-07T11:09:08.800Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;rg -n \&#34;teb_autosize\&#34; venom_teb_controller -S&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-07T11-09-08-800Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-07T11-09-08-800Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.800Z" data-timestamp="2026-05-07T11:09:08.800Z">2026-05-07T11:09:08.800Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;120,170p&#39; venom_teb_controller/config/sentry/nav2_teb_params.yaml &amp;&amp; sed -n &#39;120,170p&#39; venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-09-08-872Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-09-08-872Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.872Z" data-timestamp="2026-05-07T11:09:08.872Z">2026-05-07T11:09:08.872Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_EYHuG3dYG4RtspYQ8oe4p3QR&quot;,
+  &quot;process_id&quot;: &quot;95100&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;60,95p&#x27; venom_teb_controller/include/teb_local_planner/teb_config.h&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;60,95p&#x27; venom_teb_controller/include/teb_local_planner/teb_config.h&quot;,
+      &quot;name&quot;: &quot;teb_config.h&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/include/teb_local_planner/teb_config.h&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;class TebConfig\n{\npublic:\n  using UniquePtr = std::unique_ptr&lt;TebConfig&gt;;\n  \n  std::string odom_topic; //!&lt; Topic name of the odometry message, provided by the robot driver or simulator\n  std::string map_frame; //!&lt; Global planning frame\n  std::string node_name; //!&lt; node name used for parameter event callback\n\n  RobotFootprintModelPtr robot_model;\n  std::string model_name;\n  double radius;\n  std::vector&lt;double&gt; line_start, line_end;\n  double front_offset, front_radius, rear_offset, rear_radius;\n  std::string footprint_string;\n\n  //! Trajectory related parameters\n  struct Trajectory\n  {\n    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)\n    double dt_ref; //!&lt; Desired temporal resolution of the trajectory (should be in the magniture of the underlying control rate)\n    double dt_hysteresis; //!&lt; Hysteresis for automatic resizing depending on the current temporal resolution (dt): usually 10% of dt_ref\n    int min_samples; //!&lt; Minimum number of samples (should be always greater than 2)\n    int max_samples; //!&lt; Maximum number of samples; Warning: if too small the discretization/resolution might not be sufficient for the given robot model or obstacle avoidance does not work anymore.\n    bool global_plan_overwrite_orientation; //!&lt; Overwrite orientation of local subgoals provided by the global planner\n    bool allow_init_with_backwards_motion; //!&lt; If true, the underlying trajectories might be initialized with backwards motions in case the goal is behind the start within the local costmap (this is only recommended if the robot is equipped with rear sensors)\n    double global_plan_viapoint_sep; //!&lt; Min. separation between each two consecutive via-points extracted from the global plan (if negative: disabled)\n    bool via_points_ordered; //!&lt; If true, the planner adheres to the order of via-points in the storage container\n    double max_global_plan_lookahead_dist; //!&lt; Specify maximum length (cumulative Euclidean distances) of the subset of the global plan taken into account for optimization [if &lt;=0: disabled; the length is also bounded by the local costmap size!]\n    double global_plan_prune_distance; //!&lt; Distance between robot and via_points of global plan which is used for pruning\n    bool exact_arc_length; //!&lt; If true, the planner uses the exact arc length in velocity, acceleration and turning rate computations [-&gt; increased cpu time], otherwise the euclidean approximation is used.\n    double force_reinit_new_goal_dist; //!&lt; Reinitialize the trajectory if a previous goal is updated with a seperation of more than the specified value in meters (skip hot-starting)\n    double force_reinit_new_goal_angular; //!&lt; Reinitialize the trajectory if a previous goal is updated with an angular difference of more than the specified value in radians (skip hot-starting)\n    int feasibility_check_no_poses; //!&lt; Specify up to which pose (under the feasibility_check_lookahead_distance) on the predicted plan the feasibility should be checked each sampling interval; if -1, all poses up to feasibility_check_lookahead_distance are checked.\n    double feasibility_check_lookahead_distance; //!&lt; Specify up to which distance (and with an index below feasibility_check_no_poses) from the robot the feasibility should be checked each sampling interval; if -1, all poses up to feasibility_check_no_poses are checked.\n    bool publish_feedback; //!&lt; Publish planner feedback containing the full trajectory and a list of active obstacles (should be enabled only for evaluation or debugging purposes)\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4679
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-09-08-873Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-09-08-873Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.873Z" data-timestamp="2026-05-07T11:09:08.873Z">2026-05-07T11:09:08.873Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3a2552
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 899
+Output:
+class TebConfig
+{
+public:
+  using UniquePtr = std::unique_ptr&lt;TebConfig&gt;;
+  
+  std::string odom_topic; //!&lt; Topic name of the odometry message, provided by the robot driver or simulator
+  std::string map_frame; //!&lt; Global planning frame
+  std::string node_name; //!&lt; node name used for parameter event callback
+
+  RobotFootprintModelPtr robot_model;
+  std::string model_name;
+  double radius;
+  std::vector&lt;double&gt; line_start, line_end;
+  double front_offset, front_radius, rear_offset, rear_radius;
+  std::string footprint_string;
+
+  //! Trajectory related parameters
+  struct Trajectory
+  {
+    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)
+    double dt_ref; //!&lt; Desired temporal resolution of the trajectory (should be in the magniture of the underlying control rate)
+    double dt_hysteresis; //!&lt; Hysteresis for automatic resizing depending on the current temporal resolution (dt): usually 10% of dt_ref
+    int min_samples; //!&lt; Minimum number of samples (should be always greater than 2)
+    int max_samples; //!&lt; Maximum number of samples; Warning: if too small the discretization/resolution might not be sufficient for the given robot model or obstacle avoidance does not work anymore.
+    bool global_plan_overwrite_orientation; //!&lt; Overwrite orientation of local subgoals provided by the global planner
+    bool allow_init_with_backwards_motion; //!&lt; If true, the underlying trajectories might be initialized with backwards motions in case the goal is behind the start within the local costmap (this is only recommended if the robot is equipped with rear sensors)
+    double global_plan_viapoint_sep; //!&lt; Min. separation between each two consecutive via-points extracted from the global plan (if negative: disabled)
+    bool via_points_ordered; //!&lt; If true, the planner adheres to the order of via-points in the storage container
+    double max_global_plan_lookahead_dist; //!&lt; Specify maximum length (cumulative Euclidean distances) of the subset of the global plan taken into account for optimization [if &lt;=0: disabled; the length is also bounded by the local costmap size!]
+    double global_plan_prune_distance; //!&lt; Distance between robot and via_points of global plan which is used for pruning
+    bool exact_arc_length; //!&lt; If true, the planner uses the exact arc length in velocity, acceleration and turning rate computations [-&gt; increased cpu time], otherwise the euclidean approximation is used.
+    double force_reinit_new_goal_dist; //!&lt; Reinitialize the trajectory if a previous goal is updated with a seperation of more than the specified value in meters (skip hot-starting)
+    double force_reinit_new_goal_angular; //!&lt; Reinitialize the trajectory if a previous goal is updated with an angular difference of more than the specified value in radians (skip hot-starting)
+    int feasibility_check_no_poses; //!&lt; Specify up to which pose (under the feasibility_check_lookahead_distance) on the predicted plan the feasibility should be checked each sampling interval; if -1, all poses up to feasibility_check_lookahead_distance are checked.
+    double feasibility_check_lookahead_distance; //!&lt; Specify up to which distance (and with an index below feasibility_check_no_poses) from the robot the feasibility should be checked each sampling interval; if -1, all poses up to feasibility_check_no_poses are checked.
+    bool publish_feedback; //!&lt; Publish planner feedback containing the full trajectory and a list of active obstacles (should be enabled only for evaluation or debugging purposes)
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-09-08-874Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-09-08-874Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.874Z" data-timestamp="2026-05-07T11:09:08.874Z">2026-05-07T11:09:08.874Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_arwLcbzkDiEVTqDYsWYxu80A&quot;,
+  &quot;process_id&quot;: &quot;43392&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;120,170p&#x27; venom_teb_controller/config/sentry/nav2_teb_params.yaml &amp;&amp; sed -n &#x27;120,170p&#x27; venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;120,170p&#x27; venom_teb_controller/config/sentry/nav2_teb_params.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_teb_params.yaml&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/config/sentry/nav2_teb_params.yaml&quot;
+    },
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;120,170p&#x27; venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_teb_params.yaml&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller/config/scout_mini/nav2_teb_params.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;general_goal_checker\&quot;] # \&quot;precise_goal_checker\&quot;\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    # Progress checker parameters\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n    # Goal checker parameters\n    #precise_goal_checker:\n    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n    #  xy_goal_tolerance: 0.25\n    #  yaw_goal_tolerance: 0.25\n    #  stateful: True\n    general_goal_checker:\n      stateful: True\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n    # TEB parameters\n    FollowPath:\n      plugin: teb_local_planner::TebLocalPlannerROS\n\n      teb_autosize: True\n      dt_ref: 0.3\n      dt_hysteresis: 0.1\n      max_samples: 500\n      global_plan_overwrite_orientation: True\n      allow_init_with_backwards_motion: False\n      max_global_plan_lookahead_dist: 3.0\n      global_plan_viapoint_sep: -1.0\n      global_plan_prune_distance: 1.0\n      exact_arc_length: False\n      feasibility_check_no_poses: 2\n      publish_feedback: False\n\n      # Robot\n\n      max_vel_x: 1.5\n      max_vel_theta: 1.5\n      acc_lim_x: 2.25\n      acc_lim_theta: 2.25\n\n      footprint_model: # types: \&quot;point\&quot;, \&quot;circular\&quot;, \&quot;two_circles\&quot;, \&quot;line\&quot;, \&quot;polygon\&quot;\n        type: \&quot;circular\&quot;\n        radius: 0.42 # for type \&quot;circular\&quot;\n\n      # GoalTolerance\n\n      free_goal_vel: False\n    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;general_goal_checker\&quot;] # \&quot;precise_goal_checker\&quot;\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    # Progress checker parameters\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n    # Goal checker parameters\n    #precise_goal_checker:\n    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n    #  xy_goal_tolerance: 0.25\n    #  yaw_goal_tolerance: 0.25\n    #  stateful: True\n    general_goal_checker:\n      stateful: True\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n    # TEB parameters\n    FollowPath:\n      plugin: teb_local_planner::TebLocalPlannerROS\n\n      teb_autosize: True\n      dt_ref: 0.3\n      dt_hysteresis: 0.1\n      max_samples: 500\n      global_plan_overwrite_orientation: True\n      allow_init_with_backwards_motion: False\n      max_global_plan_lookahead_dist: 3.0\n      global_plan_viapoint_sep: -1.0\n      global_plan_prune_distance: 1.0\n      exact_arc_length: False\n      feasibility_check_no_poses: 2\n      publish_feedback: False\n\n      # Robot\n\n      max_vel_x: 2.5\n      max_vel_theta: 2.0\n      acc_lim_x: 3.5\n      acc_lim_theta: 6.2\n\n      footprint_model: # types: \&quot;point\&quot;, \&quot;circular\&quot;, \&quot;two_circles\&quot;, \&quot;line\&quot;, \&quot;polygon\&quot;\n        type: \&quot;circular\&quot;\n        radius: 0.35 # for type \&quot;circular\&quot;\n\n      # GoalTolerance\n\n      free_goal_vel: False\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 2504
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-09-08-877Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-07T11-09-08-877Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.877Z" data-timestamp="2026-05-07T11:09:08.877Z">2026-05-07T11:09:08.877Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_DM904bymG80gtCMiMMn2PEsm&quot;,
+  &quot;process_id&quot;: &quot;28345&quot;,
+  &quot;turn_id&quot;: &quot;019e021f-ddee-7af0-9008-391ab8ce9468&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;rg -n \&quot;teb_autosize\&quot; venom_teb_controller -S&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;rg -n teb_autosize venom_teb_controller -S&quot;,
+      &quot;query&quot;: &quot;teb_autosize&quot;,
+      &quot;path&quot;: &quot;venom_teb_controller&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;venom_teb_controller/config/sentry/nav2_teb_params.yaml:144:      teb_autosize: True\nvenom_teb_controller/params/teb_params.yaml:11:      teb_autosize: 1.0\nvenom_teb_controller/config/scout_mini/nav2_teb_params.yaml:144:      teb_autosize: True\nvenom_teb_controller/cfg/TebLocalPlannerReconfigure.cfg:21:grp_trajectory.add(\&quot;teb_autosize\&quot;,   bool_t,   0, \nvenom_teb_controller/src/optimal_planner.cpp:203:    if (cfg_-&gt;trajectory.teb_autosize)\nvenom_teb_controller/include/teb_local_planner/teb_config.h:79:    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)\nvenom_teb_controller/include/teb_local_planner/teb_config.h:256:    trajectory.teb_autosize = true;\nvenom_teb_controller/src/teb_config.cpp:52:  declare_parameter_if_not_declared(nh, name + \&quot;.\&quot; + \&quot;teb_autosize\&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));\nvenom_teb_controller/src/teb_config.cpp:179:  nh-&gt;get_parameter_or(name + \&quot;.\&quot; + \&quot;teb_autosize\&quot;, trajectory.teb_autosize, trajectory.teb_autosize);\nvenom_teb_controller/src/teb_config.cpp:668:        if (name == node_name + \&quot;.teb_autosize\&quot;) {\nvenom_teb_controller/src/teb_config.cpp:669:        trajectory.teb_autosize = parameter.as_bool();\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 2725
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-09-08-878Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-09-08-878Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.878Z" data-timestamp="2026-05-07T11:09:08.878Z">2026-05-07T11:09:08.878Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: beb113
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 307
+Output:
+venom_teb_controller/config/sentry/nav2_teb_params.yaml:144:      teb_autosize: True
+venom_teb_controller/params/teb_params.yaml:11:      teb_autosize: 1.0
+venom_teb_controller/config/scout_mini/nav2_teb_params.yaml:144:      teb_autosize: True
+venom_teb_controller/cfg/TebLocalPlannerReconfigure.cfg:21:grp_trajectory.add(&quot;teb_autosize&quot;,   bool_t,   0, 
+venom_teb_controller/src/optimal_planner.cpp:203:    if (cfg_-&gt;trajectory.teb_autosize)
+venom_teb_controller/include/teb_local_planner/teb_config.h:79:    bool teb_autosize; //!&lt; Enable automatic resizing of the trajectory w.r.t to the temporal resolution (recommended)
+venom_teb_controller/include/teb_local_planner/teb_config.h:256:    trajectory.teb_autosize = true;
+venom_teb_controller/src/teb_config.cpp:52:  declare_parameter_if_not_declared(nh, name + &quot;.&quot; + &quot;teb_autosize&quot;, rclcpp::ParameterValue(trajectory.teb_autosize));
+venom_teb_controller/src/teb_config.cpp:179:  nh-&gt;get_parameter_or(name + &quot;.&quot; + &quot;teb_autosize&quot;, trajectory.teb_autosize, trajectory.teb_autosize);
+venom_teb_controller/src/teb_config.cpp:668:        if (name == node_name + &quot;.teb_autosize&quot;) {
+venom_teb_controller/src/teb_config.cpp:669:        trajectory.teb_autosize = parameter.as_bool();
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-07T11-09-08-880Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-07T11-09-08-880Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:08.880Z" data-timestamp="2026-05-07T11:09:08.880Z">2026-05-07T11:09:08.880Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: b71c36
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 751
+Output:
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;general_goal_checker&quot;] # &quot;precise_goal_checker&quot;
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+    general_goal_checker:
+      stateful: True
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # TEB parameters
+    FollowPath:
+      plugin: teb_local_planner::TebLocalPlannerROS
+
+      teb_autosize: True
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_samples: 500
+      global_plan_overwrite_orientation: True
+      allow_init_with_backwards_motion: False
+      max_global_plan_lookahead_dist: 3.0
+      global_plan_viapoint_sep: -1.0
+      global_plan_prune_distance: 1.0
+      exact_arc_length: False
+      feasibility_check_no_poses: 2
+      publish_feedback: False
+
+      # Robot
+
+      max_vel_x: 1.5
+      max_vel_theta: 1.5
+      acc_lim_x: 2.25
+      acc_lim_theta: 2.25
+
+      footprint_model: # types: &quot;point&quot;, &quot;circular&quot;, &quot;two_circles&quot;, &quot;line&quot;, &quot;polygon&quot;
+        type: &quot;circular&quot;
+        radius: 0.42 # for type &quot;circular&quot;
+
+      # GoalTolerance
+
+      free_goal_vel: False
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;general_goal_checker&quot;] # &quot;precise_goal_checker&quot;
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+    general_goal_checker:
+      stateful: True
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # TEB parameters
+    FollowPath:
+      plugin: teb_local_planner::TebLocalPlannerROS
+
+      teb_autosize: True
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_samples: 500
+      global_plan_overwrite_orientation: True
+      allow_init_with_backwards_motion: False
+      max_global_plan_lookahead_dist: 3.0
+      global_plan_viapoint_sep: -1.0
+      global_plan_prune_distance: 1.0
+      exact_arc_length: False
+      feasibility_check_no_poses: 2
+      publish_feedback: False
+
+      # Robot
+
+      max_vel_x: 2.5
+      max_vel_theta: 2.0
+      acc_lim_x: 3.5
+      acc_lim_theta: 6.2
+
+      footprint_model: # types: &quot;point&quot;, &quot;circular&quot;, &quot;two_circles&quot;, &quot;line&quot;, &quot;polygon&quot;
+        type: &quot;circular&quot;
+        radius: 0.35 # for type &quot;circular&quot;
+
+      # GoalTolerance
+
+      free_goal_vel: False
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-05-07T11-09-18-224Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-09-18-224Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:18.224Z" data-timestamp="2026-05-07T11:09:18.224Z">2026-05-07T11:09:18.224Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-07T11-09-19-025Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-07T11-09-19-025Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:19.025Z" data-timestamp="2026-05-07T11:09:19.025Z">2026-05-07T11:09:19.025Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>日志里已经确认 TEB 被加载了：<code>Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS</code>。当前失败点是已安装的 TEB 插件还按旧类型处理 <code>teb_autosize</code>，需要重新编译安装最新 <code>main</code>，另外 Gazebo 里已经有旧的 <code>robot</code> 实体残留，要清掉旧进程再试。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T11-09-23-134Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T11-09-23-134Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:09:23.134Z" data-timestamp="2026-05-07T11:09:23.134Z">2026-05-07T11:09:23.134Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你这个日志说明 <strong>TEB 已经打开了</strong>，关键行是：</p>
+<pre><code class="language-text">Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>现在失败原因是 TEB 插件参数类型不匹配：</p>
+<pre><code class="language-text">parameter 'FollowPath.teb_autosize' has invalid type
+parameter is bool, setting it to double is not allowed
+</code></pre>
+<p>你需要重新编译最新的 TEB 包。你之前可能切到了 <code>main</code>，但 <code>/home/william/venom_ws/install/teb_local_planner</code> 里还是旧编译产物。</p>
+<p>先停掉所有仿真/Gazebo：</p>
+<pre><code class="language-bash">pkill -f gazebo
+pkill -f gzserver
+pkill -f gzclient
+pkill -f rviz2
+</code></pre>
+<p>然后重新编译 TEB：</p>
+<pre><code class="language-bash">cd ~/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller
+git status --short --branch
+git pull origin main
+
+cd ~/venom_ws
+source /opt/ros/humble/setup.bash
+
+colcon build --symlink-install \
+  --packages-select teb_msgs teb_local_planner \
+  --cmake-clean-cache
+
+source install/setup.bash
+</code></pre>
+<p>再启动仿真 TEB，注意继续关 RViz：</p>
+<pre><code class="language-bash">cd ~/venom_ws/src/venom_vnv/simulation/venom_nav_simulation
+
+source /opt/ros/humble/setup.bash
+source ~/venom_ws/install/setup.bash
+source install/setup.bash
+source install/rm_nav_bringup/share/rm_nav_bringup/local_setup.bash
+
+ros2 launch rm_nav_bringup bringup_sim.launch.py \
+  world:=RMUL \
+  mode:=nav \
+  lio:=pointlio \
+  localization:=slam_toolbox \
+  lio_rviz:=False \
+  nav_rviz:=False \
+  nav2_params_file:=/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/config/sentry/nav2_teb_params.yaml
+</code></pre>
+<p>如果还报同一个 <code>teb_autosize</code> 类型错误，再临时把参数文件里的：</p>
+<pre><code class="language-yaml">teb_autosize: True
+</code></pre>
+<p>改成：</p>
+<pre><code class="language-yaml">teb_autosize: 1.0
+</code></pre>
+<p>但优先先重编译，因为源码里 <code>teb_autosize</code> 本来就是 bool，正常不该要求 double。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-23">
+  <div class="turn-head">
+    <div class="turn-title">Turn 23 · https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/根据这个，教我怎么配置网卡静态IP</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T11-47-37-724Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T11-47-37-724Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:47:37.724Z" data-timestamp="2026-05-07T11:47:37.724Z">2026-05-07T11:47:37.724Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/根据这个，教我怎么配置网卡静态IP</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-07T11-47-40-987Z-2026-05-07T11-47-46-413Z">
+  <summary>Codex process (2 items: Reasoning, Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-05-07T11-47-40-987Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-05-07T11-47-40-987Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:47:40.987Z" data-timestamp="2026-05-07T11:47:40.987Z">2026-05-07T11:47:40.987Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-07T11-47-46-413Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-05-07T11-47-46-413Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:47:46.413Z" data-timestamp="2026-05-07T11:47:46.413Z">2026-05-07T11:47:46.413Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_086ce58bdc8b12960169fc7bdccbc08199b909246d0b78f02b&quot;,
+  &quot;query&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://venom-algorithm.github.io/Venom_VNV/deployment/lidar_setup/&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-07T11-47-51-332Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T11-47-51-332Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:47:51.332Z" data-timestamp="2026-05-07T11:47:51.332Z">2026-05-07T11:47:51.332Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>按文档，连接 MID360 的有线网卡要设成静态 IP：</p>
+<pre><code class="language-text">IP address: 192.168.1.50
+Netmask:    255.255.255.0
+Gateway:    192.168.1.1
+</code></pre>
+<p>MID360 的雷达 IP 通常是：</p>
+<pre><code class="language-text">192.168.1.1xx
+</code></pre>
+<p><code>xx</code> 是雷达序列号后两位。比如序列号末两位是 <code>33</code>，雷达 IP 就可能是：</p>
+<pre><code class="language-text">192.168.1.133
+</code></pre>
+<p><strong>图形界面配置</strong></p>
+<ol>
+<li>插上连接 MID360 的网线。</li>
+<li>点击 Ubuntu 右上角/左上角网络图标。</li>
+<li>进入 <code>Settings</code> / <code>设置</code>。</li>
+<li>进入 <code>Network</code> / <code>网络</code>。</li>
+<li>找到 <code>Wired</code> / <code>有线</code>，点齿轮图标。</li>
+<li>打开 <code>IPv4</code>。</li>
+<li><code>IPv4 Method</code> 选择 <code>Manual</code>。</li>
+<li>填入：</li>
+</ol>
+<pre><code class="language-text">Address: 192.168.1.50
+Netmask: 255.255.255.0
+Gateway: 192.168.1.1
+DNS: 可以留空
+</code></pre>
+<ol>
+<li>保存。</li>
+<li>关闭再打开这个有线网络，或者拔插网线。</li>
+</ol>
+<p><strong>检查是否生效</strong></p>
+<p>先看网卡 IP：</p>
+<pre><code class="language-bash">ip addr
+</code></pre>
+<p>你应该能在有线网卡上看到类似：</p>
+<pre><code class="language-text">inet 192.168.1.50/24
+</code></pre>
+<p>然后 ping 雷达，例如雷达 IP 是 <code>192.168.1.133</code>：</p>
+<pre><code class="language-bash">ping 192.168.1.133
+</code></pre>
+<p>如果能 ping 通，说明网卡静态 IP 配好了。</p>
+<p><strong>如果 WiFi 和雷达网段冲突</strong></p>
+<p>查看路由：</p>
+<pre><code class="language-bash">ip route
+</code></pre>
+<p>如果看到类似：</p>
+<pre><code class="language-text">192.168.1.0/24 dev enp3s0 proto kernel scope link src 192.168.1.50 metric 100
+</code></pre>
+<p>可以只保留到雷达的单机路由。假设：</p>
+<pre><code class="language-text">有线网卡名: enp3s0
+本机 IP:   192.168.1.50
+雷达 IP:   192.168.1.133
+</code></pre>
+<p>执行：</p>
+<pre><code class="language-bash">sudo ip route del 192.168.1.0/24 dev enp3s0
+sudo ip route add 192.168.1.133/32 dev enp3s0 src 192.168.1.50 metric 100
+</code></pre>
+<p>再检查：</p>
+<pre><code class="language-bash">ip route get 192.168.1.133
+ping 192.168.1.133
+</code></pre>
+<p>注意把 <code>enp3s0</code> 和 <code>192.168.1.133</code> 换成你自己电脑和雷达的实际值。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-24">
+  <div class="turn-head">
+    <div class="turn-title">Turn 24 · 找不到wired</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T11-53-33-926Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T11-53-33-926Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:53:33.926Z" data-timestamp="2026-05-07T11:53:33.926Z">2026-05-07T11:53:33.926Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>找不到wired</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-07T11-53-50-271Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T11-53-50-271Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:53:50.271Z" data-timestamp="2026-05-07T11:53:50.271Z">2026-05-07T11:53:50.271Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>找不到 <code>Wired</code> 一般有几种情况：没插网线、网卡没被系统识别、Ubuntu 语言显示成“有线”、或者你的连接叫别的名字。</p>
+<p>先用命令确认网卡名：</p>
+<pre><code class="language-bash">ip link
+</code></pre>
+<p>看有没有类似这些名字：</p>
+<pre><code class="language-text">enp3s0
+eno1
+enx...
+eth0
+</code></pre>
+<p>有线网卡通常不是 <code>lo</code>，也不是 <code>wlan0</code> / <code>wlp...</code>。</p>
+<p>再看 NetworkManager 识别到的设备：</p>
+<pre><code class="language-bash">nmcli device status
+</code></pre>
+<p>你会看到类似：</p>
+<pre><code class="language-text">DEVICE   TYPE      STATE         CONNECTION
+enp3s0   ethernet  disconnected  --
+wlp2s0   wifi      connected     xxx
+lo       loopback  unmanaged     lo
+</code></pre>
+<p>如果有 <code>TYPE ethernet</code>，那个就是有线网卡。假设它叫 <code>enp3s0</code>，可以不用图形界面，直接命令配置静态 IP：</p>
+<pre><code class="language-bash">sudo nmcli con add type ethernet ifname enp3s0 con-name mid360 \
+  ipv4.addresses 192.168.1.50/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.method manual
+</code></pre>
+<p>启动这个连接：</p>
+<pre><code class="language-bash">sudo nmcli con up mid360
+</code></pre>
+<p>检查：</p>
+<pre><code class="language-bash">ip addr show enp3s0
+</code></pre>
+<p>如果你已经有一个有线连接，不想新建，可以查连接名：</p>
+<pre><code class="language-bash">nmcli con show
+</code></pre>
+<p>然后修改现有连接。假设连接名叫 <code>Wired connection 1</code>：</p>
+<pre><code class="language-bash">sudo nmcli con mod &quot;Wired connection 1&quot; \
+  ipv4.addresses 192.168.1.50/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.method manual
+
+sudo nmcli con up &quot;Wired connection 1&quot;
+</code></pre>
+<p>如果 <code>nmcli device status</code> 里面完全没有 <code>ethernet</code>，那说明系统没看到有线网卡。检查：</p>
+<pre><code class="language-bash">lspci | grep -i ethernet
+lsusb
+</code></pre>
+<p>如果你用的是 USB 转网口，通常会在 <code>lsusb</code> 里看到。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-25">
+  <div class="turn-head">
+    <div class="turn-title">Turn 25 · william@william:~$ ip link</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-07T11-54-07-498Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-07T11-54-07-498Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:54:07.498Z" data-timestamp="2026-05-07T11:54:07.498Z">2026-05-07T11:54:07.498Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~$ ip link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DORMANT group default qlen 1000
+    link/ether f8:3d:c6:1a:43:18 brd ff:ff:ff:ff:ff:ff</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-07T11-54-14-373Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-07T11-54-14-373Z" class="timestamp-link">
+      <time datetime="2026-05-07T11:54:14.373Z" data-timestamp="2026-05-07T11:54:14.373Z">2026-05-07T11:54:14.373Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>你现在系统只识别到：</p>
+<pre><code class="language-text">lo
+wlp2s0
+</code></pre>
+<p>也就是只有本地回环和 WiFi，<strong>没有有线网卡</strong>。所以图形界面里找不到 <code>Wired</code> 是正常的。</p>
+<p>你需要先让电脑识别到有线网卡。检查这几项：</p>
+<ol>
+<li>如果你用的是 USB 转网口，先插上转接器和网线，然后运行：</li>
+</ol>
+<pre><code class="language-bash">lsusb
+nmcli device status
+ip link
+</code></pre>
+<ol>
+<li>如果电脑本身有网口，插上网线后看内核日志：</li>
+</ol>
+<pre><code class="language-bash">dmesg | tail -50
+</code></pre>
+<ol>
+<li>看系统有没有以太网硬件：</li>
+</ol>
+<pre><code class="language-bash">lspci | grep -i ethernet
+</code></pre>
+<p>如果你用的是 USB 网口，还可以看：</p>
+<pre><code class="language-bash">lsusb | grep -i ethernet
+</code></pre>
+<p>等 <code>ip link</code> 里出现类似下面这种设备，才能配置静态 IP：</p>
+<pre><code class="language-text">enp3s0
+eno1
+enx...
+eth0
+</code></pre>
+<p>出现后，比如设备名是 <code>enx123456</code>，再执行：</p>
+<pre><code class="language-bash">sudo nmcli con add type ethernet ifname enx123456 con-name mid360 \
+  ipv4.addresses 192.168.1.50/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.method manual
+
+sudo nmcli con up mid360
+</code></pre>
+<p>你现在的下一步就是：<strong>插上有线网卡/USB 转网口，再运行 <code>ip link</code> 看有没有新设备出现</strong>。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

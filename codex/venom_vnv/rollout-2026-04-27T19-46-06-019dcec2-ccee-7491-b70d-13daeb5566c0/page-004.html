@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-27T19-46-06-019dcec2-ccee-7491-b70d-13daeb5566c0 · Page 4</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-27T19-46-06-019dcec2-ccee-7491-b70d-13daeb5566c0</a></h1>
+  <p>Page 4 / 6</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-003.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <span class="current">4</span>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-005.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-16">
+  <div class="turn-head">
+    <div class="turn-title">Turn 16 · fatal: unable to access &#39;https://github.com/ZJU-FAST-Lab/ego-planner-swarm.git/&#39;: Failed to connect to github.com port 443 after 132652 ms: Connection timed out</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-14-43-677Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-14-43-677Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:14:43.677Z" data-timestamp="2026-04-27T12:14:43.677Z">2026-04-27T12:14:43.677Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>fatal: unable to access 'https://github.com/ZJU-FAST-Lab/ego-planner-swarm.git/': Failed to connect to github.com port 443 after 132652 ms: Connection timed out
+fatal: clone of 'https://github.com/ZJU-FAST-Lab/ego-planner-swarm.git' into submodule path '/home/william/venom_ws/src/venom_vnv/planning/navigation/ego-planner-swarm' failed
+Failed to clone 'planning/navigation/ego-planner-swarm'. Retry scheduled
+fatal: destination path '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation' already exists and is not an empty directory.
+fatal: clone of 'https://github.com/Venom-Algorithm/venom_nav_simulation.git' into submodule path '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation' failed
+Failed to clone 'simulation/venom_nav_simulation'. Retry scheduled</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T12-14-51-644Z-2026-04-27T12-14-51-644Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T12-14-51-644Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T12-14-51-644Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:14:51.644Z" data-timestamp="2026-04-27T12:14:51.644Z">2026-04-27T12:14:51.644Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T12-14-58-979Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-14-58-979Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:14:58.979Z" data-timestamp="2026-04-27T12:14:58.979Z">2026-04-27T12:14:58.979Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>问题已经很清楚了，有两个独立故障：</p>
+<ol>
+<li><code>ego-planner-swarm</code> 拉取失败<br />
+报错是明确的网络超时：</li>
+</ol>
+<pre><code class="language-bash">Failed to connect to github.com port 443 ... Connection timed out
+</code></pre>
+<ol>
+<li><code>simulation/venom_nav_simulation</code> 之前已经有一个非空目录<br />
+所以 Git 不能把子模块 clone 进去：</li>
+</ol>
+<pre><code class="language-bash">destination path .../simulation/venom_nav_simulation already exists and is not an empty directory
+</code></pre>
+<p>你现在别再跑 <code>make submodules-sim</code>。先只处理仿真子模块，按这个顺序做：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws/src/venom_vnv
+
+rm -rf simulation/venom_nav_simulation
+git submodule update --init -- simulation/venom_nav_simulation
+</code></pre>
+<p>如果你不想删整个目录，也可以先确认里面确实只有废的 <code>build/install/log</code>，但从你前面的情况看，直接删掉这个空壳最省事。</p>
+<p>拉下来以后再继续：</p>
+<pre><code class="language-bash">cd simulation/venom_nav_simulation
+ls
+</code></pre>
+<p>正常情况下这里应该能看到 <code>src/</code>。然后再执行：</p>
+<pre><code class="language-bash">source /opt/ros/humble/setup.bash
+rosdep install -r --from-paths src --ignore-src --rosdistro humble -y
+colcon build --symlink-install
+source install/setup.bash
+ros2 launch rm_nav_bringup bringup_sim.launch.py \
+  world:=RMUL \
+  mode:=nav \
+  lio:=pointlio \
+  localization:=slam_toolbox \
+  lio_rviz:=False \
+  nav_rviz:=True
+</code></pre>
+<p><code>ego-planner-swarm</code> 这个超时现在可以先不管，它不是你这条 Nav2 仿真启动命令的必要条件。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-17">
+  <div class="turn-head">
+    <div class="turn-title">Turn 17 · 你在根目录创建一个文件，讲述接入TEB local planner后的方案，包括要调整哪些关键参数，如何在仿真和真机环境下调试，如何使用gazebo,rviz,dynamic configure等进行调参</div>
+    <div class="turn-status">aborted</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-22-09-949Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-22-09-949Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:22:09.949Z" data-timestamp="2026-04-27T12:22:09.949Z">2026-04-27T12:22:09.949Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>你在根目录创建一个文件，讲述接入TEB local planner后的方案，包括要调整哪些关键参数，如何在仿真和真机环境下调试，如何使用gazebo,rviz,dynamic configure等进行调参</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T12-22-28-205Z-2026-04-27T12-23-54-761Z">
+  <summary>Codex process (3 items: Reasoning, Commentary, Turn Aborted)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T12-22-28-205Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T12-22-28-205Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:22:28.205Z" data-timestamp="2026-04-27T12:22:28.205Z">2026-04-27T12:22:28.205Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T12-22-29-284Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T12-22-29-284Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:22:29.284Z" data-timestamp="2026-04-27T12:22:29.284Z">2026-04-27T12:22:29.284Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会在仓库根目录新增一份实施文档，内容聚焦 TEB 接入方案、关键参数、仿真/真机调试流程，以及 Gazebo、RViz、dynamic configure 的使用方式。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T12-23-54-761Z">
+  <div class="message-header">
+    <span class="role-label">Turn Aborted</span>
+    <a href="#msg-2026-04-27T12-23-54-761Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:23:54.761Z" data-timestamp="2026-04-27T12:23:54.761Z">2026-04-27T12:23:54.761Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>This turn was interrupted before completion.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-18">
+  <div class="turn-head">
+    <div class="turn-title">Turn 18 · 在仓库根目录新增一份实施文档，内容聚焦 TEB 接入方案、关键参数、仿真/真机调试流程，以及 Gazebo、</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-24-01-508Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-24-01-508Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:01.508Z" data-timestamp="2026-04-27T12:24:01.508Z">2026-04-27T12:24:01.508Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>在仓库根目录新增一份实施文档，内容聚焦 TEB 接入方案、关键参数、仿真/真机调试流程，以及 Gazebo、
+  RViz、dynamic configure 的使用方式。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T12-24-10-723Z-2026-04-27T12-25-14-809Z">
+  <summary>Codex process (13 items: 2 Reasoning, 2 Commentary, 3 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T12-24-10-723Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T12-24-10-723Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:10.723Z" data-timestamp="2026-04-27T12:24:10.723Z">2026-04-27T12:24:10.723Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T12-24-13-583Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T12-24-13-583Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:13.583Z" data-timestamp="2026-04-27T12:24:13.583Z">2026-04-27T12:24:13.583Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先确认根目录现有文档命名风格，然后直接新增这份 TEB 实施文档。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T12-24-13-597Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T12-24-13-597Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:13.597Z" data-timestamp="2026-04-27T12:24:13.597Z">2026-04-27T12:24:13.597Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;find /home/william/venom_ws/src/venom_vnv -maxdepth 1 -type f | sort&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:2000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T12-24-13-602Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T12-24-13-602Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:13.602Z" data-timestamp="2026-04-27T12:24:13.602Z">2026-04-27T12:24:13.602Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;git status --short --branch&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:1000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T12-24-13-659Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T12-24-13-659Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:13.659Z" data-timestamp="2026-04-27T12:24:13.659Z">2026-04-27T12:24:13.659Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_VGsKWVPinwhWObU9COUt18vA&quot;,
+  &quot;process_id&quot;: &quot;66097&quot;,
+  &quot;turn_id&quot;: &quot;019dcee5-84e1-70a0-a7f1-c2080b983e89&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;find /home/william/venom_ws/src/venom_vnv -maxdepth 1 -type f | sort&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;list_files&quot;,
+      &quot;cmd&quot;: &quot;find /home/william/venom_ws/src/venom_vnv -maxdepth 1 -type f&quot;,
+      &quot;path&quot;: &quot;venom_vnv&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;/home/william/venom_ws/src/venom_vnv/.codex\n/home/william/venom_ws/src/venom_vnv/.dockerignore\n/home/william/venom_ws/src/venom_vnv/.gitignore\n/home/william/venom_ws/src/venom_vnv/.gitmodules\n/home/william/venom_ws/src/venom_vnv/Makefile\n/home/william/venom_ws/src/venom_vnv/README.md\n/home/william/venom_ws/src/venom_vnv/README_EN.md\n/home/william/venom_ws/src/venom_vnv/docker-compose.yml\n/home/william/venom_ws/src/venom_vnv/mkdocs.yml\n/home/william/venom_ws/src/venom_vnv/requirements-docs.txt\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 7644
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T12-24-13-677Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-27T12-24-13-677Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:13.677Z" data-timestamp="2026-04-27T12:24:13.677Z">2026-04-27T12:24:13.677Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_fFmk3EN1WZa0NPu63RJH2x6v&quot;,
+  &quot;process_id&quot;: &quot;51807&quot;,
+  &quot;turn_id&quot;: &quot;019dcee5-84e1-70a0-a7f1-c2080b983e89&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;git status --short --branch&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;unknown&quot;,
+      &quot;cmd&quot;: &quot;git status --short --branch&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;## master...upstream/master\n?? .codex\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4618
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T12-24-14-161Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T12-24-14-161Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:14.161Z" data-timestamp="2026-04-27T12:24:14.161Z">2026-04-27T12:24:14.161Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: d24a80
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 125
+Output:
+/home/william/venom_ws/src/venom_vnv/.codex
+/home/william/venom_ws/src/venom_vnv/.dockerignore
+/home/william/venom_ws/src/venom_vnv/.gitignore
+/home/william/venom_ws/src/venom_vnv/.gitmodules
+/home/william/venom_ws/src/venom_vnv/Makefile
+/home/william/venom_ws/src/venom_vnv/README.md
+/home/william/venom_ws/src/venom_vnv/README_EN.md
+/home/william/venom_ws/src/venom_vnv/docker-compose.yml
+/home/william/venom_ws/src/venom_vnv/mkdocs.yml
+/home/william/venom_ws/src/venom_vnv/requirements-docs.txt
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T12-24-14-161Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T12-24-14-161Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:14.161Z" data-timestamp="2026-04-27T12:24:14.161Z">2026-04-27T12:24:14.161Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3bafd6
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 10
+Output:
+## master...upstream/master
+?? .codex
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-27T12-24-20-973Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T12-24-20-973Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:20.973Z" data-timestamp="2026-04-27T12:24:20.973Z">2026-04-27T12:24:20.973Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T12-24-21-322Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T12-24-21-322Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:24:21.322Z" data-timestamp="2026-04-27T12:24:21.322Z">2026-04-27T12:24:21.322Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我准备在根目录新增 <code>TEB_INTEGRATION_PLAN.md</code>，内容会直接绑定这个仓库当前的 <code>nav2_params</code> 位置和现有仿真路径。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T12-25-14-716Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T12-25-14-716Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:25:14.716Z" data-timestamp="2026-04-27T12:25:14.716Z">2026-04-27T12:25:14.716Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">apply_patch</div>
+  
+  <pre>*** Begin Patch
+*** Add File: /home/william/venom_ws/src/venom_vnv/TEB_INTEGRATION_PLAN.md
++# TEB Local Planner 接入与调参方案
++
++## 目标
++
++将当前 `Nav2 + DWB` 的局部规划方案切换为 `Nav2 + TEB`，并建立一套可重复的仿真调参与真机验证流程。
++
++当前仓库中与 Nav2 相关的主配置位于：
++
++- `venom_bringup/config/scout_mini/nav2_params.yaml`
++- `venom_bringup/config/sentry/nav2_params.yaml`
++
++仓库中还保留了一份旧的 TEB 配置样例：
++
++- `venom_bringup/config/nav2_params_scoutmini.yaml`
++
++## 接入方案
++
++### 1. 依赖准备
++
++需要先确认运行环境中存在可被 `pluginlib` 加载的 TEB 插件实现。如果环境中没有 `teb_local_planner::TebLocalPlannerROS`，`controller_server` 启动时会直接报错。
++
++实施前应确认：
++
++- TEB 插件已经安装或已经作为工作区源码引入
++- 插件导出信息完整，能被 `pluginlib` 发现
++- 与当前 ROS 2 / Nav2 版本兼容
++
++### 2. Nav2 配置切换
++
++在 `controller_server` 下，将：
++
++```yaml
++controller_plugins: [&#34;FollowPath&#34;]
++
++FollowPath:
++  plugin: &#34;dwb_core::DWBLocalPlanner&#34;
++```
++
++替换为：
++
++```yaml
++controller_plugins: [&#34;FollowPath&#34;]
++
++FollowPath:
++  plugin: &#34;teb_local_planner::TebLocalPlannerROS&#34;
++```
++
++建议先只改一个平台，例如先改 `scout_mini`，确认稳定后再迁移到 `sentry`。
++
++### 3. 参数迁移策略
++
++不要直接保留 DWB 的评分参数。下面这些参数是 DWB 专属，应当删除或停用：
++
++- `vx_samples`
++- `vy_samples`
++- `vtheta_samples`
++- `critics`
++- `PathAlign.scale`
++- `GoalAlign.scale`
++- `PathDist.scale`
++- `GoalDist.scale`
++- `RotateToGoal.scale`
++
++保留的通常是与控制器无关或弱相关的通用项：
++
++- `controller_frequency`
++- `min_x_velocity_threshold`
++- `min_y_velocity_threshold`
++- `min_theta_velocity_threshold`
++- `progress_checker`
++- `goal_checker`
++
++然后补齐 TEB 参数。
++
++## 关键参数
++
++TEB 的关键参数建议按下面几组来调。
++
++### 1. 时域与轨迹离散
++
++- `teb_autosize`
++- `dt_ref`
++- `dt_hysteresis`
++- `max_samples`
++- `global_plan_prune_distance`
++- `max_global_plan_lookahead_dist`
++
++作用：
++
++- 控制轨迹时间分辨率和优化规模
++- 影响轨迹平滑性、响应速度和计算负载
++
++建议：
++
++- 先用中等 `dt_ref`，避免离散过细导致计算压力过大
++- 先限制 `max_global_plan_lookahead_dist`，避免局部规划器一次吞入过长路径
++
++### 2. 机器人运动学与动力学
++
++- `max_vel_x`
++- `max_vel_x_backwards`
++- `max_vel_y`
++- `max_vel_theta`
++- `acc_lim_x`
++- `acc_lim_theta`
++- `min_turning_radius`
++- `wheelbase`
++- `cmd_angle_instead_rotvel`
++
++作用：
++
++- 约束 TEB 输出是否符合底盘真实能力
++- 决定转弯半径、倒车能力和姿态变化速度
++
++建议：
++
++- 差速底盘通常设 `max_vel_y: 0.0`
++- 差速底盘通常从 `min_turning_radius: 0.0` 开始
++- 真机前不要把最大速度和最大角速度一次设到极限
++
++### 3. 目标容差与终点行为
++
++- `xy_goal_tolerance`
++- `yaw_goal_tolerance`
++- `free_goal_vel`
++
++作用：
++
++- 决定接近终点时是否容易抖动、绕圈或反复修正
++
++建议：
++
++- 初期将 `xy_goal_tolerance` 和 `yaw_goal_tolerance` 设得略宽
++- 先消除终点抖动，再逐步收紧容差
++
++### 4. 全局路径跟随行为
++
++- `global_plan_overwrite_orientation`
++- `allow_init_with_backwards_motion`
++- `global_plan_viapoint_sep`
++- `exact_arc_length`
++- `feasibility_check_no_poses`
++
++作用：
++
++- 决定 TEB 如何理解全局路径方向、是否允许倒车、是否更积极地贴合路径
++
++建议：
++
++- 如果机器人不希望倒车，先保持 `allow_init_with_backwards_motion: False`
++- 如果轨迹偏离全局路径明显，再考虑 `viapoint` 相关约束
++
++### 5. 机器人外形与碰撞模型
++
++- `footprint_model`
++- `min_obstacle_dist`
++- `inflation_dist`
++
++作用：
++
++- 决定局部规划绕障的保守程度
++- 直接影响贴边、卡角、擦碰风险
++
++建议：
++
++- `footprint_model` 必须与真实底盘外形一致
++- 先从略保守的障碍距离开始，稳定后再压榨通过性
++
++### 6. 优化权重
++
++常见项包括：
++
++- `weight_max_vel_x`
++- `weight_max_vel_theta`
++- `weight_acc_lim_x`
++- `weight_acc_lim_theta`
++- `weight_kinematics_nh`
++- `weight_kinematics_forward_drive`
++- `weight_optimaltime`
++- `weight_obstacle`
++
++作用：
++
++- 决定轨迹是更激进、更平滑，还是更守障碍边界
++
++建议：
++
++- 初始阶段少量改权重，优先先把运动学和障碍距离调准
++- 如果已经频繁碰障，再加大 `weight_obstacle`
++- 如果原地抖动或过于保守，再检查 `weight_optimaltime` 与容差参数
++
++## 推荐调参顺序
++
++建议按下面顺序推进，避免同时动太多变量。
++
++1. 跑通插件加载
++2. 确认底盘速度、加速度和 footprint 合理
++3. 确认能稳定跟踪直线路径
++4. 确认 90 度转弯不过冲、不原地抖动
++5. 确认窄通道绕障行为
++6. 最后再调优化权重和终点容差
++
++## 仿真调试流程
++
++仿真环境优先使用 `simulation/venom_nav_simulation`。
++
++### 1. Gazebo 中重点观察
++
++在 Gazebo 中重点看：
++
++- 机器人是否出现明显急停急转
++- 转弯时是否切角过大
++- 窄通道中是否左右来回摆动
++- 避障时是否出现死锁或原地振荡
++- 倒车策略是否符合预期
++
++建议的测试场景：
++
++- 长直走廊
++- 90 度拐角
++- S 弯
++- 窄门通过
++- 障碍物贴边绕行
++
++### 2. RViz 中重点观察
++
++在 RViz 中建议同时显示：
++
++- Global Path
++- Local Path / Trajectory
++- Local Costmap
++- Global Costmap
++- RobotModel
++- TF
++- LaserScan 或 PointCloud
++- Footprint
++
++要重点判断：
++
++- 局部轨迹是否始终贴近全局路径
++- 轨迹是否反复左右切换
++- 轨迹终点是否落在合理前视距离内
++- 局部 costmap 中的障碍是否与传感器数据对齐
++
++### 3. 仿真调参节奏
++
++建议使用固定流程：
++
++1. 只改一组参数
++2. 记录改动前后的现象
++3. 每次只验证 1 到 2 个典型场景
++4. 参数稳定后再切到更复杂场景
++
++推荐先调：
++
++- `max_vel_x`
++- `max_vel_theta`
++- `acc_lim_x`
++- `acc_lim_theta`
++- `xy_goal_tolerance`
++- `yaw_goal_tolerance`
++- `min_obstacle_dist`
++- `dt_ref`
++
++## 真机调试流程
++
++真机调试必须比仿真保守。
++
++### 1. 真机前置检查
++
++- `base_link`、`odom`、`map` 坐标链稳定
++- 里程计方向正确
++- 激光或点云障碍与实际位置一致
++- `footprint_model` 与真实外形一致
++- 最大速度与加速度不超过底盘可控范围
++
++### 2. 真机调试顺序
++
++1. 空旷区域低速直行
++2. 低速转弯
++3. 小角度避障
++4. 终点停车稳定性
++5. 窄通道通过
++6. 高频连续目标切换
++
++### 3. 真机常见问题与优先检查项
++
++如果出现轨迹振荡，先查：
++
++- `acc_lim_x`
++- `acc_lim_theta`
++- `xy_goal_tolerance`
++- `yaw_goal_tolerance`
++- `min_obstacle_dist`
++- 定位噪声和 TF 抖动
++
++如果出现贴障过近，先查：
++
++- `footprint_model`
++- `min_obstacle_dist`
++- `inflation_dist`
++- costmap 分辨率和障碍层配置
++
++如果出现转不过弯，先查：
++
++- `max_vel_theta`
++- `acc_lim_theta`
++- `min_turning_radius`
++- `wheelbase`
++
++## Gazebo、RViz、dynamic configure 的使用方式
++
++### 1. Gazebo
++
++Gazebo 的作用是快速暴露运动学和碰撞模型问题。
++
++建议：
++
++- 使用固定地图反复回放同一路线
++- 每次只调整一类参数
++- 对比相同起终点下的轨迹变化和耗时变化
++
++### 2. RViz
++
++RViz 的作用是看清“为什么错”，而不是只看“是否撞了”。
++
++重点观察：
++
++- 全局路径和局部轨迹的偏差
++- footprint 与障碍边界的关系
++- 目标点附近的姿态调整过程
++- costmap 是否过度膨胀或漏障
++
++### 3. dynamic configure
++
++需要区分 ROS 1 和 ROS 2。
++
++- 如果使用的是 ROS 1 风格的 `teb_local_planner`，常见做法是配合 `rqt_reconfigure` 做在线调参
++- 如果使用的是 ROS 2 / Nav2 方案，通常不再依赖传统 `dynamic_reconfigure`
++
++对当前仓库这类 ROS 2 场景，建议这样做：
++
++- 首选 YAML 参数文件管理
++- 小步修改后重启 `controller_server` 或整套 Nav2
++- 配合 RViz 与日志做回归对比
++
++如果所用 TEB 插件版本支持 ROS 2 参数热更新，再补充在线改参流程；否则不要把调参流程建立在 `dynamic_reconfigure` 之上。
++
++## 建议的落地步骤
++
++1. 先在 `scout_mini` 上建立一份独立 TEB 参数文件
++2. 保留 DWB 原文件，避免一次性覆盖
++3. 在仿真中完成基础运动学、障碍距离和终点行为调参
++4. 在真机低速场景完成安全验证
++5. 稳定后再迁移到 `sentry`
++
++## 建议的文件组织
++
++建议不要直接覆盖现有 DWB 文件，而是新增例如：
++
++- `venom_bringup/config/scout_mini/nav2_params_teb.yaml`
++- `venom_bringup/config/sentry/nav2_params_teb.yaml`
++
++这样可以通过 launch 参数切换 DWB / TEB，方便 A/B 测试与回退。
++
++## 成功标准
++
++完成接入后，至少应满足：
++
++- `controller_server` 能稳定加载 TEB 插件
++- 仿真中能完成直行、转弯、绕障、到点停车
++- 真机低速场景下无明显振荡、擦障和失控行为
++- 参数文件可复现，切换过程可回退
+*** End Patch
+</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T12-25-14-803Z">
+  <div class="message-header">
+    <span class="role-label">Patch Apply End</span>
+    <a href="#msg-2026-04-27T12-25-14-803Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:25:14.803Z" data-timestamp="2026-04-27T12:25:14.803Z">2026-04-27T12:25:14.803Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;patch_apply_end&quot;,
+  &quot;call_id&quot;: &quot;call_9N9NIsdpQHtPout5aWheaKvd&quot;,
+  &quot;turn_id&quot;: &quot;019dcee5-84e1-70a0-a7f1-c2080b983e89&quot;,
+  &quot;stdout&quot;: &quot;Success. Updated the following files:\nA /home/william/venom_ws/src/venom_vnv/TEB_INTEGRATION_PLAN.md\n&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;success&quot;: true,
+  &quot;changes&quot;: {
+    &quot;/home/william/venom_ws/src/venom_vnv/TEB_INTEGRATION_PLAN.md&quot;: {
+      &quot;type&quot;: &quot;add&quot;,
+      &quot;content&quot;: &quot;# TEB Local Planner 接入与调参方案\n\n## 目标\n\n将当前 `Nav2 + DWB` 的局部规划方案切换为 `Nav2 + TEB`，并建立一套可重复的仿真调参与真机验证流程。\n\n当前仓库中与 Nav2 相关的主配置位于：\n\n- `venom_bringup/config/scout_mini/nav2_params.yaml`\n- `venom_bringup/config/sentry/nav2_params.yaml`\n\n仓库中还保留了一份旧的 TEB 配置样例：\n\n- `venom_bringup/config/nav2_params_scoutmini.yaml`\n\n## 接入方案\n\n### 1. 依赖准备\n\n需要先确认运行环境中存在可被 `pluginlib` 加载的 TEB 插件实现。如果环境中没有 `teb_local_planner::TebLocalPlannerROS`，`controller_server` 启动时会直接报错。\n\n实施前应确认：\n\n- TEB 插件已经安装或已经作为工作区源码引入\n- 插件导出信息完整，能被 `pluginlib` 发现\n- 与当前 ROS 2 / Nav2 版本兼容\n\n### 2. Nav2 配置切换\n\n在 `controller_server` 下，将：\n\n```yaml\ncontroller_plugins: [\&quot;FollowPath\&quot;]\n\nFollowPath:\n  plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\n```\n\n替换为：\n\n```yaml\ncontroller_plugins: [\&quot;FollowPath\&quot;]\n\nFollowPath:\n  plugin: \&quot;teb_local_planner::TebLocalPlannerROS\&quot;\n```\n\n建议先只改一个平台，例如先改 `scout_mini`，确认稳定后再迁移到 `sentry`。\n\n### 3. 参数迁移策略\n\n不要直接保留 DWB 的评分参数。下面这些参数是 DWB 专属，应当删除或停用：\n\n- `vx_samples`\n- `vy_samples`\n- `vtheta_samples`\n- `critics`\n- `PathAlign.scale`\n- `GoalAlign.scale`\n- `PathDist.scale`\n- `GoalDist.scale`\n- `RotateToGoal.scale`\n\n保留的通常是与控制器无关或弱相关的通用项：\n\n- `controller_frequency`\n- `min_x_velocity_threshold`\n- `min_y_velocity_threshold`\n- `min_theta_velocity_threshold`\n- `progress_checker`\n- `goal_checker`\n\n然后补齐 TEB 参数。\n\n## 关键参数\n\nTEB 的关键参数建议按下面几组来调。\n\n### 1. 时域与轨迹离散\n\n- `teb_autosize`\n- `dt_ref`\n- `dt_hysteresis`\n- `max_samples`\n- `global_plan_prune_distance`\n- `max_global_plan_lookahead_dist`\n\n作用：\n\n- 控制轨迹时间分辨率和优化规模\n- 影响轨迹平滑性、响应速度和计算负载\n\n建议：\n\n- 先用中等 `dt_ref`，避免离散过细导致计算压力过大\n- 先限制 `max_global_plan_lookahead_dist`，避免局部规划器一次吞入过长路径\n\n### 2. 机器人运动学与动力学\n\n- `max_vel_x`\n- `max_vel_x_backwards`\n- `max_vel_y`\n- `max_vel_theta`\n- `acc_lim_x`\n- `acc_lim_theta`\n- `min_turning_radius`\n- `wheelbase`\n- `cmd_angle_instead_rotvel`\n\n作用：\n\n- 约束 TEB 输出是否符合底盘真实能力\n- 决定转弯半径、倒车能力和姿态变化速度\n\n建议：\n\n- 差速底盘通常设 `max_vel_y: 0.0`\n- 差速底盘通常从 `min_turning_radius: 0.0` 开始\n- 真机前不要把最大速度和最大角速度一次设到极限\n\n### 3. 目标容差与终点行为\n\n- `xy_goal_tolerance`\n- `yaw_goal_tolerance`\n- `free_goal_vel`\n\n作用：\n\n- 决定接近终点时是否容易抖动、绕圈或反复修正\n\n建议：\n\n- 初期将 `xy_goal_tolerance` 和 `yaw_goal_tolerance` 设得略宽\n- 先消除终点抖动，再逐步收紧容差\n\n### 4. 全局路径跟随行为\n\n- `global_plan_overwrite_orientation`\n- `allow_init_with_backwards_motion`\n- `global_plan_viapoint_sep`\n- `exact_arc_length`\n- `feasibility_check_no_poses`\n\n作用：\n\n- 决定 TEB 如何理解全局路径方向、是否允许倒车、是否更积极地贴合路径\n\n建议：\n\n- 如果机器人不希望倒车，先保持 `allow_init_with_backwards_motion: False`\n- 如果轨迹偏离全局路径明显，再考虑 `viapoint` 相关约束\n\n### 5. 机器人外形与碰撞模型\n\n- `footprint_model`\n- `min_obstacle_dist`\n- `inflation_dist`\n\n作用：\n\n- 决定局部规划绕障的保守程度\n- 直接影响贴边、卡角、擦碰风险\n\n建议：\n\n- `footprint_model` 必须与真实底盘外形一致\n- 先从略保守的障碍距离开始，稳定后再压榨通过性\n\n### 6. 优化权重\n\n常见项包括：\n\n- `weight_max_vel_x`\n- `weight_max_vel_theta`\n- `weight_acc_lim_x`\n- `weight_acc_lim_theta`\n- `weight_kinematics_nh`\n- `weight_kinematics_forward_drive`\n- `weight_optimaltime`\n- `weight_obstacle`\n\n作用：\n\n- 决定轨迹是更激进、更平滑，还是更守障碍边界\n\n建议：\n\n- 初始阶段少量改权重，优先先把运动学和障碍距离调准\n- 如果已经频繁碰障，再加大 `weight_obstacle`\n- 如果原地抖动或过于保守，再检查 `weight_optimaltime` 与容差参数\n\n## 推荐调参顺序\n\n建议按下面顺序推进，避免同时动太多变量。\n\n1. 跑通插件加载\n2. 确认底盘速度、加速度和 footprint 合理\n3. 确认能稳定跟踪直线路径\n4. 确认 90 度转弯不过冲、不原地抖动\n5. 确认窄通道绕障行为\n6. 最后再调优化权重和终点容差\n\n## 仿真调试流程\n\n仿真环境优先使用 `simulation/venom_nav_simulation`。\n\n### 1. Gazebo 中重点观察\n\n在 Gazebo 中重点看：\n\n- 机器人是否出现明显急停急转\n- 转弯时是否切角过大\n- 窄通道中是否左右来回摆动\n- 避障时是否出现死锁或原地振荡\n- 倒车策略是否符合预期\n\n建议的测试场景：\n\n- 长直走廊\n- 90 度拐角\n- S 弯\n- 窄门通过\n- 障碍物贴边绕行\n\n### 2. RViz 中重点观察\n\n在 RViz 中建议同时显示：\n\n- Global Path\n- Local Path / Trajectory\n- Local Costmap\n- Global Costmap\n- RobotModel\n- TF\n- LaserScan 或 PointCloud\n- Footprint\n\n要重点判断：\n\n- 局部轨迹是否始终贴近全局路径\n- 轨迹是否反复左右切换\n- 轨迹终点是否落在合理前视距离内\n- 局部 costmap 中的障碍是否与传感器数据对齐\n\n### 3. 仿真调参节奏\n\n建议使用固定流程：\n\n1. 只改一组参数\n2. 记录改动前后的现象\n3. 每次只验证 1 到 2 个典型场景\n4. 参数稳定后再切到更复杂场景\n\n推荐先调：\n\n- `max_vel_x`\n- `max_vel_theta`\n- `acc_lim_x`\n- `acc_lim_theta`\n- `xy_goal_tolerance`\n- `yaw_goal_tolerance`\n- `min_obstacle_dist`\n- `dt_ref`\n\n## 真机调试流程\n\n真机调试必须比仿真保守。\n\n### 1. 真机前置检查\n\n- `base_link`、`odom`、`map` 坐标链稳定\n- 里程计方向正确\n- 激光或点云障碍与实际位置一致\n- `footprint_model` 与真实外形一致\n- 最大速度与加速度不超过底盘可控范围\n\n### 2. 真机调试顺序\n\n1. 空旷区域低速直行\n2. 低速转弯\n3. 小角度避障\n4. 终点停车稳定性\n5. 窄通道通过\n6. 高频连续目标切换\n\n### 3. 真机常见问题与优先检查项\n\n如果出现轨迹振荡，先查：\n\n- `acc_lim_x`\n- `acc_lim_theta`\n- `xy_goal_tolerance`\n- `yaw_goal_tolerance`\n- `min_obstacle_dist`\n- 定位噪声和 TF 抖动\n\n如果出现贴障过近，先查：\n\n- `footprint_model`\n- `min_obstacle_dist`\n- `inflation_dist`\n- costmap 分辨率和障碍层配置\n\n如果出现转不过弯，先查：\n\n- `max_vel_theta`\n- `acc_lim_theta`\n- `min_turning_radius`\n- `wheelbase`\n\n## Gazebo、RViz、dynamic configure 的使用方式\n\n### 1. Gazebo\n\nGazebo 的作用是快速暴露运动学和碰撞模型问题。\n\n建议：\n\n- 使用固定地图反复回放同一路线\n- 每次只调整一类参数\n- 对比相同起终点下的轨迹变化和耗时变化\n\n### 2. RViz\n\nRViz 的作用是看清“为什么错”，而不是只看“是否撞了”。\n\n重点观察：\n\n- 全局路径和局部轨迹的偏差\n- footprint 与障碍边界的关系\n- 目标点附近的姿态调整过程\n- costmap 是否过度膨胀或漏障\n\n### 3. dynamic configure\n\n需要区分 ROS 1 和 ROS 2。\n\n- 如果使用的是 ROS 1 风格的 `teb_local_planner`，常见做法是配合 `rqt_reconfigure` 做在线调参\n- 如果使用的是 ROS 2 / Nav2 方案，通常不再依赖传统 `dynamic_reconfigure`\n\n对当前仓库这类 ROS 2 场景，建议这样做：\n\n- 首选 YAML 参数文件管理\n- 小步修改后重启 `controller_server` 或整套 Nav2\n- 配合 RViz 与日志做回归对比\n\n如果所用 TEB 插件版本支持 ROS 2 参数热更新，再补充在线改参流程；否则不要把调参流程建立在 `dynamic_reconfigure` 之上。\n\n## 建议的落地步骤\n\n1. 先在 `scout_mini` 上建立一份独立 TEB 参数文件\n2. 保留 DWB 原文件，避免一次性覆盖\n3. 在仿真中完成基础运动学、障碍距离和终点行为调参\n4. 在真机低速场景完成安全验证\n5. 稳定后再迁移到 `sentry`\n\n## 建议的文件组织\n\n建议不要直接覆盖现有 DWB 文件，而是新增例如：\n\n- `venom_bringup/config/scout_mini/nav2_params_teb.yaml`\n- `venom_bringup/config/sentry/nav2_params_teb.yaml`\n\n这样可以通过 launch 参数切换 DWB / TEB，方便 A/B 测试与回退。\n\n## 成功标准\n\n完成接入后，至少应满足：\n\n- `controller_server` 能稳定加载 TEB 插件\n- 仿真中能完成直行、转弯、绕障、到点停车\n- 真机低速场景下无明显振荡、擦障和失控行为\n- 参数文件可复现，切换过程可回退\n&quot;
+    }
+  },
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T12-25-14-809Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T12-25-14-809Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:25:14.809Z" data-timestamp="2026-04-27T12:25:14.809Z">2026-04-27T12:25:14.809Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Success. Updated the following files:
+A /home/william/venom_ws/src/venom_vnv/TEB_INTEGRATION_PLAN.md
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T12-25-24-527Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-25-24-527Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:25:24.527Z" data-timestamp="2026-04-27T12:25:24.527Z">2026-04-27T12:25:24.527Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>已在仓库根目录新增实施文档：<a href="/home/william/venom_ws/src/venom_vnv/TEB_INTEGRATION_PLAN.md:1">TEB_INTEGRATION_PLAN.md</a>。</p>
+<p>这份文档包含：
+- TEB 接入 Nav2 的改造方案
+- 需要替换和保留的关键参数
+- 仿真与真机的分阶段调试流程
+- Gazebo、RViz、dynamic configure 在调参中的使用方式
+- 建议的文件组织和落地顺序</p>
+<p>如果你要，我下一步可以继续把这份文档再细化成“<code>scout_mini</code> 的首版参数模板”。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-19">
+  <div class="turn-head">
+    <div class="turn-title">Turn 19 · 你跟我讲讲TEB的基本原理</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-27-54-453Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-27-54-453Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:27:54.453Z" data-timestamp="2026-04-27T12:27:54.453Z">2026-04-27T12:27:54.453Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>你跟我讲讲TEB的基本原理</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-28-12-753Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-28-12-753Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:28:12.753Z" data-timestamp="2026-04-27T12:28:12.753Z">2026-04-27T12:28:12.753Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>TEB 的核心思路是把“局部路径规划”变成一个<strong>带时间信息的轨迹优化问题</strong>。</p>
+<p>它不是像 DWB 那样先采样很多速度命令再打分选一个，而是直接优化一条短时域内的轨迹。<code>TEB</code> 里的 <code>Timed Elastic Band</code> 可以理解成“一串带时间间隔的轨迹点”，像一根有弹性的带子，被目标、障碍物、速度上限、加速度上限、非完整运动学约束这些因素一起拉扯，最后收敛成一条可执行轨迹。</p>
+<p>基本组成有三部分：</p>
+<ul>
+<li>
+<p>轨迹状态
+  轨迹由一串位姿点 <code>x, y, theta</code> 和相邻点之间的时间间隔 <code>dt</code> 组成，所以它优化的不只是“走哪条线”，还包括“每段多久走完”。</p>
+</li>
+<li>
+<p>约束与代价
+  TEB 会把很多要求写成优化项，比如：</p>
+</li>
+<li>离障碍物保持距离</li>
+<li>不超过最大速度和最大加速度</li>
+<li>满足差速车/阿克曼车的运动学约束</li>
+<li>尽量快到目标</li>
+<li>尽量贴近全局路径</li>
+<li>
+<p>尽量减少不必要倒车或大幅转向</p>
+</li>
+<li>
+<p>求解器优化
+  它把这些项组成一个稀疏优化问题，迭代求解，得到一条局部最优轨迹，然后从轨迹前段提取控制命令发给底盘。</p>
+</li>
+</ul>
+<p>你可以把它和 DWB 这样对比：</p>
+<ul>
+<li><code>DWB</code></li>
+<li>采样很多速度候选</li>
+<li>向前模拟短时间运动</li>
+<li>给每条候选轨迹打分</li>
+<li>选分数最好的速度</li>
+<li>
+<p>更像“离散搜索 + 打分”</p>
+</li>
+<li>
+<p><code>TEB</code></p>
+</li>
+<li>直接维护一条带时间参数的轨迹</li>
+<li>连续优化整条轨迹</li>
+<li>同时考虑路径形状和时间分配</li>
+<li>更像“约束优化”</li>
+</ul>
+<p>TEB 的优势通常是：</p>
+<ul>
+<li>轨迹更平滑</li>
+<li>对非完整约束处理更自然</li>
+<li>对窄通道、绕障、带转弯半径约束的问题更强</li>
+<li>可以同时优化“怎么走”和“走多快”</li>
+</ul>
+<p>它的代价也很明显：</p>
+<ul>
+<li>参数更多，更难调</li>
+<li>对机器人模型、footprint、障碍距离、定位质量更敏感</li>
+<li>如果约束冲突或参数不合适，容易抖动、绕圈、卡住</li>
+</ul>
+<p>在 Nav2 场景里，你可以把 TEB 理解成：
+- 全局规划器负责给一条大方向路径
+- TEB 负责把这条路径在局部窗口内变成一条满足底盘动力学和避障要求的可执行轨迹</p>
+<p>如果你要，我下一步可以继续结合你这个项目，专门讲：
+- TEB 里哪些参数最影响差速底盘表现
+- 为什么它比 DWB 更容易在窄通道里表现不同
+- <code>scout_mini</code> 这类车该先调哪几个参数</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-20">
+  <div class="turn-head">
+    <div class="turn-title">Turn 20 · 为什么它比 DWB 更容易在窄通道里表现不同</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-35-40-179Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-35-40-179Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:35:40.179Z" data-timestamp="2026-04-27T12:35:40.179Z">2026-04-27T12:35:40.179Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>为什么它比 DWB 更容易在窄通道里表现不同</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-36-07-075Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-36-07-075Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:36:07.075Z" data-timestamp="2026-04-27T12:36:07.075Z">2026-04-27T12:36:07.075Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>因为 TEB 和 DWB 解决问题的方式本质不同，所以在窄通道这种“约束很紧、可行空间很小”的场景里，表现差异会被放大。</p>
+<p>先说核心区别：</p>
+<ul>
+<li><code>DWB</code> 是“采样很多速度命令，再给每条短时轨迹打分”</li>
+<li><code>TEB</code> 是“直接优化一整段局部轨迹，并同时满足时间、障碍、运动学约束”</li>
+</ul>
+<p>窄通道里之所以差异明显，主要有这几个原因。</p>
+<ol>
+<li>窄通道本质上是“可行解很少”
+在宽阔区域，很多速度命令都能走，DWB 就算采样粗一点也容易找到还不错的解。<br />
+但在窄通道里，可执行轨迹往往只剩很小一簇，稍微偏一点就碰障。</li>
+</ol>
+<p>这时：
+- DWB 依赖采样密度，如果采样不够细，可能根本没采到那条“刚好能过”的轨迹
+- TEB 是在已有轨迹上连续优化，更容易把轨迹慢慢挤压到那条狭窄可行走廊里</p>
+<ol>
+<li>TEB 显式优化“整条轨迹”，不是只看瞬时速度
+DWB 每个周期主要是在比较“当前发哪组速度更好”，虽然也会短时前向模拟，但本质仍偏局部决策。<br />
+窄通道里，很多时候你需要为了后面能通过，前面先做一个不那么直观的姿态调整。</li>
+</ol>
+<p>TEB 更容易做到这点，因为它优化的是一串位姿点加时间间隔：
+- 会提前为后续拐角留姿态
+- 会在整段轨迹上平衡“贴路径”和“避障”
+- 更容易形成连续、平滑的穿越动作</p>
+<p>而 DWB 容易出现：
+- 当前看着都不够好
+- 每周期都在左右摇摆地选“局部最优”
+- 结果表现成走廊中来回摆动或原地犹豫</p>
+<ol>
+<li>TEB 对非完整运动学约束处理更直接
+差速车、阿克曼车不是想往哪瞬移就往哪，它们转弯、侧向运动都有限制。<br />
+窄通道往往正好逼着机器人在很小空间内完成姿态调整，所以运动学约束特别重要。</li>
+</ol>
+<p>TEB 会把这些约束直接放进优化里：
+- 最大速度
+- 最大加速度
+- 转弯半径
+- 非完整约束</p>
+<p>所以它求出来的轨迹，通常更像“机器人真实能走出来的轨迹”。</p>
+<p>DWB 虽然也考虑这些限制，但方式更偏“采样后淘汰”。在窄通道中，这种方式更依赖参数是否刚好合适。</p>
+<ol>
+<li>障碍距离在 TEB 里是连续约束，在 DWB 里更像评分项
+窄通道的关键不是“离障碍越远越好”，而是“既不能碰，又要刚好能过”。</li>
+</ol>
+<p>TEB 会把障碍距离作为优化目标的一部分，让轨迹在“安全”和“可通过”之间找平衡。<br />
+这使它在理论上更擅长处理两侧都很近的情况。</p>
+<p>DWB 常见情况是：
+- 障碍代价太重：不敢走，停住或抖动
+- 障碍代价太轻：敢走，但贴边过近
+- critic 权重稍不合适，就会在两边障碍之间反复横跳</p>
+<ol>
+<li>代价是 TEB 对参数和模型更敏感
+这也是“更容易表现不同”的另一面。<br />
+TEB 在窄通道里有时明显更好，但如果：</li>
+<li>footprint 不准</li>
+<li>障碍层不准</li>
+<li><code>min_obstacle_dist</code> 太大或太小</li>
+<li>定位抖动</li>
+<li>运动学参数不真实</li>
+</ol>
+<p>它也会比 DWB 更容易出奇怪行为，比如：
+- 原地抖动
+- 倒车犹豫
+- 轨迹反复重构
+- 明明能过却判成不可行</p>
+<p>所以更准确地说，不是“TEB 一定比 DWB 更强”，而是：</p>
+<ul>
+<li>在窄通道这类强约束场景中，TEB 的优化式方法更容易体现优势</li>
+<li>同时，它也更容易把模型误差和参数问题暴露出来</li>
+</ul>
+<p>如果结合你这个项目里的 <code>scout_mini</code>，实际最该关注的就是这几项：
+- <code>footprint_model</code>
+- <code>min_obstacle_dist</code>
+- <code>inflation_dist</code>
+- <code>max_vel_x</code>
+- <code>max_vel_theta</code>
+- <code>acc_lim_theta</code>
+- <code>xy_goal_tolerance</code>
+- <code>yaw_goal_tolerance</code></p>
+<p>如果你要，我可以下一步专门画一个“<code>DWB</code> 和 <code>TEB</code> 在窄通道中的决策差异”文字示意图给你。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-003.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <span class="current">4</span>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-005.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

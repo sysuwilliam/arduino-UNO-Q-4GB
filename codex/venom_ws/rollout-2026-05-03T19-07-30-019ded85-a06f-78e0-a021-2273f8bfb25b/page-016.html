@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b · Page 16</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b</a></h1>
+  <p>Page 16 / 16</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-015.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <span class="current">16</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-76">
+  <div class="turn-head">
+    <div class="turn-title">Turn 76 · william@william:~/venom_ws/src/venom_vnv/simulation/venom_nav_simulation$ ros2 launch rm_nav_bringup bringup_sim.launch.py \</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-05T16-01-17-243Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-05T16-01-17-243Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:01:17.243Z" data-timestamp="2026-05-05T16:01:17.243Z">2026-05-05T16:01:17.243Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~/venom_ws/src/venom_vnv/simulation/venom_nav_simulation$ ros2 launch rm_nav_bringup bringup_sim.launch.py \
+    world:=RMUL \
+    mode:=nav \
+    lio:=pointlio \
+    localization:=slam_toolbox \
+    lio_rviz:=False \
+    nav_rviz:=True
+[INFO] [launch]: All log files can be found below /home/william/.ros/log/2026-05-06-00-00-58-275178-william-250027
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): "package 'point_lio' not found, searching: ['/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/rm_nav_bringup', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/venom_mid360_simulation', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/ros2_livox_simulation', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/rm_navigation', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/pointcloud_to_laserscan', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/linefit_ground_segmentation_ros', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/linefit_ground_segmentation', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/imu_complementary_filter', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/icp_registration', '/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/fake_vel_transform', '/home/william/venom_ws/install/venom_robot_description', '/home/william/venom_ws/install/auto_aim_solver', '/home/william/venom_ws/install/venom_serial_driver', '/home/william/venom_ws/install/venom_mid360_simulation', '/home/william/venom_ws/install/traj_utils', '/home/william/venom_ws/install/teb_msgs', '/home/william/venom_ws/install/scout_msgs', '/home/william/venom_ws/install/scout_description', '/home/william/venom_ws/install/rm_navigation', '/home/william/venom_ws/install/quadrotor_msgs', '/home/william/venom_ws/install/pose_utils', '/home/william/venom_ws/install/piper_mujoco', '/home/william/venom_ws/install/piper_humble', '/home/william/venom_ws/install/piper_gazebo', '/home/william/venom_ws/install/piper_description', '/home/william/venom_ws/install/piper', '/home/william/venom_ws/install/map_generator', '/home/william/venom_ws/install/livox_ros_driver2', '/home/william/venom_ws/install/linefit_ground_segmentation', '/home/william/venom_ws/install/imu_complementary_filter', '/home/william/venom_ws/install/hunter_msgs', '/home/william/venom_ws/install/hik_camera', '/home/william/venom_ws/install/fake_vel_transform', '/home/william/venom_ws/install/cmake_utils', '/home/william/venom_ws/install/auto_aim_interfaces', '/opt/ros/humble']"</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-05T16-01-35-962Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-05T16-01-35-962Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:01:35.962Z" data-timestamp="2026-05-05T16:01:35.962Z">2026-05-05T16:01:35.962Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>现在缺的是 <code>point_lio</code> 包，不是刚才的 Livox 了。</p>
+<p>你启动参数里写了：</p>
+<pre><code class="language-bash">lio:=pointlio
+</code></pre>
+<p>所以 launch 会去找 ROS 包 <code>point_lio</code>，但当前环境里没有编译/安装它。</p>
+<p>先查源码有没有：</p>
+<pre><code class="language-bash">cd ~/venom_ws
+find src -maxdepth 8 -type f -name package.xml | xargs grep -H &quot;&lt;name&gt;point_lio&lt;/name&gt;&quot;
+</code></pre>
+<p>如果有输出，说明源码在，只是没编译。那就编译它：</p>
+<pre><code class="language-bash">cd ~/venom_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+
+colcon build --symlink-install --packages-select point_lio \
+  --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+source install/setup.bash
+</code></pre>
+<p>然后再启动仿真。</p>
+<p>如果没有输出，说明你重装后 <code>Point-LIO</code> 源码没拉下来。你可以再查一下目录：</p>
+<pre><code class="language-bash">find ~/venom_ws/src -maxdepth 8 -iname &quot;*point*lio*&quot; -o -iname &quot;*Point-LIO*&quot;
+</code></pre>
+<p>另外，如果你只是想先把仿真启动起来，不一定非要用 <code>pointlio</code>，可以临时换掉 <code>lio</code> 参数，比如先不用它或用项目已有的其他选项。但你之前一直用的是：</p>
+<pre><code class="language-bash">lio:=pointlio
+</code></pre>
+<p>所以最终还是需要把 <code>point_lio</code> 这个包恢复并编译出来。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-77">
+  <div class="turn-head">
+    <div class="turn-title">Turn 77 · ped old IMU sample(s). dropped_imu=1508 imu_queue=400 max_imu_queue=400</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-05T16-03-49-507Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-05T16-03-49-507Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:03:49.507Z" data-timestamp="2026-05-05T16:03:49.507Z">2026-05-05T16:03:49.507Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>ped old IMU sample(s). dropped_imu=1508 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.721255481] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1509 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.731390063] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1510 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.741276325] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1511 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.751275310] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1512 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.761252594] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1513 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.771265987] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1514 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.781278117] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1515 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.791273806] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1516 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.801245931] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1517 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.811296995] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1518 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.821237419] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1519 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.831283965] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1520 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.841258874] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1521 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.851246578] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1522 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.861235364] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1523 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.871252945] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1524 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.881286376] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1525 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.891265393] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1526 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.901244852] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1527 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.911245420] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1528 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.921258953] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1529 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.931268388] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1530 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.941248117] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1531 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.951265317] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1532 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.961230868] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1533 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.971242117] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1534 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.981245320] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1535 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997013.991250397] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1536 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.001296211] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1537 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.011234742] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1538 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.021259116] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1539 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.031304579] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1540 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.041240124] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1541 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.051264788] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1542 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.061254355] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1543 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.071237140] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1544 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.081254240] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1545 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.091242024] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1546 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.101252712] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1547 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.111325156] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1548 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.121267654] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1549 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.131294513] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1550 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.141244405] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1551 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.151262366] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1552 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.161243167] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1553 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.171259315] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1554 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.181261496] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1555 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.191243299] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1556 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.201277251] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1557 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.211254224] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1558 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.221246507] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1559 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.231306007] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1560 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.241278993] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1561 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.251246649] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1562 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.261266053] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1563 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.271295095] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1564 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.281242042] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1565 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.291253611] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1566 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.301283144] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1567 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.311240591] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1568 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.321255576] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1569 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.331255473] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1570 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.341247385] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1571 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.351253925] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1572 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.361273379] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1573 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.371256895] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1574 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.381253646] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1575 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.391237814] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1576 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.401307824] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1577 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.411236285] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1578 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.421236433] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1579 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.431365073] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1580 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.441256325] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1581 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.451275028] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1582 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.461270596] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1583 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.471235818] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1584 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.481336055] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1585 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.491251963] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1586 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.501241129] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1587 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.511243872] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1588 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.521250081] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1589 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.531277300] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1590 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.541239275] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1591 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.551309034] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1592 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.561251994] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1593 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.571256059] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1594 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.581318785] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1595 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.591265010] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1596 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.601258064] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1597 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.611279813] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1598 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.621260153] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1599 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.631231365] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1600 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.641289032] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1601 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.651250546] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1602 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.661234623] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1603 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.671251142] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1604 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.681234397] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1605 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.691263520] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1606 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.701243639] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1607 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.711245210] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1608 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.721255256] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1609 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.731242729] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1610 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.741245933] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1611 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.751256771] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1612 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.761226741] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1613 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.771258789] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1614 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.781235582] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1615 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.791249576] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1616 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.801280081] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1617 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.811262094] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1618 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.821264215] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1619 imu_queue=400 max_imu_queue=400
+[pointlio_mapping-10] [WARN] [1777997014.831342842] [li_initialization]: Point-LIO realtime warning: dropped old IMU sample(s). dropped_imu=1620 imu_queue=400 max_imu_queue=400
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[pointlio_mapping-10] [WARN] [1777997014.837882790] [laserMapping]: catch sig 2
+[rviz2-14] [INFO] [1777997014.837900473] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[fake_vel_transform_node-12] [INFO] [1777997014.837907587] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1777997014.837907977] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[localization_slam_toolbox_node-11] [INFO] [1777997014.837905984] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-13] [INFO] [1777997014.837907236] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-13] [INFO] [1777997014.837991586] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[pointcloud_to_laserscan_node-8] [INFO] [1777997014.837909931] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ground_segmentation_node-7] [INFO] [1777997014.837912135] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[complementary_filter_node-6] [INFO] [1777997014.837913298] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-9] [INFO] [1777997014.838159834] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[complementary_filter_node-6] [INFO] [1777997014.839802473] [complementary_filter_gain_node]: Destroying ComplementaryFilterROS
+[component_container_mt-13] [INFO] [1777997014.867680949] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[component_container_mt-13] [INFO] [1777997014.867744630] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867750050] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[component_container_mt-13] [INFO] [1777997014.867757624] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867762474] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[component_container_mt-13] [INFO] [1777997014.867768625] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867772733] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[component_container_mt-13] [INFO] [1777997014.867780337] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867786048] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[component_container_mt-13] [INFO] [1777997014.867797640] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867803171] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[component_container_mt-13] [INFO] [1777997014.867811957] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.867818109] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[component_container_mt-13] [INFO] [1777997014.867825613] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[component_container_mt-13] [INFO] [1777997014.872541860] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[component_container_mt-13] [INFO] [1777997014.881277564] [velocity_smoother]: Destroying
+[component_container_mt-13] [INFO] [1777997014.887678439] [waypoint_follower]: Destroying
+[component_container_mt-13] [INFO] [1777997014.893677614] [bt_navigator]: Destroying
+[component_container_mt-13] [INFO] [1777997014.900309336] [behavior_server]: Destroying
+[component_container_mt-13] [INFO] [1777997014.904977972] [global_costmap.global_costmap]: Destroying
+[component_container_mt-13] [INFO] [1777997014.909260659] [planner_server]: Destroying
+[component_container_mt-13] [INFO] [1777997014.912773988] [smoother_server]: Destroying
+[component_container_mt-13] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[component_container_mt-13]          at line 127 in ./src/class_loader.cpp
+[component_container_mt-13] [INFO] [1777997014.919867294] [local_costmap.local_costmap]: Destroying
+[component_container_mt-13] [ERROR] [1777997014.919897321] [local_costmap.local_costmap]: Unable to start transition 2 from current state cleaningup: Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:389, at ./src/rcl_lifecycle.c:368
+[component_container_mt-13] [INFO] [1777997014.922780017] [controller_server]: Destroying
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 252970]
+[INFO] [static_transform_publisher-9]: process has finished cleanly [pid 252982]
+[INFO] [complementary_filter_node-6]: process has finished cleanly [pid 252976]
+[INFO] [pointcloud_to_laserscan_node-8]: process has finished cleanly [pid 252980]
+[INFO] [fake_vel_transform_node-12]: process has finished cleanly [pid 252988]
+[INFO] [localization_slam_toolbox_node-11]: process has finished cleanly [pid 252986]
+[INFO] [ground_segmentation_node-7]: process has finished cleanly [pid 252978]
+[INFO] [pointlio_mapping-10]: process has finished cleanly [pid 252984]
+[INFO] [joint_state_publisher-2]: process has finished cleanly [pid 252968]
+[INFO] [component_container_mt-13]: process has finished cleanly [pid 252990]
+[INFO] [gzclient-1]: process has finished cleanly [pid 252966]
+[ERROR] [rviz2-14]: process has died [pid 252992, exit code -11, cmd '/opt/ros/humble/lib/rviz2/rviz2 -d /home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/install/rm_navigation/share/rm_navigation/rviz/nav2.rviz --ros-args'].
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): Cannot shutdown a ROS adapter that is not running</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-05T16-04-09-565Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-05T16-04-09-565Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:04:09.565Z" data-timestamp="2026-05-05T16:04:09.565Z">2026-05-05T16:04:09.565Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这个不是致命编译/启动错误，是 <strong>Point-LIO 实时处理跟不上 IMU 输入</strong>：</p>
+<pre><code class="language-text">Point-LIO realtime warning: dropped old IMU sample(s)
+imu_queue=400 max_imu_queue=400
+</code></pre>
+<p>意思是 <code>/livox/imu</code> 的 IMU 数据进得太快，Point-LIO 消费不过来，队列满了，就开始丢旧 IMU。常见原因：</p>
+<ul>
+<li>Gazebo + RViz + Point-LIO + slam_toolbox 一起跑，CPU 压力太大；</li>
+<li>仿真时间步太快或传感器频率太高；</li>
+<li>Point-LIO 初始化阶段还没跟上；</li>
+<li>同时开 <code>nav_rviz:=True</code> 会更吃资源。</li>
+</ul>
+<p>你后面的这些：</p>
+<pre><code class="language-text">rviz2 exit code -11
+Cannot shutdown a ROS adapter that is not running
+</code></pre>
+<p>是你 <code>Ctrl-C</code> 退出后的清理问题，RViz 崩了一下，不是主要问题。</p>
+<p>先按这个顺序处理：</p>
+<ol>
+<li><strong>先关 RViz 测一下 Point-LIO 是否稳定</strong></li>
+</ol>
+<pre><code class="language-bash">ros2 launch rm_nav_bringup bringup_sim.launch.py \
+  world:=RMUL \
+  mode:=nav \
+  lio:=pointlio \
+  localization:=slam_toolbox \
+  lio_rviz:=False \
+  nav_rviz:=False
+</code></pre>
+<p>如果不刷屏了，说明主要是资源不够。</p>
+<ol>
+<li><strong>降低 Gazebo 压力</strong></li>
+</ol>
+<p>启动后看 CPU，如果很高，先不要开 RViz 和导航目标测试。可以用：</p>
+<pre><code class="language-bash">htop
+</code></pre>
+<ol>
+<li><strong>只想调导航参数的话，可以考虑不用 Point-LIO</strong></li>
+</ol>
+<p>你现在主要是在调 TEB，不一定每次都要跑重 LIO。可以看 launch 支持什么 <code>lio</code> 选项：</p>
+<pre><code class="language-bash">grep -R &quot;DeclareLaunchArgument('lio&quot; -n src/rm_nav_bringup/launch
+grep -R &quot;lio&quot; -n src/rm_nav_bringup/launch/bringup_sim.launch.py
+</code></pre>
+<p>如果有 <code>lio:=fake</code>、<code>lio:=none</code>、<code>lio:=fastlio</code> 之类，可以先换轻量方案调 TEB。</p>
+<ol>
+<li><strong>如果必须用 Point-LIO，再去调 IMU 队列/频率</strong></li>
+</ol>
+<p>先找配置文件：</p>
+<pre><code class="language-bash">grep -R &quot;max_imu_queue\|imu_queue\|imu_topic\|lid_topic\|publish_freq\|filter_size&quot; -n \
+  src/rm_nav_bringup/config \
+  src/rm_localization \
+  src
+</code></pre>
+<p>你现在这个警告不是 TEB 导致的，也不是 <code>fake_vel_transform</code> 导致的。它发生在 <code>pointlio_mapping</code>，优先从资源占用、IMU 频率、Point-LIO 配置处理。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-78">
+  <div class="turn-head">
+    <div class="turn-title">Turn 78 · 还是不行，怎么回事</div>
+    <div class="turn-status">aborted</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-05T16-05-43-326Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-05T16-05-43-326Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:05:43.326Z" data-timestamp="2026-05-05T16:05:43.326Z">2026-05-05T16:05:43.326Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>还是不行，怎么回事</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-05T16-08-12-963Z-2026-05-05T16-08-12-963Z">
+  <summary>Codex process (1 item: Turn Aborted)</summary>
+  <div class="process-group-body">
+<div class="message system" id="msg-2026-05-05T16-08-12-963Z">
+  <div class="message-header">
+    <span class="role-label">Turn Aborted</span>
+    <a href="#msg-2026-05-05T16-08-12-963Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:08:12.963Z" data-timestamp="2026-05-05T16:08:12.963Z">2026-05-05T16:08:12.963Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>This turn was interrupted before completion.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-79">
+  <div class="turn-head">
+    <div class="turn-title">Turn 79 · 为什么我之前的仓库就不会这样</div>
+    <div class="turn-status">aborted</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-05T16-08-24-205Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-05T16-08-24-205Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:08:24.205Z" data-timestamp="2026-05-05T16:08:24.205Z">2026-05-05T16:08:24.205Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>为什么我之前的仓库就不会这样</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-05T16-09-39-676Z-2026-05-05T16-09-39-676Z">
+  <summary>Codex process (1 item: Turn Aborted)</summary>
+  <div class="process-group-body">
+<div class="message system" id="msg-2026-05-05T16-09-39-676Z">
+  <div class="message-header">
+    <span class="role-label">Turn Aborted</span>
+    <a href="#msg-2026-05-05T16-09-39-676Z" class="timestamp-link">
+      <time datetime="2026-05-05T16:09:39.676Z" data-timestamp="2026-05-05T16:09:39.676Z">2026-05-05T16:09:39.676Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>This turn was interrupted before completion.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-015.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <span class="current">16</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

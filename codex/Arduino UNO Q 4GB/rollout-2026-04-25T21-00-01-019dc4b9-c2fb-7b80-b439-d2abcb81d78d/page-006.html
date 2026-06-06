@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d · Page 6</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d</a></h1>
+  <p>Page 6 / 8</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-005.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <span class="current">6</span>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-007.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-26">
+  <div class="turn-head">
+    <div class="turn-title">Turn 26 · 我的设想是做一个无刷云台视觉模块</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-25T14-09-09-200Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-25T14-09-09-200Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:09:09.200Z" data-timestamp="2026-04-25T14:09:09.200Z">2026-04-25T14:09:09.200Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我的设想是做一个无刷云台视觉模块</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-25T14-09-30-753Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-25T14-09-30-753Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:09:30.753Z" data-timestamp="2026-04-25T14:09:30.753Z">2026-04-25T14:09:30.753Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这个方向是成立的，而且你前面铺的硬件路线和它是对得上的。</p>
+<p>如果把目标明确成“<code>无刷云台视觉模块</code>”，那你这个系统的定位就更清楚了：它不是单纯做一个摄像头识别 demo，而是在做一个可独立工作的视觉伺服模块。这个模块至少会包含 4 层：</p>
+<ul>
+<li><code>感知层</code>
+  USB 摄像头取流，OpenCV/AI 做目标检测、角点提取、中心点计算</li>
+<li><code>决策层</code>
+  状态机、模式切换、目标选择、标定逻辑</li>
+<li><code>执行层</code>
+  控制云台姿态、激光开关、下位机实时控制</li>
+<li><code>交互层</code>
+  串口触控屏作为本地控制面板</li>
+</ul>
+<p>但这里有一个关键点我得直接指出来：</p>
+<p><code>无刷云台</code> 和 <code>普通舵机云台</code> 不是一个难度等级。</p>
+<p>如果你说的真的是“无刷云台”，那执行层通常不是简单 PWM 舵机那种做法，而更像：</p>
+<ul>
+<li>无刷电机</li>
+<li>专用驱动器 / ESC / 云台控制板</li>
+<li>IMU 稳定</li>
+<li>闭环控制</li>
+<li>角度控制接口</li>
+</ul>
+<p>这时候 UNO Q 自带 MCU 未必直接就能“裸控整个无刷云台”。很多无刷云台系统通常会有独立控制板，比如：
+- 自带姿态稳定控制器
+- 接收串口/PWM/CAN/SBUS 等命令
+- 上层只发目标角度或速度</p>
+<p>所以你现在需要先把“无刷云台视觉模块”再分成两种路线：</p>
+<p><strong>路线 A：视觉模块 + 现成无刷云台控制器</strong>
+- UNO Q 负责视觉和高层控制
+- 下位控制器负责无刷云台电机闭环
+- 这是更现实、更稳的方案</p>
+<p><strong>路线 B：UNO Q 自己直接做无刷云台底层控制</strong>
+- 开发难度高很多
+- 对实时控制、驱动、电机参数、IMU 融合要求高
+- 不建议作为第一版</p>
+<p>如果你的目标是做一个可用的视觉模块，我建议优先采用路线 A。<br />
+也就是把系统定义成：</p>
+<ul>
+<li>UNO Q = 视觉主控 + 上位策略</li>
+<li>无刷云台控制板 = 低层姿态执行</li>
+<li>控制面板 = 人机交互</li>
+<li>摄像头 = 视觉输入</li>
+</ul>
+<p>这样你的开发重点就更合理：</p>
+<ul>
+<li>找目标</li>
+<li>算目标在画面中的位置</li>
+<li>把像素误差变成“期望 yaw/pitch 修正量”</li>
+<li>发给云台控制板</li>
+<li>让云台自己完成底层稳定</li>
+</ul>
+<p>这时候你做的是“视觉引导云台”，不是“从零做一个无刷飞控”。</p>
+<p>所以我的判断是：</p>
+<ul>
+<li><code>做无刷云台视觉模块，这个目标是合理的</code></li>
+<li><code>UNO Q 很适合做视觉与上层逻辑</code></li>
+<li><code>但无刷云台的底层闭环控制最好交给专用控制器或现成云台驱动板</code></li>
+</ul>
+<p>如果你后面真按这个方向走，系统大概会演变成这样：</p>
+<ul>
+<li>UNO Q Linux 侧</li>
+<li>OpenCV / AI</li>
+<li>状态机</li>
+<li>串口屏</li>
+<li>标定管理</li>
+<li>UNO Q MCU 侧或外部控制板</li>
+<li>和无刷云台驱动通信</li>
+<li>安全控制</li>
+<li>激光控制</li>
+<li>无刷云台本体</li>
+<li>姿态执行</li>
+</ul>
+<p>一句话总结：</p>
+<p><code>如果你要做的是“无刷云台视觉模块”，那重点应该放在视觉伺服和模块集成上，而不是自己从底层硬啃无刷电机控制。</code></p>
+<p>如果你愿意，我下一步可以直接帮你把这个项目重新定义成一个更专业的版本：
+- 模块目标
+- 功能边界
+- 推荐硬件分层
+- 第一版最小可行系统该长什么样</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-27">
+  <div class="turn-head">
+    <div class="turn-title">Turn 27 · 那我觉得我可以将视觉数据处理后发送给下位机来控制无刷云台</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-25T14-10-59-506Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-25T14-10-59-506Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:10:59.506Z" data-timestamp="2026-04-25T14:10:59.506Z">2026-04-25T14:10:59.506Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那我觉得我可以将视觉数据处理后发送给下位机来控制无刷云台</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-25T14-11-19-986Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-25T14-11-19-986Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:11:19.986Z" data-timestamp="2026-04-25T14:11:19.986Z">2026-04-25T14:11:19.986Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>对，这就是更合理的系统分工，而且很像正式工程里的做法。</p>
+<p>你可以把整个系统理解成：</p>
+<ul>
+<li><code>UNO Q</code> 做视觉主控
+  负责摄像头取流、目标检测、几何计算、状态机、控制面板交互</li>
+<li><code>下位机</code> 做运动控制
+  负责无刷云台姿态控制、执行器输出、安全保护</li>
+<li><code>两者之间串口通信</code>
+  UNO Q 把处理后的视觉结果发给下位机，下位机再把它转换成云台控制量</li>
+</ul>
+<p>这比让 UNO Q 直接去“硬控无刷电机”合理得多。</p>
+<p>你发给下位机的数据，通常不应该是整幅图像，而应该是 <code>处理后的结果</code>。例如：</p>
+<ul>
+<li>目标中心点 <code>(cx, cy)</code></li>
+<li>画面中心偏差 <code>(dx, dy)</code></li>
+<li>目标面积或尺度</li>
+<li>四个顶点坐标</li>
+<li>目标姿态角</li>
+<li>当前是否锁定目标</li>
+<li>当前模式</li>
+<li>激光目标点坐标</li>
+</ul>
+<p>下位机真正关心的是这些控制量，而不是原始图像。</p>
+<p>一个比较好的通信思路是这样：</p>
+<p>UNO Q 发给下位机：</p>
+<pre><code class="language-text">MODE,TRACK
+TARGET,320,185
+ERROR,-18,12
+LOCK,1
+LASER_POINT,305,190
+</code></pre>
+<p>或者更结构化一点：</p>
+<pre><code class="language-json">{&quot;mode&quot;:&quot;track&quot;,&quot;locked&quot;:1,&quot;cx&quot;:320,&quot;cy&quot;:185,&quot;dx&quot;:-18,&quot;dy&quot;:12}
+</code></pre>
+<p>下位机返回给 UNO Q：</p>
+<pre><code class="language-text">GIMBAL,OK
+ANGLE,12.4,-3.8
+STATUS,TRACKING
+LASER,OFF
+</code></pre>
+<p>不过在实际嵌入式里，我更建议你用 <code>简单定长/半定长文本协议</code> 或 <code>二进制帧</code>，不要一开始就上很重的 JSON。原因是：</p>
+<ul>
+<li>更容易在串口上做解析</li>
+<li>更容易做校验</li>
+<li>更适合下位机实现</li>
+<li>延迟和调试都更可控</li>
+</ul>
+<p>最关键的是：<br />
+你要在 UNO Q 侧先把“视觉结果”定义成稳定的接口，而不是让下位机知道太多视觉细节。</p>
+<p>也就是说，下位机不需要知道：
+- 你是 OpenCV 找出来的
+- 还是 Brick/AI 找出来的
+- 还是以后换了算法</p>
+<p>下位机只需要知道：
+- 当前目标在哪
+- 误差多大
+- 是否锁定
+- 是否允许执行</p>
+<p>这会让系统非常清晰。</p>
+<p>所以我支持你的这个方向，而且这是我会建议你采用的方案：</p>
+<ul>
+<li><code>UNO Q 做视觉和高层控制</code></li>
+<li><code>下位机做无刷云台控制</code></li>
+<li><code>UNO Q 发送处理后的目标数据，不发送原始图像</code></li>
+</ul>
+<p>这条路线对后续扩展也有好处。以后你换算法时：
+- UNO Q 代码可以变
+- 下位机控制协议尽量不变</p>
+<p>如果你愿意，我下一步可以直接帮你设计：
+- UNO Q 发给下位机的串口协议
+- 下位机回传协议
+- 哪些字段必须有
+- 通信频率大概该设多少才合理</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-28">
+  <div class="turn-head">
+    <div class="turn-title">Turn 28 · 那显示屏的串口收发是MPU还是MCU接收</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-25T14-12-13-241Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-25T14-12-13-241Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:12:13.241Z" data-timestamp="2026-04-25T14:12:13.241Z">2026-04-25T14:12:13.241Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那显示屏的串口收发是MPU还是MCU接收</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-25T14-12-18-180Z-2026-04-25T14-12-18-180Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-25T14-12-18-180Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-25T14-12-18-180Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:12:18.180Z" data-timestamp="2026-04-25T14:12:18.180Z">2026-04-25T14:12:18.180Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-25T14-12-26-655Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-25T14-12-26-655Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:12:26.655Z" data-timestamp="2026-04-25T14:12:26.655Z">2026-04-25T14:12:26.655Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>优先建议 <code>MPU/Linux 侧接收</code>，不是 MCU 侧。</p>
+<p>按你现在这个系统分工，最合理的是：</p>
+<ul>
+<li><code>MPU/Linux 侧</code>
+  接串口触控屏
+  负责 UI 命令、模式切换、参数设置、状态显示</li>
+<li><code>MCU/下位机侧</code>
+  接收来自 MPU 的控制结果
+  负责云台执行、激光控制、安全保护</li>
+</ul>
+<p>原因很简单：</p>
+<ul>
+<li>控制面板本质上是在操作“任务逻辑”和“系统状态”</li>
+<li>这些东西本来就属于上层控制，不属于底层实时执行</li>
+<li>视觉算法、状态机、模式切换都在 MPU/Linux 侧，屏直接接这里最顺</li>
+</ul>
+<p>也就是说，推荐链路是：</p>
+<p><code>触控屏 &lt;-&gt; MPU/Linux &lt;-&gt; MCU/下位机</code></p>
+<p>而不是：</p>
+<p><code>触控屏 &lt;-&gt; MCU/下位机 &lt;-&gt; MPU/Linux</code></p>
+<p>这样有几个好处：</p>
+<ul>
+<li>屏幕协议解析放在 Python/Linux 侧更容易写</li>
+<li>UI 改版时不用频繁改 MCU 固件</li>
+<li>模式切换、参数管理和视觉逻辑在同一侧，结构更清楚</li>
+<li>MCU 可以保持简单，只做执行控制</li>
+</ul>
+<p>只有一种情况我会建议把某些屏幕命令直接进 MCU：</p>
+<ul>
+<li>有极少数 <code>强安全/强实时</code> 功能<br />
+  比如急停、激光硬关闭、云台失能</li>
+</ul>
+<p>但即便这样，也更建议做成：
+- 屏命令先到 MPU
+- MPU 正常转发给 MCU
+- 另外保留独立硬件急停链路</p>
+<p>所以结论是：</p>
+<p><code>串口屏优先接 MPU/Linux 侧。</code>
+<code>MCU 侧主要接收 MPU 处理后的控制命令。</code></p>
+<p>如果你愿意，我下一步可以直接帮你把三方通信关系画成一张很清楚的模块图：
+- 触控屏
+- MPU
+- MCU/下位机
+- 摄像头
+- 无刷云台
+- 激光</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-29">
+  <div class="turn-head">
+    <div class="turn-title">Turn 29 · 好的，这个话题先到这里，等我买的设备到齐了以后就开始研究这个</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-25T14-13-20-626Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-25T14-13-20-626Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:13:20.626Z" data-timestamp="2026-04-25T14:13:20.626Z">2026-04-25T14:13:20.626Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>好的，这个话题先到这里，等我买的设备到齐了以后就开始研究这个</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-25T14-13-32-738Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-25T14-13-32-738Z" class="timestamp-link">
+      <time datetime="2026-04-25T14:13:32.738Z" data-timestamp="2026-04-25T14:13:32.738Z">2026-04-25T14:13:32.738Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以。你现在的总体方向已经比较清楚了：</p>
+<ul>
+<li><code>UNO Q MPU/Linux</code> 负责视觉、状态机、控制面板逻辑</li>
+<li><code>下位机/MCU</code> 负责无刷云台执行和安全控制</li>
+<li><code>USB 摄像头 + OpenCV</code> 作为第一版视觉路线</li>
+<li><code>串口触控屏</code> 作为模式切换和参数面板</li>
+<li><code>独立供电 Hub</code> 负责把整套 USB 外设稳住</li>
+</ul>
+<p>等设备到齐后，最合理的启动顺序是：</p>
+<ol>
+<li>先验证 Hub + 摄像头</li>
+<li>再验证串口屏通信</li>
+<li>再验证第二路串口到下位机</li>
+<li>再开始写 OpenCV 检测</li>
+<li>最后才接云台闭环</li>
+</ol>
+<p>你到时候直接继续找我就行。我可以从硬件验机、串口协议、程序架构，到第一版代码一起往下推进。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-30">
+  <div class="turn-head">
+    <div class="turn-title">Turn 30 · 我买的摄像头和拓展坞到了，你教我怎么连接摄像头</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T04-47-13-799Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T04-47-13-799Z" class="timestamp-link">
+      <time datetime="2026-04-27T04:47:13.799Z" data-timestamp="2026-04-27T04:47:13.799Z">2026-04-27T04:47:13.799Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我买的摄像头和拓展坞到了，你教我怎么连接摄像头</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T04-47-19-793Z-2026-04-27T04-47-19-793Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T04-47-19-793Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T04-47-19-793Z" class="timestamp-link">
+      <time datetime="2026-04-27T04:47:19.793Z" data-timestamp="2026-04-27T04:47:19.793Z">2026-04-27T04:47:19.793Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T04-47-27-489Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T04-47-27-489Z" class="timestamp-link">
+      <time datetime="2026-04-27T04:47:27.489Z" data-timestamp="2026-04-27T04:47:27.489Z">2026-04-27T04:47:27.489Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>先按最稳的方式接，不要一上来把所有设备都插满。第一轮只接 <code>UNO Q + 供电拓展坞 + USB 摄像头</code>。</p>
+<p>连接顺序这样做：</p>
+<ol>
+<li>给 <code>USB 拓展坞</code> 接上它自己的 <code>5V/3A 独立供电</code></li>
+<li>用拓展坞的上行口把 <code>拓展坞</code> 接到 <code>UNO Q</code> 的 USB-C 主机口</li>
+<li>把 <code>USB 摄像头</code> 插到拓展坞的一个 USB 口</li>
+<li>再给 <code>UNO Q</code> 上电并启动系统</li>
+</ol>
+<p>先不要接：
+- 串口触控屏
+- 其他 USB 转串口模块
+- 下位机</p>
+<p>这样最容易排查。</p>
+<p>接好后，在 UNO Q 终端依次执行：</p>
+<pre><code class="language-bash">ls /dev/video*
+</code></pre>
+<pre><code class="language-bash">v4l2-ctl --list-devices
+</code></pre>
+<p>如果还没装 <code>v4l-utils</code>，先装：</p>
+<pre><code class="language-bash">sudo apt install -y v4l-utils
+</code></pre>
+<p>再看摄像头支持的格式：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video0 --list-formats-ext
+</code></pre>
+<p>然后做最小 OpenCV 测试：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(0)
+print(&quot;opened:&quot;, cap.isOpened())
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>你现在只需要关注这 3 件事：</p>
+<ul>
+<li>有没有出现 <code>/dev/video0</code></li>
+<li><code>v4l2-ctl</code> 能不能识别到摄像头</li>
+<li>OpenCV 能不能成功读到一帧</li>
+</ul>
+<p>如果你愿意，我建议你现在就按这个顺序操作，然后把这 4 条命令的输出发我，我直接帮你判断下一步。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-005.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <span class="current">6</span>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-007.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

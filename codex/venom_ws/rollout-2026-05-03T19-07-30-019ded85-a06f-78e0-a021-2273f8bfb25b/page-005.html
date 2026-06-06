@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b · Page 5</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-05-03T19-07-30-019ded85-a06f-78e0-a021-2273f8bfb25b</a></h1>
+  <p>Page 5 / 16</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <a href="page-016.html">16</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-21">
+  <div class="turn-head">
+    <div class="turn-title">Turn 21 · 用的不同的plugin会有影响吗？因为实车本来是DWB，后面改成了TEB，仿真是本来就有TEB吗？</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-34-17-713Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-34-17-713Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:34:17.713Z" data-timestamp="2026-05-04T02:34:17.713Z">2026-05-04T02:34:17.713Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>用的不同的plugin会有影响吗？因为实车本来是DWB，后面改成了TEB，仿真是本来就有TEB吗？</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-34-47-697Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-34-47-697Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:34:47.697Z" data-timestamp="2026-05-04T02:34:47.697Z">2026-05-04T02:34:47.697Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>会有影响，而且影响很大。</p>
+<p>Nav2 的 <code>controller_server</code> 里，<code>plugin</code> 决定用哪个局部规划器。DWB 和 TEB 是两套完全不同的局部控制算法。</p>
+<p>你现在仿真里用的是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>实车如果原来是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>那它们不是同一个局部规划器。即使其他 Nav2 参数一样，运动表现也会明显不同。</p>
+<p>区别大概是：</p>
+<pre><code class="language-text">DWB：
+  采样一批速度指令，按 critic 打分，选当前最优速度。
+  参数重点是 vx_samples、vy_samples、critics、PathAlign、GoalDist 等。
+
+TEB：
+  优化一条带时间的局部轨迹，同时考虑速度、加速度、障碍物、时间最优等约束。
+  参数重点是 max_vel、acc_lim、dt_ref、min_obstacle_dist、各种 weight。
+</code></pre>
+<p>所以：</p>
+<ul>
+<li>DWB 的参数不能直接迁移到 TEB</li>
+<li>TEB 的参数也不能直接给 DWB 用</li>
+<li>如果实车从 DWB 改成 TEB，需要改 <code>plugin</code>，还要配完整 TEB 参数</li>
+<li>仿真如果已经是 TEB，那么它更适合用来给实车 TEB 调初值</li>
+</ul>
+<p>你问“仿真是不是本来就有 TEB”：是的，当前仿真参数文件里本来就配置了 TEB：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/rm_nav_bringup/config/simulation/nav2_params_sim.yaml
+</code></pre>
+<p>里面是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>但主工程里我之前看到另一个默认 Nav2 参数文件是 DWB，例如：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/simulation/venom_nav_simulation/src/rm_navigation/rm_navigation/params/nav2_params.yaml
+</code></pre>
+<p>那里是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>而你当前启动用的是 <code>rm_nav_bringup/config/simulation/nav2_params_sim.yaml</code>，所以实际仿真运行的是 TEB。</p>
+<p>实车要确认到底用哪个，看它启动时传给 Nav2 的参数文件。可以在实车运行时查：</p>
+<pre><code class="language-bash">ros2 param get /controller_server FollowPath.plugin
+</code></pre>
+<p>如果输出：</p>
+<pre><code class="language-text">teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>就是 TEB。</p>
+<p>如果输出：</p>
+<pre><code class="language-text">dwb_core::DWBLocalPlanner
+</code></pre>
+<p>就是 DWB。</p>
+<p>结论：</p>
+<pre><code class="language-text">仿真 TEB 参数 -&gt; 只能迁移到实车 TEB 配置
+仿真 TEB 参数 -&gt; 不能迁移到实车 DWB 配置
+实车从 DWB 改 TEB -&gt; 要同时改 plugin 和 TEB 参数表
+</code></pre>
+<p>如果你的目标是“实车最终用 TEB”，那现在仿真用 TEB 是合理的。你应该在仿真 TEB 里调一版初值，再把 TEB 配置迁移到实车对应的 <code>venom_bringup/config/&lt;robot&gt;/nav2_params.yaml</code>。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-22">
+  <div class="turn-head">
+    <div class="turn-title">Turn 22 · 所以说仿真中TEB调好的参是可以迁移到实车中吗，尽管plugin不一样</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-35-42-773Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-35-42-773Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:35:42.773Z" data-timestamp="2026-05-04T02:35:42.773Z">2026-05-04T02:35:42.773Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以说仿真中TEB调好的参是可以迁移到实车中吗，尽管plugin不一样</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-35-55-879Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-35-55-879Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:35:55.879Z" data-timestamp="2026-05-04T02:35:55.879Z">2026-05-04T02:35:55.879Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>如果实车的 plugin 还是 DWB，那 <strong>不能直接迁移</strong> 仿真里 TEB 的参数。</p>
+<p>TEB 参数只对这个插件生效：</p>
+<pre><code class="language-yaml">plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>DWB 参数只对这个插件生效：</p>
+<pre><code class="language-yaml">plugin: dwb_core::DWBLocalPlanner
+</code></pre>
+<p>所以分两种情况：</p>
+<p><strong>情况 1：实车仍然用 DWB</strong></p>
+<p>不能把仿真 TEB 参数直接迁移过去。比如这些 TEB 参数：</p>
+<pre><code class="language-yaml">dt_ref
+dt_hysteresis
+weight_obstacle
+weight_optimaltime
+min_obstacle_dist
+inflation_dist
+</code></pre>
+<p>DWB 不会按 TEB 的逻辑使用它们，很多参数甚至完全无效。</p>
+<p>最多只能迁移一些“概念上的约束”，例如：</p>
+<pre><code class="language-text">最大速度
+最大角速度
+最大加速度
+安全距离
+goal tolerance
+costmap inflation
+</code></pre>
+<p>但要写成 DWB 自己的参数形式。</p>
+<p><strong>情况 2：实车也改成 TEB</strong></p>
+<p>可以迁移仿真里的 TEB 参数作为初值，但实车还要低速验证和二次调参。</p>
+<p>也就是说，实车配置里也要改成：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>然后再迁移：</p>
+<pre><code class="language-yaml">max_vel_x
+max_vel_y
+max_vel_theta
+acc_lim_x
+acc_lim_y
+acc_lim_theta
+dt_ref
+dt_hysteresis
+min_obstacle_dist
+inflation_dist
+weight_obstacle
+weight_optimaltime
+...
+</code></pre>
+<p>结论一句话：</p>
+<pre><code class="language-text">仿真 TEB 参数 -&gt; 实车 TEB：可以迁移作为初值
+仿真 TEB 参数 -&gt; 实车 DWB：不能直接迁移
+</code></pre>
+<p>如果你说“尽管 plugin 不一样”，那答案就是：<strong>不行，plugin 不一样时参数不具备直接迁移意义。</strong></p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-23">
+  <div class="turn-head">
+    <div class="turn-title">Turn 23 · 你看一下这个项目，确认现在实车中的plugin是什么</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-36-28-382Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-36-28-382Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:28.382Z" data-timestamp="2026-05-04T02:36:28.382Z">2026-05-04T02:36:28.382Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>你看一下这个项目，确认现在实车中的plugin是什么</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-05-04T02-36-37-948Z-2026-05-04T02-36-51-787Z">
+  <summary>Codex process (23 items: 2 Commentary, 7 Tool Call, 7 Exec Command End, ...)</summary>
+  <div class="process-group-body">
+<div class="message commentary" id="msg-2026-05-04T02-36-37-948Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-04T02-36-37-948Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:37.948Z" data-timestamp="2026-05-04T02:36:37.948Z">2026-05-04T02:36:37.948Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会直接查主工程 <code>venom_bringup</code> 里的 Nav2 参数和 launch 引用，确认实车配置当前到底指向 DWB 还是 TEB。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-37-994Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-37-994Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:37.994Z" data-timestamp="2026-05-04T02:36:37.994Z">2026-05-04T02:36:37.994Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;rg -n \&#34;plugin:|controller_plugins|FollowPath|DWBLocalPlanner|TebLocalPlannerROS|nav2_params\&#34; src/venom_vnv/venom_bringup src/venom_vnv/planning -S&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:20000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-38-003Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-38-003Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.003Z" data-timestamp="2026-05-04T02:36:38.003Z">2026-05-04T02:36:38.003Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;find src/venom_vnv/venom_bringup -path &#39;*nav2*&#39; -type f -print | sort&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-38-013Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-38-013Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.013Z" data-timestamp="2026-05-04T02:36:38.013Z">2026-05-04T02:36:38.013Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;find src/venom_vnv/venom_bringup/launch -type f -name &#39;*.launch.py&#39; -print | sort&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-38-073Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-38-073Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.073Z" data-timestamp="2026-05-04T02:36:38.073Z">2026-05-04T02:36:38.073Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_FMqs86RWxATSn9FZ2jJoSjXp&quot;,
+  &quot;process_id&quot;: &quot;5810&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;find src/venom_vnv/venom_bringup -path &#x27;*nav2*&#x27; -type f -print | sort&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;find src/venom_vnv/venom_bringup -path &#x27;*nav2*&#x27; -type f -print&quot;,
+      &quot;query&quot;: &quot;*nav2*&quot;,
+      &quot;path&quot;: &quot;venom_bringup&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4678
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-38-078Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-38-078Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.078Z" data-timestamp="2026-05-04T02:36:38.078Z">2026-05-04T02:36:38.078Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_dm3Hu7H9rWWqMxjfbjoakspB&quot;,
+  &quot;process_id&quot;: &quot;65713&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;find src/venom_vnv/venom_bringup/launch -type f -name &#x27;*.launch.py&#x27; -print | sort&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;find src/venom_vnv/venom_bringup/launch -type f -name &#x27;*.launch.py&#x27; -print&quot;,
+      &quot;query&quot;: &quot;*.launch.py&quot;,
+      &quot;path&quot;: &quot;launch&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;src/venom_vnv/venom_bringup/launch/camera.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/d435i_test.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/mid360_point_lio.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/mid360_record_raw.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/mid360_rviz.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/px4_agent_probe.launch.py\nsrc/venom_vnv/venom_bringup/launch/examples/px4_vps_bridge.launch.py\nsrc/venom_vnv/venom_bringup/launch/health_aware_navigation.launch.py\nsrc/venom_vnv/venom_bringup/launch/infantry/center_lock_test.launch.py\nsrc/venom_vnv/venom_bringup/launch/infantry/infantry_auto_aim.launch.py\nsrc/venom_vnv/venom_bringup/launch/infantry/tracker_center_lock_test.launch.py\nsrc/venom_vnv/venom_bringup/launch/infantry/tracker_prediction_ballistic_test.launch.py\nsrc/venom_vnv/venom_bringup/launch/infantry/tracker_prediction_center_lock_test.launch.py\nsrc/venom_vnv/venom_bringup/launch/relocalization_bringup.launch.py\nsrc/venom_vnv/venom_bringup/launch/robot_bringup.launch.py\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_auto_aim.launch.py\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4778
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-38-440Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-38-440Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.440Z" data-timestamp="2026-05-04T02:36:38.440Z">2026-05-04T02:36:38.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 728370
+Wall time: 0.2842 seconds
+Process exited with code 0
+Original token count: 7020
+Output:
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:42:    progress_checker_plugin: &quot;progress_checker&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:44:    controller_plugins: [&quot;FollowPath&quot;]
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:47:      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:52:      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:57:    FollowPath:
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:58:      plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:103:      costmap_converter_plugin: &quot;&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:167:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:188:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:208:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:212:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:233:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:245:      plugin: &quot;nav2_navfn_planner/NavfnPlanner&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:257:      plugin: &quot;nav2_behaviors/Spin&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:259:      plugin: &quot;nav2_behaviors/BackUp&quot;
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:261:      plugin: &quot;nav2_behaviors/Wait&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:120:    progress_checker_plugin: &quot;progress_checker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:122:    controller_plugins: [&quot;FollowPath&quot;]
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:126:      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:131:    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:137:      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:141:    FollowPath:
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:142:      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:198:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:202:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:222:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:239:        plugin: &quot;nav2_costmap_2d::ObstacleLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:253:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:256:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:282:      plugin: &quot;nav2_navfn_planner/NavfnPlanner&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:292:      plugin: &quot;nav2_smoother::SimpleSmoother&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:304:      plugin: &quot;nav2_behaviors/Spin&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:306:      plugin: &quot;nav2_behaviors/BackUp&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:308:      plugin: &quot;nav2_behaviors/DriveOnHeading&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:310:      plugin: &quot;nav2_behaviors/Wait&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:312:      plugin: &quot;nav2_behaviors/AssistedTeleop&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:331:    waypoint_task_executor_plugin: &quot;wait_at_waypoint&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:333:      plugin: &quot;nav2_waypoint_follower::WaitAtWaypoint&quot;
+src/venom_vnv/venom_bringup/config/sentry/slam_toolbox_mapping.yaml:5:    solver_plugin: solver_plugins::CeresSolver
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/teb_local_planner_plugin.xml:2:	&lt;class type=&quot;teb_local_planner::TebLocalPlannerROS&quot; base_class_type=&quot;nav2_core::Controller&quot;&gt;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:120:    progress_checker_plugin: &quot;progress_checker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:122:    controller_plugins: [&quot;FollowPath&quot;]
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:126:      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:131:    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:137:      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:141:    FollowPath:
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:142:      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:198:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:202:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:222:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:239:        plugin: &quot;nav2_costmap_2d::ObstacleLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:253:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:256:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:282:      plugin: &quot;nav2_navfn_planner/NavfnPlanner&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:292:      plugin: &quot;nav2_smoother::SimpleSmoother&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:304:      plugin: &quot;nav2_behaviors/Spin&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:306:      plugin: &quot;nav2_behaviors/BackUp&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:308:      plugin: &quot;nav2_behaviors/DriveOnHeading&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:310:      plugin: &quot;nav2_behaviors/Wait&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:312:      plugin: &quot;nav2_behaviors/AssistedTeleop&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:331:    waypoint_task_executor_plugin: &quot;wait_at_waypoint&quot;
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:333:      plugin: &quot;nav2_waypoint_follower::WaitAtWaypoint&quot;
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/params/teb_params.yaml:6:    controller_plugin_types: [&quot;teb_local_planner::TebLocalPlannerROS&quot;]
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/params/teb_params.yaml:7:    controller_plugins: [&quot;FollowPath&quot;]
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/params/teb_params.yaml:8:    FollowPath:
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/params/teb_params.yaml:9:      plugin: teb_local_planner::TebLocalPlannerROS
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/params/teb_params.yaml:50:      costmap_converter_plugin: &quot;costmap_converter::CostmapToPolygonsDBSMCCH&quot;
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/test_optim_node.cpp:147:  RobotFootprintModelPtr robot_model = TebLocalPlannerROS::getRobotFootprintFromParamServer(n);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/include/teb_local_planner/teb_local_planner_ros.h:86:  * @class TebLocalPlannerROS
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/include/teb_local_planner/teb_local_planner_ros.h:90:class TebLocalPlannerROS : public nav2_core::Controller
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/include/teb_local_planner/teb_local_planner_ros.h:97:  TebLocalPlannerROS();
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/include/teb_local_planner/teb_local_planner_ros.h:102:  ~TebLocalPlannerROS();
+src/venom_vnv/venom_bringup/MISSION_CONTROLLER_README.md:202:    plugin: &quot;ReturnToBaseBehavior&quot;
+src/venom_vnv/venom_bringup/config/mapper_params_sync.yaml:5:    solver_plugin: solver_plugins::CeresSolver
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:810:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: Do not choose max_vel_x_backwards to be &lt;=0. Disable backwards driving by increasing the optimization weight for penalyzing backwards driving.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:814:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: max_vel_x &lt;= penalty_epsilon. The resulting bound is negative. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:817:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: max_vel_x_backwards &lt;= penalty_epsilon. The resulting bound is negative. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:820:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: max_vel_theta &lt;= penalty_epsilon. The resulting bound is negative. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:823:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: acc_lim_x &lt;= penalty_epsilon. The resulting bound is negative. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:826:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: acc_lim_theta &lt;= penalty_epsilon. The resulting bound is negative. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:830:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: dt_ref &lt;= dt_hysteresis. The hysteresis is not allowed to be greater or equal!. Undefined behavior... Change at least one of them!&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:834:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter min_samples is smaller than 3! Sorry, I haven&#x27;t enough degrees of freedom to plan a trajectory for you. Please increase ...&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:838:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter &#x27;costmap_obstacles_behind_robot_dist&#x27; should be positive or zero.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:842:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter obstacle_heading_threshold must be in the interval ]0,1[. 0=0deg opening angle, 1=90deg opening angle.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:846:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter cmd_angle_instead_rotvel is non-zero but wheelbase is set to zero: undesired behavior.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:849:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter cmd_angle_instead_rotvel is non-zero but min_turning_radius is set to zero: undesired behavior. You are mixing a carlike and a diffdrive robot&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:853:      RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter weight_adapt_factor shoud be &gt;= 1.0&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:856:      RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter oscillation_filter_duration must be &gt;= 0&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:859:      RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: parameter weight_optimaltime shoud be &gt; 0 (even if weight_shortest_path is in use)&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:867:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;line_obstacle_poses_affected&#x27; and &#x27;polygon_obstacle_poses_affected&#x27; are deprecated. They share now the common parameter &#x27;obstacle_poses_affected&#x27;.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:870:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;weight_point_obstacle&#x27;, &#x27;weight_line_obstacle&#x27; and &#x27;weight_poly_obstacle&#x27; are deprecated. They are replaced by the single param &#x27;weight_obstacle&#x27;.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:873:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;costmap_obstacles_front_only&#x27; is deprecated. It is replaced by &#x27;costmap_obstacles_behind_robot_dist&#x27; to define the actual area taken into account.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:876:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;costmap_emergency_stop_dist&#x27; is deprecated. You can safely remove it from your parameter config.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:879:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;alternative_time_cost&#x27; is deprecated. It has been replaced by &#x27;selection_alternative_time_cost&#x27;.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_config.cpp:882:    RCLCPP_WARN(logger_, &quot;TebLocalPlannerROS() Param Warning: &#x27;global_plan_via_point_sep&#x27; is deprecated. It has been replaced by &#x27;global_plan_viapoint_sep&#x27; due to consistency reasons.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:70:TebLocalPlannerROS::TebLocalPlannerROS() 
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:79:TebLocalPlannerROS::~TebLocalPlannerROS()
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:83:void TebLocalPlannerROS::initialize(nav2_util::LifecycleNode::SharedPtr node)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:141:                std::bind(&amp;TebLocalPlannerROS::customViaPointsCB, this, std::placeholders::_1));
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:163:void TebLocalPlannerROS::configure(
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:186:void TebLocalPlannerROS::setPlan(const nav_msgs::msg::Path &amp; orig_global_plan)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:212:geometry_msgs::msg::TwistStamped TebLocalPlannerROS::computeVelocityCommands(const geometry_msgs::msg::PoseStamped &amp;pose,
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:338:    RCLCPP_WARN_THROTTLE(logger_, *(clock_), 1, &quot;TebLocalPlannerROS: the trajectory has diverged. Resetting planner...&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:344:      std::string(&quot;TebLocalPlannerROS: velocity command invalid (hasDiverged). Resetting planner...&quot;)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:373:      std::string(&quot;TebLocalPlannerROS: trajectory is not feasible. Resetting planner...&quot;)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:386:      std::string(&quot;TebLocalPlannerROS: velocity command invalid. Resetting planner...&quot;)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:410:        std::string(&quot;TebLocalPlannerROS: Resulting steering angle is not finite. Resetting planner...&quot;)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:430:void TebLocalPlannerROS::updateObstacleContainerWithCostmap()
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:460://void TebLocalPlannerROS::updateObstacleContainerWithCostmapConverter()
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:508:void TebLocalPlannerROS::updateViaPointsContainer(const std::vector&lt;geometry_msgs::msg::PoseStamped&gt;&amp; transformed_plan, double min_separation)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:529://Eigen::Vector2d TebLocalPlannerROS::tfPoseToEigenVector2dTransRot(const tf::Pose&amp; tf_vel)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:538:bool TebLocalPlannerROS::pruneGlobalPlan(const geometry_msgs::msg::PoseStamped&amp; global_pose, std::vector&lt;geometry_msgs::msg::PoseStamped&gt;&amp; global_plan, double dist_behind_robot)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:585:bool TebLocalPlannerROS::transformGlobalPlan(const std::vector&lt;geometry_msgs::msg::PoseStamped&gt;&amp; global_plan,
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:732:double TebLocalPlannerROS::estimateLocalGoalOrientation(const std::vector&lt;geometry_msgs::msg::PoseStamped&gt;&amp; global_plan, const geometry_msgs::msg::PoseStamped&amp; local_goal,
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:783:void TebLocalPlannerROS::saturateVelocity(double&amp; vx, double&amp; vy, double&amp; omega, double max_vel_x, double max_vel_y, double max_vel_theta, double max_vel_x_backwards) const
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:803:                &quot;TebLocalPlannerROS(): Do not choose max_vel_x_backwards to be &lt;=0. Disable backwards driving by increasing the optimization weight for penalyzing backwards driving.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:824:double TebLocalPlannerROS::convertTransRotVelToSteeringAngle(double v, double omega, double wheelbase, double min_turning_radius) const
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:838:void TebLocalPlannerROS::validateFootprints(double opt_inscribed_radius, double costmap_inscribed_radius, double min_obst_dist)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:849:void TebLocalPlannerROS::configureBackupModes(std::vector&lt;geometry_msgs::msg::PoseStamped&gt;&amp; transformed_plan,  int&amp; goal_idx)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:914:                RCLCPP_INFO(logger_, &quot;TebLocalPlannerROS: possible oscillation (of the robot or its local plan) detected. Activating recovery strategy (prefer current turning direction during optimization).&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:923:            RCLCPP_INFO(logger_, &quot;TebLocalPlannerROS: oscillation recovery disabled/expired.&quot;);
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:930:void TebLocalPlannerROS::setSpeedLimit(
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:966://void TebLocalPlannerROS::customObstacleCB(const costmap_converter_msgs::msg::ObstacleArrayMsg::ConstSharedPtr obst_msg)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:972:void TebLocalPlannerROS::customViaPointsCB(const nav_msgs::msg::Path::ConstSharedPtr via_points_msg)
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:992:void TebLocalPlannerROS::activate() {
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:997:void TebLocalPlannerROS::deactivate() {
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:1002:void TebLocalPlannerROS::cleanup() {
+src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp:1012:PLUGINLIB_EXPORT_CLASS(teb_local_planner::TebLocalPlannerROS, nav2_core::Controller)
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:28:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:36:    declare_nav2_params = DeclareLaunchArgument(
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:37:        &#x27;nav2_params_file&#x27;,
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:38:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;sentry&#x27;, &#x27;nav2_params.yaml&#x27;),
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:141:            &#x27;params_file&#x27;: nav2_params_file,
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py:160:        declare_nav2_params,
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:120:    progress_checker_plugin: &quot;progress_checker&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:122:    controller_plugins: [&quot;FollowPath&quot;]
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:126:      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:131:    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:137:      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:141:    FollowPath:
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:142:      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:198:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:202:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:222:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:239:        plugin: &quot;nav2_costmap_2d::ObstacleLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:253:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:256:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:282:      plugin: &quot;nav2_navfn_planner/NavfnPlanner&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:292:      plugin: &quot;nav2_smoother::SimpleSmoother&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:304:      plugin: &quot;nav2_behaviors/Spin&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:306:      plugin: &quot;nav2_behaviors/BackUp&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:308:      plugin: &quot;nav2_behaviors/DriveOnHeading&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:310:      plugin: &quot;nav2_behaviors/Wait&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:312:      plugin: &quot;nav2_behaviors/AssistedTeleop&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:331:    waypoint_task_executor_plugin: &quot;wait_at_waypoint&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:333:      plugin: &quot;nav2_waypoint_follower::WaitAtWaypoint&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/slam_toolbox_mapping.yaml:5:    solver_plugin: solver_plugins::CeresSolver
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:32:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:39:    declare_nav2_params = DeclareLaunchArgument(
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:40:        &#x27;nav2_params_file&#x27;,
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:41:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;sentry&#x27;, &#x27;nav2_params.yaml&#x27;),
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:161:            &#x27;params_file&#x27;: nav2_params_file,
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:179:        declare_nav2_params,
+src/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:60:    plugin: &quot;ReturnToBaseBehavior&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:73:    plugin: &quot;PauseMissionBehavior&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:80:    plugin: &quot;ContinueMissionBehavior&quot;
+src/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:122:health_plugin:
+src/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:69:        self.health_plugin: Optional[HealthPlugin] = None
+src/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:70:        self.nav_plugin: Optional[NavigationPlugin] = None
+src/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:172:        if self.health_plugin:
+src/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:245:        if self.nav_plugin and self.health_plugin:
+src/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:262:        if not self.health_plugin:
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:33:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:50:    declare_nav2_params = DeclareLaunchArgument(
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:51:        &#x27;nav2_params_file&#x27;,
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:52:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:183:            &#x27;params_file&#x27;: nav2_params_file,
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:202:        declare_nav2_params,
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:38:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:61:    declare_nav2_params = DeclareLaunchArgument(
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:62:        &#x27;nav2_params_file&#x27;,
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:63:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:197:            &#x27;params_file&#x27;: nav2_params_file,
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:217:        declare_nav2_params,
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-38-440Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-38-440Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.440Z" data-timestamp="2026-05-04T02:36:38.440Z">2026-05-04T02:36:38.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 1e3942
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 61
+Output:
+src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml
+src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml
+src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml
+src/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-38-440Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-38-440Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.440Z" data-timestamp="2026-05-04T02:36:38.440Z">2026-05-04T02:36:38.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: fe79df
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 353
+Output:
+src/venom_vnv/venom_bringup/launch/camera.launch.py
+src/venom_vnv/venom_bringup/launch/examples/d435i_test.launch.py
+src/venom_vnv/venom_bringup/launch/examples/mid360_point_lio.launch.py
+src/venom_vnv/venom_bringup/launch/examples/mid360_record_raw.launch.py
+src/venom_vnv/venom_bringup/launch/examples/mid360_rviz.launch.py
+src/venom_vnv/venom_bringup/launch/examples/px4_agent_probe.launch.py
+src/venom_vnv/venom_bringup/launch/examples/px4_vps_bridge.launch.py
+src/venom_vnv/venom_bringup/launch/health_aware_navigation.launch.py
+src/venom_vnv/venom_bringup/launch/infantry/center_lock_test.launch.py
+src/venom_vnv/venom_bringup/launch/infantry/infantry_auto_aim.launch.py
+src/venom_vnv/venom_bringup/launch/infantry/tracker_center_lock_test.launch.py
+src/venom_vnv/venom_bringup/launch/infantry/tracker_prediction_ballistic_test.launch.py
+src/venom_vnv/venom_bringup/launch/infantry/tracker_prediction_center_lock_test.launch.py
+src/venom_vnv/venom_bringup/launch/relocalization_bringup.launch.py
+src/venom_vnv/venom_bringup/launch/robot_bringup.launch.py
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py
+src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py
+src/venom_vnv/venom_bringup/launch/sentry/sentry_auto_aim.launch.py
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py
+src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-38-540Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-38-540Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:38.540Z" data-timestamp="2026-05-04T02:36:38.540Z">2026-05-04T02:36:38.540Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_M1oOkqcPfDRw9HwGC1ROfcgJ&quot;,
+  &quot;process_id&quot;: &quot;69063&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;rg -n \&quot;plugin:|controller_plugins|FollowPath|DWBLocalPlanner|TebLocalPlannerROS|nav2_params\&quot; src/venom_vnv/venom_bringup src/venom_vnv/planning -S&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;rg -n &#x27;plugin:|controller_plugins|FollowPath|DWBLocalPlanner|TebLocalPlannerROS|nav2_params&#x27; src/venom_vnv/venom_bringup src/venom_vnv/planning -S&quot;,
+      &quot;query&quot;: &quot;plugin:|controller_plugins|FollowPath|DWBLocalPlanner|TebLocalPlannerROS|nav2_params&quot;,
+      &quot;path&quot;: &quot;venom_bringup&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:42:    progress_checker_plugin: \&quot;progress_checker\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:44:    controller_plugins: [\&quot;FollowPath\&quot;]\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:47:      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:52:      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:57:    FollowPath:\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:58:      plugin: \&quot;teb_local_planner::TebLocalPlannerROS\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:103:      costmap_converter_plugin: \&quot;\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:167:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:188:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:208:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:212:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:233:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:245:      plugin: \&quot;nav2_navfn_planner/NavfnPlanner\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:257:      plugin: \&quot;nav2_behaviors/Spin\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:259:      plugin: \&quot;nav2_behaviors/BackUp\&quot;\nsrc/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml:261:      plugin: \&quot;nav2_behaviors/Wait\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:120:    progress_checker_plugin: \&quot;progress_checker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:122:    controller_plugins: [\&quot;FollowPath\&quot;]\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:126:      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:131:    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:137:      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:141:    FollowPath:\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:142:      plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:198:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:202:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:222:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:239:        plugin: \&quot;nav2_costmap_2d::ObstacleLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:253:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:256:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:282:      plugin: \&quot;nav2_navfn_planner/NavfnPlanner\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:292:      plugin: \&quot;nav2_smoother::SimpleSmoother\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:304:      plugin: \&quot;nav2_behaviors/Spin\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:306:      plugin: \&quot;nav2_behaviors/BackUp\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:308:      plugin: \&quot;nav2_behaviors/DriveOnHeading\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:310:      plugin: \&quot;nav2_behaviors/Wait\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:312:      plugin: \&quot;nav2_behaviors/AssistedTeleop\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:331:    waypoint_task_executor_plugin: \&quot;wait_at_waypoint\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml:333:      plugin: \&quot;nav2_waypoint_follower::WaitAtWaypoint\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/slam_toolbox_mapping.yaml:5:    solver_plugin: solver_plugins::CeresSolver\nsrc/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/teb_local_planner_plugin.xml:2:\t&lt;class type=\&quot;teb_local_planner::TebLocalPlannerROS\&quot; base_class_type=\&quot;nav2_core::Controller\&quot;&gt;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:120:    progress_checker_plugin: \&quot;progress_checker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:122:    controller_plugins: [\&quot;FollowPath\&quot;]\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:126:      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:131:    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\nsrc/venom_vnv/venom_bringup/config/sentry/nav2_params2.yaml:137:      plugin: \&quot;nav2_controller::SimpleGo…18080 chars truncated…av2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:202:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:222:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:239:        plugin: \&quot;nav2_costmap_2d::ObstacleLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:253:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:256:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:282:      plugin: \&quot;nav2_navfn_planner/NavfnPlanner\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:292:      plugin: \&quot;nav2_smoother::SimpleSmoother\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:304:      plugin: \&quot;nav2_behaviors/Spin\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:306:      plugin: \&quot;nav2_behaviors/BackUp\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:308:      plugin: \&quot;nav2_behaviors/DriveOnHeading\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:310:      plugin: \&quot;nav2_behaviors/Wait\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:312:      plugin: \&quot;nav2_behaviors/AssistedTeleop\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:331:    waypoint_task_executor_plugin: \&quot;wait_at_waypoint\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml:333:      plugin: \&quot;nav2_waypoint_follower::WaitAtWaypoint\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/slam_toolbox_mapping.yaml:5:    solver_plugin: solver_plugins::CeresSolver\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:32:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:39:    declare_nav2_params = DeclareLaunchArgument(\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:40:        &#x27;nav2_params_file&#x27;,\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:41:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;sentry&#x27;, &#x27;nav2_params.yaml&#x27;),\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:161:            &#x27;params_file&#x27;: nav2_params_file,\nsrc/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py:179:        declare_nav2_params,\nsrc/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:60:    plugin: \&quot;ReturnToBaseBehavior\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:73:    plugin: \&quot;PauseMissionBehavior\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:80:    plugin: \&quot;ContinueMissionBehavior\&quot;\nsrc/venom_vnv/venom_bringup/config/scout_mini/mission_config.yaml:122:health_plugin:\nsrc/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:69:        self.health_plugin: Optional[HealthPlugin] = None\nsrc/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:70:        self.nav_plugin: Optional[NavigationPlugin] = None\nsrc/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:172:        if self.health_plugin:\nsrc/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:245:        if self.nav_plugin and self.health_plugin:\nsrc/venom_vnv/venom_bringup/venom_bringup/health_aware_commander.py:262:        if not self.health_plugin:\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:33:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:50:    declare_nav2_params = DeclareLaunchArgument(\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:51:        &#x27;nav2_params_file&#x27;,\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:52:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:183:            &#x27;params_file&#x27;: nav2_params_file,\nsrc/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py:202:        declare_nav2_params,\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:38:    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:61:    declare_nav2_params = DeclareLaunchArgument(\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:62:        &#x27;nav2_params_file&#x27;,\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:63:        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:197:            &#x27;params_file&#x27;: nav2_params_file,\nsrc/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py:217:        declare_nav2_params,\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 385513176
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-05-04T02-36-51-670Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-05-04T02-36-51-670Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.670Z" data-timestamp="2026-05-04T02:36:51.670Z">2026-05-04T02:36:51.670Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我查到了几份实车/bringup Nav2 参数：当前常用 <code>scout_mini</code> 和 <code>sentry</code> 配置仍是 DWB；另有一份根目录下的 <code>nav2_params_scoutmini.yaml</code> 是 TEB，但现有 scout_mini launch 默认没有引用它。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-51-702Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-51-702Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.702Z" data-timestamp="2026-05-04T02:36:51.702Z">2026-05-04T02:36:51.702Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;35,70p&#39; src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:6000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-51-707Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-51-707Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.707Z" data-timestamp="2026-05-04T02:36:51.707Z">2026-05-04T02:36:51.707Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;115,150p&#39; src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:6000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-51-711Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-51-711Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.711Z" data-timestamp="2026-05-04T02:36:51.711Z">2026-05-04T02:36:51.711Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;115,150p&#39; src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:6000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-05-04T02-36-51-712Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-05-04T02-36-51-712Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.712Z" data-timestamp="2026-05-04T02:36:51.712Z">2026-05-04T02:36:51.712Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;45,65p&#39; src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py &amp;&amp; sed -n &#39;58,68p&#39; src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py &amp;&amp; sed -n &#39;36,43p&#39; src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws&#34;,&#34;yield_time_ms&#34;:1000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-51-769Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-51-769Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.769Z" data-timestamp="2026-05-04T02:36:51.769Z">2026-05-04T02:36:51.769Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_IoFCUFn4hUHKdh6tqMciHTCU&quot;,
+  &quot;process_id&quot;: &quot;81578&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;35,70p&#x27; src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;35,70p&#x27; src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_params_scoutmini.yaml&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;controller_server:\n  ros__parameters:\n    use_sim_time: False\n    controller_frequency: 20.0\n    min_x_velocity_threshold: 0.001\n    min_y_velocity_threshold: 0.001\n    min_theta_velocity_threshold: 0.001\n    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;goal_checker\&quot;]\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n\n    goal_checker:\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n      stateful: True\n\n    FollowPath:\n      plugin: \&quot;teb_local_planner::TebLocalPlannerROS\&quot;\n      teb_autosize: True\n      dt_ref: 0.3\n      dt_hysteresis: 0.1\n      max_samples: 500\n      global_plan_overwrite_orientation: True\n      allow_init_with_backwards_motion: False\n      max_global_plan_lookahead_dist: 3.0\n      global_plan_viapoint_sep: -1\n      global_plan_prune_distance: 1\n      exact_arc_length: False\n      feasibility_check_no_poses: 2\n      publish_feedback: False\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 3676
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-51-773Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-51-773Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.773Z" data-timestamp="2026-05-04T02:36:51.773Z">2026-05-04T02:36:51.773Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_SoOCM1dAejjinrLOX4ls7FH5&quot;,
+  &quot;process_id&quot;: &quot;46606&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;115,150p&#x27; src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;115,150p&#x27; src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_params.yaml&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;    controller_frequency: 20.0\n    min_x_velocity_threshold: 0.001\n    min_y_velocity_threshold: 0.001\n    min_theta_velocity_threshold: 0.001\n    failure_tolerance: 0.3\n    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;general_goal_checker\&quot;] # \&quot;precise_goal_checker\&quot;\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    # Progress checker parameters\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n    # Goal checker parameters\n    #precise_goal_checker:\n    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n    #  xy_goal_tolerance: 0.25\n    #  yaw_goal_tolerance: 0.25\n    #  stateful: True\n    general_goal_checker:\n      stateful: True\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n    # DWB parameters\n    FollowPath:\n      plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\n      debug_trajectory_details: True\n      min_vel_x: 0.0\n      min_vel_y: 0.0\n      max_vel_x: 2.0\n      max_vel_y: 0.0\n      max_vel_theta: 2.0\n      min_speed_xy: 0.0\n      max_speed_xy: 2.0\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 4047
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-51-781Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-51-781Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.781Z" data-timestamp="2026-05-04T02:36:51.781Z">2026-05-04T02:36:51.781Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 4fdac5
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 275
+Output:
+controller_server:
+  ros__parameters:
+    use_sim_time: False
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;goal_checker&quot;]
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+
+    goal_checker:
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+      stateful: True
+
+    FollowPath:
+      plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+      teb_autosize: True
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_samples: 500
+      global_plan_overwrite_orientation: True
+      allow_init_with_backwards_motion: False
+      max_global_plan_lookahead_dist: 3.0
+      global_plan_viapoint_sep: -1
+      global_plan_prune_distance: 1
+      exact_arc_length: False
+      feasibility_check_no_poses: 2
+      publish_feedback: False
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-51-781Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-51-781Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.781Z" data-timestamp="2026-05-04T02:36:51.781Z">2026-05-04T02:36:51.781Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: f1eb23
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 286
+Output:
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;general_goal_checker&quot;] # &quot;precise_goal_checker&quot;
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+    general_goal_checker:
+      stateful: True
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # DWB parameters
+    FollowPath:
+      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+      debug_trajectory_details: True
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 2.0
+      max_vel_y: 0.0
+      max_vel_theta: 2.0
+      min_speed_xy: 0.0
+      max_speed_xy: 2.0
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-51-781Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-51-781Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.781Z" data-timestamp="2026-05-04T02:36:51.781Z">2026-05-04T02:36:51.781Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_r3ZSxUV3njeXsv8u2yaI3pkT&quot;,
+  &quot;process_id&quot;: &quot;3627&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;115,150p&#x27; src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;115,150p&#x27; src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_params.yaml&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;    controller_frequency: 20.0\n    min_x_velocity_threshold: 0.001\n    min_y_velocity_threshold: 0.001\n    min_theta_velocity_threshold: 0.001\n    failure_tolerance: 0.3\n    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;general_goal_checker\&quot;] # \&quot;precise_goal_checker\&quot;\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    # Progress checker parameters\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n    # Goal checker parameters\n    #precise_goal_checker:\n    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n    #  xy_goal_tolerance: 0.25\n    #  yaw_goal_tolerance: 0.25\n    #  stateful: True\n    general_goal_checker:\n      stateful: True\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n    # DWB parameters\n    FollowPath:\n      plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\n      debug_trajectory_details: True\n      min_vel_x: 0.0\n      min_vel_y: 0.0\n      max_vel_x: 1.5\n      max_vel_y: 0.0\n      max_vel_theta: 1.5\n      min_speed_xy: 0.0\n      max_speed_xy: 1.5\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 3416
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-51-782Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-51-782Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.782Z" data-timestamp="2026-05-04T02:36:51.782Z">2026-05-04T02:36:51.782Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 3886ac
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 286
+Output:
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;general_goal_checker&quot;] # &quot;precise_goal_checker&quot;
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+    general_goal_checker:
+      stateful: True
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # DWB parameters
+    FollowPath:
+      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+      debug_trajectory_details: True
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 1.5
+      max_vel_y: 0.0
+      max_vel_theta: 1.5
+      min_speed_xy: 0.0
+      max_speed_xy: 1.5
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-05-04T02-36-51-786Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-05-04T02-36-51-786Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.786Z" data-timestamp="2026-05-04T02:36:51.786Z">2026-05-04T02:36:51.786Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_nMQdsqZQzCsnbjD5HWCFrSOn&quot;,
+  &quot;process_id&quot;: &quot;95142&quot;,
+  &quot;turn_id&quot;: &quot;019df0d8-1d59-7f11-80ca-3c6312d8c106&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;45,65p&#x27; src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py &amp;&amp; sed -n &#x27;58,68p&#x27; src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py &amp;&amp; sed -n &#x27;36,43p&#x27; src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;45,65p&#x27; src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&quot;,
+      &quot;name&quot;: &quot;scout_mini_mapping.launch.py&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&quot;
+    },
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;58,68p&#x27; src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py&quot;,
+      &quot;name&quot;: &quot;relocalization.launch.py&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py&quot;
+    },
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;36,43p&#x27; src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py&quot;,
+      &quot;name&quot;: &quot;sentry_navigation.launch.py&quot;,
+      &quot;path&quot;: &quot;src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;            \&quot;&#x27;wheel&#x27; = wheel encoder (odom-&gt;base_link); \&quot;\n            \&quot;&#x27;laser/ekf&#x27; = isolate wheel odom under scout_odom-&gt;scout_base_link \&quot;\n            \&quot;to avoid conflict with Point-LIO odom-&gt;base_link\&quot;\n        )\n    )\n    declare_nav2_params = DeclareLaunchArgument(\n        &#x27;nav2_params_file&#x27;,\n        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),\n        description=&#x27;Path to nav2 parameters file&#x27;\n    )\n\n    # ---------------------------------------------------------------------------\n    # 1. Livox MID360 driver\n    # ---------------------------------------------------------------------------\n    livox_config_path = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;MID360_config.json&#x27;)\n\n    livox_driver_node = Node(\n        package=&#x27;livox_ros_driver2&#x27;,\n        executable=&#x27;livox_ros_driver2_node&#x27;,\n        name=&#x27;livox_lidar_publisher&#x27;,\n        output=&#x27;screen&#x27;,\n        ]),\n        description=&#x27;Path to slam_toolbox serialized map (without file extension)&#x27;\n    )\n    declare_nav2_params = DeclareLaunchArgument(\n        &#x27;nav2_params_file&#x27;,\n        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),\n        description=&#x27;Path to nav2 parameters file&#x27;\n    )\n\n    # ---------------------------------------------------------------------------\n    # 1. Livox MID360 driver\n    declare_nav2_params = DeclareLaunchArgument(\n        &#x27;nav2_params_file&#x27;,\n        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;sentry&#x27;, &#x27;nav2_params.yaml&#x27;),\n        description=&#x27;Path to nav2 parameters file&#x27;\n    )\n    declare_map_yaml = DeclareLaunchArgument(\n        &#x27;map_yaml_file&#x27;,\n        default_value=os.path.join(venom_bringup_dir, &#x27;map&#x27;, &#x27;rmul2026_map.yaml&#x27;),\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 3366
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-05-04T02-36-51-787Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-05-04T02-36-51-787Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:36:51.787Z" data-timestamp="2026-05-04T02:36:51.787Z">2026-05-04T02:36:51.787Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: ff9f06
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 439
+Output:
+            &quot;&#x27;wheel&#x27; = wheel encoder (odom-&gt;base_link); &quot;
+            &quot;&#x27;laser/ekf&#x27; = isolate wheel odom under scout_odom-&gt;scout_base_link &quot;
+            &quot;to avoid conflict with Point-LIO odom-&gt;base_link&quot;
+        )
+    )
+    declare_nav2_params = DeclareLaunchArgument(
+        &#x27;nav2_params_file&#x27;,
+        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),
+        description=&#x27;Path to nav2 parameters file&#x27;
+    )
+
+    # ---------------------------------------------------------------------------
+    # 1. Livox MID360 driver
+    # ---------------------------------------------------------------------------
+    livox_config_path = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;MID360_config.json&#x27;)
+
+    livox_driver_node = Node(
+        package=&#x27;livox_ros_driver2&#x27;,
+        executable=&#x27;livox_ros_driver2_node&#x27;,
+        name=&#x27;livox_lidar_publisher&#x27;,
+        output=&#x27;screen&#x27;,
+        ]),
+        description=&#x27;Path to slam_toolbox serialized map (without file extension)&#x27;
+    )
+    declare_nav2_params = DeclareLaunchArgument(
+        &#x27;nav2_params_file&#x27;,
+        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),
+        description=&#x27;Path to nav2 parameters file&#x27;
+    )
+
+    # ---------------------------------------------------------------------------
+    # 1. Livox MID360 driver
+    declare_nav2_params = DeclareLaunchArgument(
+        &#x27;nav2_params_file&#x27;,
+        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;sentry&#x27;, &#x27;nav2_params.yaml&#x27;),
+        description=&#x27;Path to nav2 parameters file&#x27;
+    )
+    declare_map_yaml = DeclareLaunchArgument(
+        &#x27;map_yaml_file&#x27;,
+        default_value=os.path.join(venom_bringup_dir, &#x27;map&#x27;, &#x27;rmul2026_map.yaml&#x27;),
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-05-04T02-37-04-201Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-37-04-201Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:37:04.201Z" data-timestamp="2026-05-04T02:37:04.201Z">2026-05-04T02:37:04.201Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我确认了当前项目里的实车/bringup 配置，结论是：</p>
+<p><strong>当前常用实车配置默认还是 DWB，不是 TEB。</strong></p>
+<p>具体如下。</p>
+<p>Scout Mini 当前 launch 默认用：</p>
+<pre><code class="language-text">src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml
+</code></pre>
+<p>对应 launch：</p>
+<pre><code class="language-text">src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py
+src/venom_vnv/venom_bringup/launch/scout_mini/relocalization.launch.py
+</code></pre>
+<p>里面是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>Sentry 当前 launch 默认用：</p>
+<pre><code class="language-text">src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml
+</code></pre>
+<p>对应 launch：</p>
+<pre><code class="language-text">src/venom_vnv/venom_bringup/launch/sentry/sentry_navigation.launch.py
+src/venom_vnv/venom_bringup/launch/sentry/sentry_mapping.launch.py
+</code></pre>
+<p>里面也是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>但项目里确实还有一份 TEB 的 Scout Mini 配置：</p>
+<pre><code class="language-text">src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml
+</code></pre>
+<p>里面是：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+</code></pre>
+<p>不过现有 <code>scout_mini</code> launch 默认没有引用这份文件，而是引用：</p>
+<pre><code class="language-text">config/scout_mini/nav2_params.yaml
+</code></pre>
+<p>所以按当前源码默认路径：</p>
+<pre><code class="language-text">仿真：TEB
+实车 scout_mini：DWB
+实车 sentry：DWB
+另有一份未默认接入的 scoutmini TEB 参数文件
+</code></pre>
+<p>如果你想确认正在运行的实车到底是什么，实车启动后执行最可靠：</p>
+<pre><code class="language-bash">ros2 param get /controller_server FollowPath.plugin
+</code></pre>
+<p>输出如果是：</p>
+<pre><code class="language-text">dwb_core::DWBLocalPlanner
+</code></pre>
+<p>就是 DWB。</p>
+<p>输出如果是：</p>
+<pre><code class="language-text">teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>就是 TEB。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-24">
+  <div class="turn-head">
+    <div class="turn-title">Turn 24 · 那我把plugin换成TEB以后，仿真的TEB参数是不是就可以迁移到实车中了</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-40-37-433Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-40-37-433Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:40:37.433Z" data-timestamp="2026-05-04T02:40:37.433Z">2026-05-04T02:40:37.433Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那我把plugin换成TEB以后，仿真的TEB参数是不是就可以迁移到实车中了</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-40-53-892Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-40-53-892Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:40:53.892Z" data-timestamp="2026-05-04T02:40:53.892Z">2026-05-04T02:40:53.892Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以迁移，但只能作为<strong>实车 TEB 初始参数</strong>，不能直接当最终参数。</p>
+<p>当你把实车配置从：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>改成：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+</code></pre>
+<p>之后，仿真里的 TEB 参数和实车里的 TEB 参数就属于同一套插件体系了，这时可以迁移这些参数：</p>
+<pre><code class="language-yaml">dt_ref
+dt_hysteresis
+max_samples
+max_vel_x
+max_vel_y
+max_vel_theta
+max_vel_x_backwards
+acc_lim_x
+acc_lim_y
+acc_lim_theta
+min_obstacle_dist
+inflation_dist
+weight_obstacle
+weight_inflation
+weight_optimaltime
+weight_max_vel_x
+weight_max_vel_y
+weight_max_vel_theta
+weight_acc_lim_x
+weight_acc_lim_y
+weight_acc_lim_theta
+</code></pre>
+<p>但实车必须重新低速验证，因为仿真和实车差异很大：</p>
+<pre><code class="language-text">仿真底盘响应理想，实车有延迟和死区
+仿真雷达干净，实车点云有噪声和盲区
+仿真 TF 精确，实车外参可能有误差
+仿真没有真实地面摩擦、打滑和串口/CAN 延迟
+实车安全距离必须更保守
+</code></pre>
+<p>建议迁移策略：</p>
+<ol>
+<li>先把实车 <code>plugin</code> 改成 TEB</li>
+<li>复制仿真 TEB 参数到实车对应的 <code>nav2_params.yaml</code></li>
+<li>实车先降速，比如：
+   <code>yaml
+   max_vel_x: 0.5
+   max_vel_y: 0.5
+   max_vel_theta: 1.0
+   acc_lim_x: 0.5
+   acc_lim_y: 0.5
+   acc_lim_theta: 1.0</code></li>
+<li>安全距离先保守：
+   <code>yaml
+   min_obstacle_dist: 0.35
+   inflation_dist: 0.8</code></li>
+<li>空旷场地测试</li>
+<li>再逐步提高速度和加速度</li>
+</ol>
+<p>另外要确保实车环境已经编译并 source 了项目里的 TEB：</p>
+<pre><code class="language-bash">cd /home/william/venom_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+colcon build --symlink-install --packages-select teb_local_planner
+source install/setup.bash
+</code></pre>
+<p>启动实车后确认：</p>
+<pre><code class="language-bash">ros2 param get /controller_server FollowPath.plugin
+</code></pre>
+<p>看到：</p>
+<pre><code class="language-text">teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>才说明实车真的切到 TEB。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-25">
+  <div class="turn-head">
+    <div class="turn-title">Turn 25 · 那这个项目中是否有TEB插件呢</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-05-04T02-42-17-134Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-05-04T02-42-17-134Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:42:17.134Z" data-timestamp="2026-05-04T02:42:17.134Z">2026-05-04T02:42:17.134Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那这个项目中是否有TEB插件呢</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-05-04T02-42-27-172Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-05-04T02-42-27-172Z" class="timestamp-link">
+      <time datetime="2026-05-04T02:42:27.172Z" data-timestamp="2026-05-04T02:42:27.172Z">2026-05-04T02:42:27.172Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>有。</p>
+<p>项目里的 TEB 插件在这里：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller
+</code></pre>
+<p>它的 ROS 包名是：</p>
+<pre><code class="language-text">teb_local_planner
+</code></pre>
+<p>插件注册文件是：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/teb_local_planner_plugin.xml
+</code></pre>
+<p>里面注册的是 Nav2 controller 插件：</p>
+<pre><code class="language-xml">&lt;class type=&quot;teb_local_planner::TebLocalPlannerROS&quot; base_class_type=&quot;nav2_core::Controller&quot;&gt;
+</code></pre>
+<p>源码导出位置在：</p>
+<pre><code class="language-text">/home/william/venom_ws/src/venom_vnv/planning/navigation/venom_teb_controller/venom_teb_controller/src/teb_local_planner_ros.cpp
+</code></pre>
+<p>其中有：</p>
+<pre><code class="language-cpp">PLUGINLIB_EXPORT_CLASS(teb_local_planner::TebLocalPlannerROS, nav2_core::Controller)
+</code></pre>
+<p>所以 Nav2 参数中这样写就是用项目里的 TEB：</p>
+<pre><code class="language-yaml">FollowPath:
+  plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+</code></pre>
+<p>你也已经编译并成功跑起来了，日志里这句就是证据：</p>
+<pre><code class="language-text">Created controller : FollowPath of type teb_local_planner::TebLocalPlannerROS
+</code></pre>
+<p>可以用这个命令检查当前环境是否能找到它：</p>
+<pre><code class="language-bash">ros2 pkg prefix teb_local_planner
+</code></pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+    
+    <a href="page-010.html">10</a>
+    
+  
+    
+    <a href="page-011.html">11</a>
+    
+  
+    
+    <a href="page-012.html">12</a>
+    
+  
+    
+    <a href="page-013.html">13</a>
+    
+  
+    
+    <a href="page-014.html">14</a>
+    
+  
+    
+    <a href="page-015.html">15</a>
+    
+  
+    
+    <a href="page-016.html">16</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

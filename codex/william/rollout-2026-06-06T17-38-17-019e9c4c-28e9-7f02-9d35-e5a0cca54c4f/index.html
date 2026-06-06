@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-06-06T17-38-17-019e9c4c-28e9-7f02-9d35-e5a0cca54c4f · Codex Conversation Export</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <div class="header-row">
+    <div>
+      <h1>rollout-2026-06-06T17-38-17-019e9c4c-28e9-7f02-9d35-e5a0cca54c4f</h1>
+      <p>Codex Conversation Export</p>
+    </div>
+    <div id="search-box">
+      <input type="text" id="search-input" placeholder="Search..." aria-label="Search conversions">
+      <button id="search-btn" type="button" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+      </button>
+    </div>
+  </div>
+  
+  <div class="meta-grid">
+    
+    <div class="meta-card">
+      <span class="meta-label">Session ID</span>
+      <div>019e9c4c-28e9-7f02-9d35-e5a0cca54c4f</div>
+    </div>
+    
+    <div class="meta-card">
+      <span class="meta-label">Originator</span>
+      <div>codex-tui</div>
+    </div>
+    
+    <div class="meta-card">
+      <span class="meta-label">Model Provider</span>
+      <div>custom</div>
+    </div>
+    
+    <div class="meta-card">
+      <span class="meta-label">CLI Version</span>
+      <div>0.137.0</div>
+    </div>
+    
+    <div class="meta-card">
+      <span class="meta-label">Workspace</span>
+      <div>william</div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<p class="summary">5 turns · 23 entries · 0 tool calls · 0 commits · 1 pages</p>
+
+
+<div class="pagination">
+  <span class="current">Index</span>
+  
+  <a href="page-001.html">1</a>
+  
+</div>
+
+
+
+<div class="index-item">
+  <a href="page-001.html#msg-2026-06-06T09-39-04-523Z">
+    <div class="index-item-header">
+      <span>Turn 1</span>
+      <time datetime="2026-06-06T09:39:04.522Z" data-timestamp="2026-06-06T09:39:04.522Z">2026-06-06T09:39:04.522Z</time>
+    </div>
+    <div class="index-item-content"><h1>AGENTS.md instructions for /home/william</h1></div>
+  </a>
+  <div class="index-item-stats">
+
+<span>0 tool calls · completed</span>
+<div class="index-item-long-text">
+  <div class="truncatable">
+    <div class="truncatable-content">
+      <div class="index-item-long-text-content"><p>根据 Arduino 文档，<strong>不是把模型文件手动上传到 App 里</strong>，而是通过 App Lab 和 Edge Impulse 的账号集成同步回来。</p>
+<p>你现在模型已经在网页里训练好后，按这个流程做：</p>
+<ol>
+<li>回到 <strong>Arduino App Lab</strong>。</li>
+<li>打开你要使用模型的 App。</li>
+<li>确认 App 里已经添加了对应的 Brick，例如图像识别要用 <strong>Video Object Detection Brick</strong>。</li>
+<li>进入这个 Brick 的 <strong>AI models</strong> 标签页。</li>
+<li>训练好的自定义模型应该会出现在可用模型列表里。</li>
+<li>点击模型旁边的 <strong>Install</strong>，等待它构建并安装到 Arduino UNO Q。</li>
+<li>安装完成后，打开 Brick 的 <strong>Configuration</strong>，选择你的新模型。</li>
+<li>运行 App，之后这个 Brick 就会使用你的自定义模型。</li>
+</ol>
+<p>文档里的关键点是：训练完成后“回到 Arduino App Lab，你的新模型会出现在 Brick 的可用模型列表中”，然后点击 <strong>Install</strong> 安装到 UNO Q，再在 Brick 配置里选择它。来源：Arduino 文档的 Custom AI Model Usage 部分：<br />
+https://docs.arduino.cc/software/app-lab/tutorials/ai-models/</p>
+<p>如果你回到 App Lab 后没有看到模型，优先检查这几个点：</p>
+<ul>
+<li>是否用的是同一个 <strong>Arduino / Edge Impulse 账号</strong>。</li>
+<li>是否是从 App Lab 里的 <strong>Train new AI model</strong> 入口跳转到 Edge Impulse 的。</li>
+<li>模型类型是否匹配 Brick，例如 Object Detection 模型要配 <strong>Video Object Detection Brick</strong>。</li>
+<li>训练是否已经完成，并且模型在 Edge Impulse 里测试通过。</li>
+<li>关闭再重新打开 App 或刷新 App Lab 的 Brick 页面。</li>
+</ul>
+<p>另外，Edge Impulse 可以导出 <code>.eim</code> 文件，但按这篇文档的说法，<code>.eim</code> 手动导出主要是用于在 Arduino App Lab 之外的 C++ 或 Python 项目里实验；在 App Lab 里通常走 <strong>AI models 列表 -&gt; Install -&gt; Configuration 选择模型</strong> 这条路径。</p></div>
+    </div>
+    <button class="expand-btn" type="button">Show more</button>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="index-item">
+  <a href="page-001.html#msg-2026-06-06T09-42-11-282Z">
+    <div class="index-item-header">
+      <span>Turn 2</span>
+      <time datetime="2026-06-06T09:42:11.278Z" data-timestamp="2026-06-06T09:42:11.278Z">2026-06-06T09:42:11.278Z</time>
+    </div>
+    <div class="index-item-content"><p>https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q</p></div>
+  </a>
+  <div class="index-item-stats">
+
+<span>0 tool calls · completed</span>
+<div class="index-item-long-text">
+  <div class="truncatable">
+    <div class="truncatable-content">
+      <div class="index-item-long-text-content"><p>这篇 Edge Impulse 文档讲的是 <strong>不通过 Arduino App Lab 的另一条部署路线</strong>：直接把 UNO Q 当作 Linux 设备连接到 Edge Impulse，然后用命令行下载安装到板子上运行。</p>
+<p>也就是说你现在有两种方式：</p>
+<p><strong>方式 A：在 Arduino App Lab 里用模型</strong></p>
+<p>适合你前面说的“导入 app 中”。</p>
+<p>流程是：</p>
+<ol>
+<li>在 App Lab 里打开你的 App。</li>
+<li>找到对应的 AI Brick，例如 <code>Video Object Detection Brick</code>。</li>
+<li>进入 Brick 的 <code>AI models</code>。</li>
+<li>找到你训练好的模型。</li>
+<li>点 <code>Install</code>。</li>
+<li>安装完成后，在 Brick 的 <code>Configuration</code> 里选择这个模型。</li>
+<li>运行 App。</li>
+</ol>
+<p>这个方式不需要你手动下载 <code>.eim</code> 文件，也不需要 SSH 到 UNO Q。</p>
+<p><strong>方式 B：直接在 UNO Q 上运行 Edge Impulse 模型</strong></p>
+<p>这是你发的 Edge Impulse 文档里的方式。适合你想绕过 App Lab，用命令行在 UNO Q 上直接跑模型。</p>
+<p>大致流程是：</p>
+<ol>
+<li>给 UNO Q 连网，并开启 SSH 或接屏幕进入终端。</li>
+<li>在 UNO Q 上安装 Edge Impulse 依赖：</li>
+</ol>
+<pre><code class="language-bash">sudo apt update
+curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
+sudo apt install -y gcc g++ make build-essential nodejs sox gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps
+sudo npm install edge-impulse-linux -g --unsafe-perm
+</code></pre>
+<ol>
+<li>连接 Edge Impulse 项目：</li>
+</ol>
+<pre><code class="language-bash">edge-impulse-linux
+</code></pre>
+<p>它会让你登录 Edge Impulse，并选择项目。</p>
+<ol>
+<li>运行模型：</li>
+</ol>
+<pre><code class="language-bash">edge-impulse-linux-runner
+</code></pre>
+<p>这个命令会自动编译、下载模型到 UNO Q，然后开始推理。</p>
+<p>官方文档来源：<br />
+https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q</p>
+<p>关键区别是：</p>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>用哪种方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>想在 Arduino App Lab 做的 App 里使用模型</td>
+<td>用 App Lab 的 <code>AI models -&gt; Install -&gt; Configuration</code></td>
+</tr>
+<tr>
+<td>想在 UNO Q Linux 系统里直接测试模型</td>
+<td>用 <code>edge-impulse-linux-runner</code></td>
+</tr>
+<tr>
+<td>想自己写 Python / C++ 程序调用模型</td>
+<td>用 Edge Impulse Linux SDK 或导出的 Linux <code>.eim</code></td>
+</tr>
+</tbody>
+</table>
+<p>所以，如果你的目标仍然是“导入 App Lab 的 App 中”，不要按这篇 Edge Impulse 文档去跑 <code>edge-impulse-linux-runner</code>。那是独立运行模型，不是把模型放进 App Lab 的 Brick 里。</p></div>
+    </div>
+    <button class="expand-btn" type="button">Show more</button>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="index-item">
+  <a href="page-001.html#msg-2026-06-06T09-43-32-361Z">
+    <div class="index-item-header">
+      <span>Turn 3</span>
+      <time datetime="2026-06-06T09:43:32.358Z" data-timestamp="2026-06-06T09:43:32.358Z">2026-06-06T09:43:32.358Z</time>
+    </div>
+    <div class="index-item-content"><p>如何确认自己是否有训练好的模型</p></div>
+  </a>
+  <div class="index-item-stats">
+
+<span>0 tool calls · completed</span>
+<div class="index-item-long-text">
+  <div class="truncatable">
+    <div class="truncatable-content">
+      <div class="index-item-long-text-content"><p>可以从 <strong>Edge Impulse 网页端</strong> 和 <strong>Arduino App Lab</strong> 两边确认。</p>
+<p><strong>在 Edge Impulse 确认</strong></p>
+<ol>
+<li>打开你的 Edge Impulse 项目。</li>
+<li>进入左侧的 <strong>Impulse design</strong>。</li>
+<li>确认里面已经有完整流程，例如：</li>
+<li>输入数据类型，比如 image / audio / sensor</li>
+<li>Processing block</li>
+<li>Learning block，例如 object detection / classification</li>
+<li>进入左侧 <strong>Model testing</strong>。</li>
+<li>如果你能看到测试结果、准确率、混淆矩阵或检测结果，说明模型已经训练过。</li>
+<li>再进入 <strong>Dashboard</strong> 或 <strong>Deployment</strong>。</li>
+<li>如果页面提示模型可以部署，或者可以生成 Linux / <code>.eim</code> / Arduino library 等部署包，说明模型已经训练完成。</li>
+</ol>
+<p>最直接的判断是：<br />
+<strong>Model testing 页面能跑出结果，Deployment 页面能构建模型。</strong></p>
+<p><strong>在 Arduino App Lab 确认</strong></p>
+<p>如果你是从 App Lab 的 <strong>Train new AI model</strong> 跳转到 Edge Impulse 训练的：</p>
+<ol>
+<li>回到 Arduino App Lab。</li>
+<li>打开你的 App。</li>
+<li>选中对应的 AI Brick，例如 <strong>Video Object Detection Brick</strong>。</li>
+<li>打开 Brick 的 <strong>AI models</strong> 页面。</li>
+<li>看列表里是否出现你训练的模型。</li>
+<li>如果出现并且有 <strong>Install</strong> 按钮，就说明 App Lab 识别到了这个模型。</li>
+</ol>
+<p>注意：模型必须和 Brick 类型匹配。比如：</p>
+<table>
+<thead>
+<tr>
+<th>训练的模型</th>
+<th>App Lab 中对应 Brick</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>图像分类</td>
+<td>Image Classification 相关 Brick</td>
+</tr>
+<tr>
+<td>目标检测</td>
+<td>Video Object Detection Brick</td>
+</tr>
+<tr>
+<td>音频分类</td>
+<td>Audio Classification 相关 Brick</td>
+</tr>
+<tr>
+<td>传感器分类</td>
+<td>Sensor / IMU 相关 Brick</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果你在 Edge Impulse 里不确定有没有训练成功</strong></p>
+<p>看这几个地方：</p>
+<ul>
+<li><code>Impulse design &gt; Image</code> 或类似训练页面里是否点过 <strong>Start training</strong></li>
+<li>是否有训练完成后的准确率，例如 accuracy / F1 score / loss</li>
+<li><code>Model testing</code> 是否可以点击 <strong>Classify all</strong> 或显示测试结果</li>
+<li><code>Deployment</code> 是否可以成功 build</li>
+<li>项目 Dashboard 是否显示最近训练过的 model / impulse</li>
+</ul>
+<p><strong>如果 App Lab 里看不到模型</strong></p>
+<p>常见原因是：</p>
+<ul>
+<li>Edge Impulse 和 Arduino App Lab 不是同一个账号或没有正确绑定。</li>
+<li>不是从 App Lab 的训练入口创建的模型。</li>
+<li>训练还没完成。</li>
+<li>模型类型和当前 Brick 不匹配。</li>
+<li>App Lab 页面还没刷新。</li>
+<li>Edge Impulse 项目没有部署到兼容 UNO Q / App Lab 的格式。</li>
+</ul>
+<p>简单判断路径：</p>
+<pre><code class="language-text">Edge Impulse 能 Model testing -&gt; 说明模型训练过
+Edge Impulse 能 Deployment build -&gt; 说明模型可部署
+App Lab 的 AI models 里能看到 -&gt; 说明可以导入当前 App
+</code></pre>
+<p>如果你愿意，可以把你 Edge Impulse 左侧菜单里目前能看到的页面名称，或者 <code>Dashboard / Model testing / Deployment</code> 页面截图发我，我可以帮你判断现在卡在哪一步。</p></div>
+    </div>
+    <button class="expand-btn" type="button">Show more</button>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="index-item">
+  <a href="page-001.html#msg-2026-06-06T09-44-57-735Z">
+    <div class="index-item-header">
+      <span>Turn 4</span>
+      <time datetime="2026-06-06T09:44:57.731Z" data-timestamp="2026-06-06T09:44:57.731Z">2026-06-06T09:44:57.731Z</time>
+    </div>
+    <div class="index-item-content"><p>Your impulse is not fully trained. Use the items in the navigation bar to configure and train your model before you can validate your model.</p></div>
+  </a>
+  <div class="index-item-stats">
+
+<span>0 tool calls · completed</span>
+<div class="index-item-long-text">
+  <div class="truncatable">
+    <div class="truncatable-content">
+      <div class="index-item-long-text-content"><p>这个提示的意思是：<strong>你的 Edge Impulse 项目里还没有完成完整训练</strong>，所以现在不能做 <code>Model testing / Validate</code>，也还不能导入 App Lab 使用。</p>
+<p>你需要按左侧导航栏把训练流程补完。一般步骤如下：</p>
+<ol>
+<li><strong>Data acquisition</strong></li>
+<li>确认已经上传或采集了数据。</li>
+<li>数据要有标签，例如 <code>person</code>、<code>object</code>、<code>normal</code>、<code>warning</code> 等。</li>
+<li>
+<p>如果是图像目标检测，还要确认图片里已经画了 bounding box。</p>
+</li>
+<li>
+<p><strong>Impulse design</strong></p>
+</li>
+<li>进入 <code>Create impulse</code>。</li>
+<li>配好输入大小和处理模块。</li>
+<li>例如图像模型通常是：<ul>
+<li><code>Image</code></li>
+<li><code>Classification</code> 或 <code>Object Detection</code></li>
+</ul>
+</li>
+<li>
+<p>配好后点击 <strong>Save impulse</strong>。</p>
+</li>
+<li>
+<p><strong>Processing block</strong></p>
+</li>
+<li>如果你选的是 Image，左侧通常会出现 <code>Image</code> 页面。</li>
+<li>进入它。</li>
+<li>点击 <strong>Save parameters</strong>。</li>
+<li>
+<p>然后点击 <strong>Generate features</strong>。</p>
+</li>
+<li>
+<p><strong>Learning block</strong></p>
+</li>
+<li>进入你的训练页面，例如：<ul>
+<li><code>Classifier</code></li>
+<li><code>Object detection</code></li>
+<li><code>Transfer learning</code></li>
+</ul>
+</li>
+<li>设置训练参数。</li>
+<li>点击 <strong>Start training</strong>。</li>
+<li>
+<p>等训练完成，页面应该显示 accuracy / loss / F1 score 等结果。</p>
+</li>
+<li>
+<p><strong>Model testing</strong></p>
+</li>
+<li>回到 <code>Model testing</code>。</li>
+<li>这时再点击测试/验证，应该就不会再出现 “not fully trained”。</li>
+</ol>
+<p>也就是说，Edge Impulse 里不是只上传数据就算有模型。必须完成：</p>
+<pre><code class="language-text">Create impulse
+-&gt; Save parameters
+-&gt; Generate features
+-&gt; Start training
+-&gt; Model testing
+</code></pre>
+<p>如果你是做 Arduino App Lab 的视觉模型，最常见漏掉的是：</p>
+<ul>
+<li>只创建了 impulse，但没有点 <strong>Generate features</strong>。</li>
+<li>只生成了 features，但没有点 <strong>Start training</strong>。</li>
+<li>图片上传了，但没有标注标签或 bounding box。</li>
+<li>选择了 Object Detection，但数据不是目标检测格式。</li>
+<li>修改过 <code>Create impulse</code> 后，没有重新生成 features 和重新训练。</li>
+</ul>
+<p>你可以先检查左侧导航栏：<br />
+如果某个项目旁边还有感叹号、灰色状态、或者提示未完成，就从那里继续配置。完成训练后，再回到 App Lab 的 AI Brick 里看模型是否出现。</p></div>
+    </div>
+    <button class="expand-btn" type="button">Show more</button>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="index-item">
+  <a href="page-001.html#msg-2026-06-06T09-58-15-191Z">
+    <div class="index-item-header">
+      <span>Turn 5</span>
+      <time datetime="2026-06-06T09:58:15.186Z" data-timestamp="2026-06-06T09:58:15.186Z">2026-06-06T09:58:15.186Z</time>
+    </div>
+    <div class="index-item-content"><p>from arduino.app_utils import App</p></div>
+  </a>
+  <div class="index-item-stats">
+
+<span>0 tool calls · completed</span>
+<div class="index-item-long-text">
+  <div class="truncatable">
+    <div class="truncatable-content">
+      <div class="index-item-long-text-content"><p>这段代码是在 <strong>Arduino App Lab</strong> 里使用一个“视频目标检测 Brick”，打开摄像头/视频流后持续识别画面里的物体；一旦检测到对象，就把检测结果打印出来。</p>
+<p>逐段解释：</p>
+<pre><code class="language-python">from arduino.app_utils import App
+from arduino.app_bricks.video_objectdetection import VideoObjectDetection
+</code></pre>
+<p>导入 App Lab 运行所需的模块：</p>
+<ul>
+<li><code>App</code>：负责启动 App Lab 应用。</li>
+<li><code>VideoObjectDetection</code>：视频目标检测功能，也就是识别摄像头画面中的物体。</li>
+</ul>
+<pre><code class="language-python">detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
+</code></pre>
+<p>创建一个目标检测对象。</p>
+<p>参数含义：</p>
+<ul>
+<li><code>confidence=0.5</code>：只接受置信度大于等于 <code>0.5</code> 的检测结果，也就是 <strong>50% 以上把握</strong> 的识别结果。</li>
+<li><code>debounce_sec=0.0</code>：去抖时间为 0 秒。也就是说，只要检测到对象，就可以立刻触发回调，不做延迟过滤。</li>
+</ul>
+<pre><code class="language-python">def print_detections(detections: dict):
+</code></pre>
+<p>定义一个函数，用来处理检测结果。<br />
+这个函数会在检测到物体时被调用。</p>
+<p><code>detections</code> 大概是一个字典，结构类似：</p>
+<pre><code class="language-python">{
+    &quot;person&quot;: [
+        {&quot;confidence&quot;: 0.91, &quot;x&quot;: 100, &quot;y&quot;: 80, &quot;width&quot;: 50, &quot;height&quot;: 120}
+    ],
+    &quot;cup&quot;: [
+        {&quot;confidence&quot;: 0.76, &quot;x&quot;: 220, &quot;y&quot;: 130, &quot;width&quot;: 40, &quot;height&quot;: 60}
+    ]
+}
+</code></pre>
+<p>也就是：</p>
+<ul>
+<li>key 是识别出的类别名称，比如 <code>"person"</code>、<code>"cup"</code>。</li>
+<li>value 是这个类别对应的检测列表，因为同一画面里可能有多个同类物体。</li>
+</ul>
+<pre><code class="language-python">for key, value in detections.items():
+</code></pre>
+<p>遍历每一种检测到的类别。</p>
+<p>比如：</p>
+<pre><code class="language-python">key = &quot;person&quot;
+value = [{&quot;confidence&quot;: 0.91, ...}]
+</code></pre>
+<pre><code class="language-python">for detection in value:
+</code></pre>
+<p>遍历这一类里的每一个检测框。</p>
+<p>例如画面里有 2 个人，就会循环 2 次。</p>
+<pre><code class="language-python">entry = {
+    &quot;content&quot;: key,
+    &quot;confidence&quot;: f&quot;{round(detection.get('confidence', 0) * 100)} %&quot;
+}
+</code></pre>
+<p>把检测结果整理成一个新的字典：</p>
+<pre><code class="language-python">{
+    &quot;content&quot;: &quot;person&quot;,
+    &quot;confidence&quot;: &quot;91 %&quot;
+}
+</code></pre>
+<p>其中：</p>
+<ul>
+<li><code>content</code>：识别到的物体类别。</li>
+<li><code>confidence</code>：置信度百分比。</li>
+<li><code>detection.get('confidence', 0)</code>：从检测结果里取 <code>confidence</code>，如果没有这个字段就用 <code>0</code>。</li>
+<li><code>* 100</code>：把 <code>0.91</code> 转成 <code>91</code>。</li>
+<li><code>round(...)</code>：四舍五入。</li>
+<li><code>f"... %"</code>：格式化成字符串，例如 <code>"91 %"</code>。</li>
+</ul>
+<pre><code class="language-python">print(entry)
+</code></pre>
+<p>把结果打印到控制台。</p>
+<pre><code class="language-python">detection_stream.on_detect_all(print_detections)
+</code></pre>
+<p>注册回调函数。<br />
+意思是：<strong>当检测到所有对象时，调用 <code>print_detections</code> 这个函数处理结果。</strong></p>
+<pre><code class="language-python">App.run()
+</code></pre>
+<p>启动 App。<br />
+没有这一行，App Lab 不会真正开始运行检测。</p>
+<p>所以整段代码可以理解为：</p>
+<pre><code class="language-text">启动视频目标检测
+如果画面中识别到物体
+就把物体名称和置信度打印出来
+</code></pre>
+<p>例如运行时可能输出：</p>
+<pre><code class="language-python">{'content': 'person', 'confidence': '93 %'}
+{'content': 'cup', 'confidence': '78 %'}
+</code></pre>
+<p>如果你训练的是自己的模型，比如识别 <code>apple</code>、<code>banana</code>、<code>bottle</code>，那么这里的 <code>content</code> 就会显示你的模型标签名称。</p></div>
+    </div>
+    <button class="expand-btn" type="button">Show more</button>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+<div class="pagination">
+  <span class="current">Index</span>
+  
+  <a href="page-001.html">1</a>
+  
+</div>
+
+
+
+<dialog id="search-modal">
+  <div class="search-modal-header">
+    <input type="text" id="modal-search-input" placeholder="Search..." aria-label="Search conversions">
+    <button id="modal-search-btn" type="button" aria-label="Search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+    </button>
+    <button id="modal-close-btn" type="button" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </button>
+  </div>
+  <div id="search-status"></div>
+  <div id="search-results"></div>
+</dialog>
+<script>window.__CONVERSION_SEARCH_DATA__ = [{"page": "page-001.html", "anchor": "msg-2026-06-06T09-39-04-523Z", "role": "User", "timestamp": "2026-06-06T09:39:04.523Z", "text": "# AGENTS.md instructions for /home/william\n\n\u003cINSTRUCTIONS\u003e\n# Project Agent Instructions\n\n- Work autonomously until the requested task is handled end-to-end: inspect, implement, verify, and summarize.\n- Use the repository's existing style, tooling, scripts, and tests before introducing new conventions.\n- Keep the main conversation responsive: delegate long exploration, status checks, broad scans, and slow verification to subagents when practical.\n- Prefer `rg` / `rg --files` for search, and run the narrowest useful test or syntax check after edits.\n- Do not expose secrets from `.env`, `~/.codex/private.env`, shell history, keychains, local config files, or CI variables.\n- Preserve user work: do not revert unrelated changes, do not run destructive git commands, and create backups before changing user-level agent configuration.\n- Prefer official Codex/OpenAI compatibility for plugins, apps, MCP tools, and subagents unless the project explicitly requires a custom provider.\n- When Codex is configured with `approval_policy = \"never\"` and `sandbox_mode = \"danger-full-access\"`, act carefully: make small reversible edits, avoid broad filesystem mutations, and verify paths before writes.\n- For frontend work, preserve the existing design system unless the task explicitly asks for a redesign.\n- For documentation, keep commands copy-pasteable and avoid committing real tokens.\n\n\u003c/INSTRUCTIONS\u003e\n\u003cenvironment_context\u003e\n  \u003ccwd\u003e/home/william\u003c/cwd\u003e\n  \u003cshell\u003ebash\u003c/shell\u003e\n  \u003ccurrent_date\u003e2026-06-06\u003c/current_date\u003e\n  \u003ctimezone\u003eAsia/Shanghai\u003c/timezone\u003e\n  \u003cfilesystem\u003e\u003cworkspace_roots\u003e\u003croot\u003e/home/william\u003c/root\u003e\u003c/workspace_roots\u003e\u003cpermission_profile type=\"managed\"\u003e\u003cfile_system type=\"restricted\"\u003e\u003centry access=\"read\"\u003e\u003cspecial\u003e:root\u003c/special\u003e\u003c/entry\u003e\u003centry access=\"write\"\u003e\u003cpath\u003e/home/william\u003c/path\u003e\u003c/entry\u003e\u003centry access=\"write\"\u003e\u003cspecial\u003e:slash_tmp\u003c/special\u003e\u003c/entry\u003e\u003centry access=\"write\"\u003e\u003cspecial\u003e:tmpdir\u003c/special\u003e\u003c/entry\u003e\u003centry access=\"read\"\u003e\u003cpath\u003e/home/william/.git\u003c/path\u003e\u003c/entry\u003e\u003centry access=\"read\"\u003e\u003cpath\u003e/home/william/.agents\u003c/path\u003e\u003c/entry\u003e\u003centry access=\"read\"\u003e\u003cpath\u003e/home/william/.codex\u003c/path\u003e\u003c/entry\u003e\u003c/file_system\u003e\u003c/permission_profile\u003e\u003c/filesystem\u003e\n\u003c/environment_context\u003e"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-39-04-526Z", "role": "User", "timestamp": "2026-06-06T09:39:04.526Z", "text": "根据https://docs.arduino.cc/software/app-lab/integrations/ai-models/的内容，我现在在网页训练好了一个模型，怎么导入app中"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-39-33-089Z", "role": "Commentary", "timestamp": "2026-06-06T09:39:33.089Z", "text": "我先看一下你给的 Arduino App Lab 文档，确认它目前对网页训练模型和 App 导入流程的官方说法。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-39-33-089Z", "role": "Web Search End", "timestamp": "2026-06-06T09:39:33.089Z", "text": "web_search_end"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-40-11-274Z", "role": "Web Search End", "timestamp": "2026-06-06T09:40:11.274Z", "text": "web_search_end"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-40-11-804Z", "role": "Agent Reasoning", "timestamp": "2026-06-06T09:40:11.804Z", "text": "agent_reasoning"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-40-11-805Z", "role": "Reasoning", "timestamp": "2026-06-06T09:40:11.805Z", "text": "{\"type\": \"summary_text\", \"text\": \"**Explaining app integration**\\n\\nI’m focusing on how to explain the integration of a trained model into an app. First, I’ll mention returning to App Lab, navigating to the AI models tab, and then selecting “Install” from the Brick configuration. If it doesn’t appear, it might be due to account issues, and I’ll suggest launching from “Train new AI model” with the correct type. I’ll also consider exporting .eim files for manual access, ensuring I include adequate citations and links. I might check GitHub docs for detailed content.\"}"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-40-24-225Z", "role": "Web Search End", "timestamp": "2026-06-06T09:40:24.225Z", "text": "web_search_end"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-40-25-933Z", "role": "Assistant", "timestamp": "2026-06-06T09:40:25.933Z", "text": "根据 Arduino 文档，**不是把模型文件手动上传到 App 里**，而是通过 App Lab 和 Edge Impulse 的账号集成同步回来。\n\n你现在模型已经在网页里训练好后，按这个流程做：\n\n1. 回到 **Arduino App Lab**。\n2. 打开你要使用模型的 App。\n3. 确认 App 里已经添加了对应的 Brick，例如图像识别要用 **Video Object Detection Brick**。\n4. 进入这个 Brick 的 **AI models** 标签页。\n5. 训练好的自定义模型应该会出现在可用模型列表里。\n6. 点击模型旁边的 **Install**，等待它构建并安装到 Arduino UNO Q。\n7. 安装完成后，打开 Brick 的 **Configuration**，选择你的新模型。\n8. 运行 App，之后这个 Brick 就会使用你的自定义模型。\n\n文档里的关键点是：训练完成后“回到 Arduino App Lab，你的新模型会出现在 Brick 的可用模型列表中”，然后点击 **Install** 安装到 UNO Q，再在 Brick 配置里选择它。来源：Arduino 文档的 Custom AI Model Usage 部分：  \nhttps://docs.arduino.cc/software/app-lab/tutorials/ai-models/\n\n如果你回到 App Lab 后没有看到模型，优先检查这几个点：\n\n- 是否用的是同一个 **Arduino / Edge Impulse 账号**。\n- 是否是从 App Lab 里的 **Train new AI model** 入口跳转到 Edge Impulse 的。\n- 模型类型是否匹配 Brick，例如 Object Detection 模型要配 **Video Object Detection Brick**。\n- 训练是否已经完成，并且模型在 Edge Impulse 里测试通过。\n- 关闭再重新打开 App 或刷新 App Lab 的 Brick 页面。\n\n另外，Edge Impulse 可以导出 `.eim` 文件，但按这篇文档的说法，`.eim` 手动导出主要是用于在 Arduino App Lab 之外的 C++ 或 Python 项目里实验；在 App Lab 里通常走 **AI models 列表 -\u003e Install -\u003e Configuration 选择模型** 这条路径。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-42-11-282Z", "role": "User", "timestamp": "2026-06-06T09:42:11.282Z", "text": "https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-42-22-263Z", "role": "Commentary", "timestamp": "2026-06-06T09:42:22.263Z", "text": "我会核对一下 Edge Impulse 对 Arduino UNO Q 的官方说明，特别是模型部署格式和 App Lab 之间的关系。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-42-38-434Z", "role": "Web Search End", "timestamp": "2026-06-06T09:42:38.434Z", "text": "web_search_end"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-42-41-288Z", "role": "Assistant", "timestamp": "2026-06-06T09:42:41.288Z", "text": "这篇 Edge Impulse 文档讲的是 **不通过 Arduino App Lab 的另一条部署路线**：直接把 UNO Q 当作 Linux 设备连接到 Edge Impulse，然后用命令行下载安装到板子上运行。\n\n也就是说你现在有两种方式：\n\n**方式 A：在 Arduino App Lab 里用模型**\n\n适合你前面说的“导入 app 中”。\n\n流程是：\n\n1. 在 App Lab 里打开你的 App。\n2. 找到对应的 AI Brick，例如 `Video Object Detection Brick`。\n3. 进入 Brick 的 `AI models`。\n4. 找到你训练好的模型。\n5. 点 `Install`。\n6. 安装完成后，在 Brick 的 `Configuration` 里选择这个模型。\n7. 运行 App。\n\n这个方式不需要你手动下载 `.eim` 文件，也不需要 SSH 到 UNO Q。\n\n**方式 B：直接在 UNO Q 上运行 Edge Impulse 模型**\n\n这是你发的 Edge Impulse 文档里的方式。适合你想绕过 App Lab，用命令行在 UNO Q 上直接跑模型。\n\n大致流程是：\n\n1. 给 UNO Q 连网，并开启 SSH 或接屏幕进入终端。\n2. 在 UNO Q 上安装 Edge Impulse 依赖：\n\n```bash\nsudo apt update\ncurl -sL https://deb.nodesource.com/setup_20.x | sudo bash -\nsudo apt install -y gcc g++ make build-essential nodejs sox gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps\nsudo npm install edge-impulse-linux -g --unsafe-perm\n```\n\n3. 连接 Edge Impulse 项目：\n\n```bash\nedge-impulse-linux\n```\n\n它会让你登录 Edge Impulse，并选择项目。\n\n4. 运行模型：\n\n```bash\nedge-impulse-linux-runner\n```\n\n这个命令会自动编译、下载模型到 UNO Q，然后开始推理。\n\n官方文档来源：  \nhttps://docs.edgeimpulse.com/hardware/boards/arduino-uno-q\n\n关键区别是：\n\n| 目标 | 用哪种方式 |\n|---|---|\n| 想在 Arduino App Lab 做的 App 里使用模型 | 用 App Lab 的 `AI models -\u003e Install -\u003e Configuration` |\n| 想在 UNO Q Linux 系统里直接测试模型 | 用 `edge-impulse-linux-runner` |\n| 想自己写 Python / C++ 程序调用模型 | 用 Edge Impulse Linux SDK 或导出的 Linux `.eim` |\n\n所以，如果你的目标仍然是“导入 App Lab 的 App 中”，不要按这篇 Edge Impulse 文档去跑 `edge-impulse-linux-runner`。那是独立运行模型，不是把模型放进 App Lab 的 Brick 里。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-43-32-361Z", "role": "User", "timestamp": "2026-06-06T09:43:32.361Z", "text": "如何确认自己是否有训练好的模型"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-43-53-404Z", "role": "Assistant", "timestamp": "2026-06-06T09:43:53.404Z", "text": "可以从 **Edge Impulse 网页端** 和 **Arduino App Lab** 两边确认。\n\n**在 Edge Impulse 确认**\n\n1. 打开你的 Edge Impulse 项目。\n2. 进入左侧的 **Impulse design**。\n3. 确认里面已经有完整流程，例如：\n   - 输入数据类型，比如 image / audio / sensor\n   - Processing block\n   - Learning block，例如 object detection / classification\n4. 进入左侧 **Model testing**。\n5. 如果你能看到测试结果、准确率、混淆矩阵或检测结果，说明模型已经训练过。\n6. 再进入 **Dashboard** 或 **Deployment**。\n7. 如果页面提示模型可以部署，或者可以生成 Linux / `.eim` / Arduino library 等部署包，说明模型已经训练完成。\n\n最直接的判断是：  \n**Model testing 页面能跑出结果，Deployment 页面能构建模型。**\n\n**在 Arduino App Lab 确认**\n\n如果你是从 App Lab 的 **Train new AI model** 跳转到 Edge Impulse 训练的：\n\n1. 回到 Arduino App Lab。\n2. 打开你的 App。\n3. 选中对应的 AI Brick，例如 **Video Object Detection Brick**。\n4. 打开 Brick 的 **AI models** 页面。\n5. 看列表里是否出现你训练的模型。\n6. 如果出现并且有 **Install** 按钮，就说明 App Lab 识别到了这个模型。\n\n注意：模型必须和 Brick 类型匹配。比如：\n\n| 训练的模型 | App Lab 中对应 Brick |\n|---|---|\n| 图像分类 | Image Classification 相关 Brick |\n| 目标检测 | Video Object Detection Brick |\n| 音频分类 | Audio Classification 相关 Brick |\n| 传感器分类 | Sensor / IMU 相关 Brick |\n\n**如果你在 Edge Impulse 里不确定有没有训练成功**\n\n看这几个地方：\n\n- `Impulse design \u003e Image` 或类似训练页面里是否点过 **Start training**\n- 是否有训练完成后的准确率，例如 accuracy / F1 score / loss\n- `Model testing` 是否可以点击 **Classify all** 或显示测试结果\n- `Deployment` 是否可以成功 build\n- 项目 Dashboard 是否显示最近训练过的 model / impulse\n\n**如果 App Lab 里看不到模型**\n\n常见原因是：\n\n- Edge Impulse 和 Arduino App Lab 不是同一个账号或没有正确绑定。\n- 不是从 App Lab 的训练入口创建的模型。\n- 训练还没完成。\n- 模型类型和当前 Brick 不匹配。\n- App Lab 页面还没刷新。\n- Edge Impulse 项目没有部署到兼容 UNO Q / App Lab 的格式。\n\n简单判断路径：\n\n```text\nEdge Impulse 能 Model testing -\u003e 说明模型训练过\nEdge Impulse 能 Deployment build -\u003e 说明模型可部署\nApp Lab 的 AI models 里能看到 -\u003e 说明可以导入当前 App\n```\n\n如果你愿意，可以把你 Edge Impulse 左侧菜单里目前能看到的页面名称，或者 `Dashboard / Model testing / Deployment` 页面截图发我，我可以帮你判断现在卡在哪一步。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-44-57-735Z", "role": "User", "timestamp": "2026-06-06T09:44:57.735Z", "text": "Your impulse is not fully trained. Use the items in the navigation bar to configure and train your model before you can validate your model."}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-45-16-475Z", "role": "Assistant", "timestamp": "2026-06-06T09:45:16.475Z", "text": "这个提示的意思是：**你的 Edge Impulse 项目里还没有完成完整训练**，所以现在不能做 `Model testing / Validate`，也还不能导入 App Lab 使用。\n\n你需要按左侧导航栏把训练流程补完。一般步骤如下：\n\n1. **Data acquisition**\n   - 确认已经上传或采集了数据。\n   - 数据要有标签，例如 `person`、`object`、`normal`、`warning` 等。\n   - 如果是图像目标检测，还要确认图片里已经画了 bounding box。\n\n2. **Impulse design**\n   - 进入 `Create impulse`。\n   - 配好输入大小和处理模块。\n   - 例如图像模型通常是：\n     - `Image`\n     - `Classification` 或 `Object Detection`\n   - 配好后点击 **Save impulse**。\n\n3. **Processing block**\n   - 如果你选的是 Image，左侧通常会出现 `Image` 页面。\n   - 进入它。\n   - 点击 **Save parameters**。\n   - 然后点击 **Generate features**。\n\n4. **Learning block**\n   - 进入你的训练页面，例如：\n     - `Classifier`\n     - `Object detection`\n     - `Transfer learning`\n   - 设置训练参数。\n   - 点击 **Start training**。\n   - 等训练完成，页面应该显示 accuracy / loss / F1 score 等结果。\n\n5. **Model testing**\n   - 回到 `Model testing`。\n   - 这时再点击测试/验证，应该就不会再出现 “not fully trained”。\n\n也就是说，Edge Impulse 里不是只上传数据就算有模型。必须完成：\n\n```text\nCreate impulse\n-\u003e Save parameters\n-\u003e Generate features\n-\u003e Start training\n-\u003e Model testing\n```\n\n如果你是做 Arduino App Lab 的视觉模型，最常见漏掉的是：\n\n- 只创建了 impulse，但没有点 **Generate features**。\n- 只生成了 features，但没有点 **Start training**。\n- 图片上传了，但没有标注标签或 bounding box。\n- 选择了 Object Detection，但数据不是目标检测格式。\n- 修改过 `Create impulse` 后，没有重新生成 features 和重新训练。\n\n你可以先检查左侧导航栏：  \n如果某个项目旁边还有感叹号、灰色状态、或者提示未完成，就从那里继续配置。完成训练后，再回到 App Lab 的 AI Brick 里看模型是否出现。"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-58-15-191Z", "role": "User", "timestamp": "2026-06-06T09:58:15.191Z", "text": "from arduino.app_utils import App\nfrom arduino.app_bricks.video_objectdetection import VideoObjectDetection\n\ndetection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)\n\n# Register a callback for when all objects are detected\ndef print_detections(detections: dict):\n  for key, value in detections.items():\n        for detection in value:\n            entry = {\n                \"content\": key,\n                \"confidence\": f\"{round(detection.get('confidence', 0) * 100)} %\"\n            }\n            print(entry)\n\ndetection_stream.on_detect_all(print_detections)\n\nApp.run()这个什么意思"}, {"page": "page-001.html", "anchor": "msg-2026-06-06T09-58-44-355Z", "role": "Assistant", "timestamp": "2026-06-06T09:58:44.355Z", "text": "这段代码是在 **Arduino App Lab** 里使用一个“视频目标检测 Brick”，打开摄像头/视频流后持续识别画面里的物体；一旦检测到对象，就把检测结果打印出来。\n\n逐段解释：\n\n```python\nfrom arduino.app_utils import App\nfrom arduino.app_bricks.video_objectdetection import VideoObjectDetection\n```\n\n导入 App Lab 运行所需的模块：\n\n- `App`：负责启动 App Lab 应用。\n- `VideoObjectDetection`：视频目标检测功能，也就是识别摄像头画面中的物体。\n\n```python\ndetection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)\n```\n\n创建一个目标检测对象。\n\n参数含义：\n\n- `confidence=0.5`：只接受置信度大于等于 `0.5` 的检测结果，也就是 **50% 以上把握** 的识别结果。\n- `debounce_sec=0.0`：去抖时间为 0 秒。也就是说，只要检测到对象，就可以立刻触发回调，不做延迟过滤。\n\n```python\ndef print_detections(detections: dict):\n```\n\n定义一个函数，用来处理检测结果。  \n这个函数会在检测到物体时被调用。\n\n`detections` 大概是一个字典，结构类似：\n\n```python\n{\n    \"person\": [\n        {\"confidence\": 0.91, \"x\": 100, \"y\": 80, \"width\": 50, \"height\": 120}\n    ],\n    \"cup\": [\n        {\"confidence\": 0.76, \"x\": 220, \"y\": 130, \"width\": 40, \"height\": 60}\n    ]\n}\n```\n\n也就是：\n\n- key 是识别出的类别名称，比如 `\"person\"`、`\"cup\"`。\n- value 是这个类别对应的检测列表，因为同一画面里可能有多个同类物体。\n\n```python\nfor key, value in detections.items():\n```\n\n遍历每一种检测到的类别。\n\n比如：\n\n```python\nkey = \"person\"\nvalue = [{\"confidence\": 0.91, ...}]\n```\n\n```python\nfor detection in value:\n```\n\n遍历这一类里的每一个检测框。\n\n例如画面里有 2 个人，就会循环 2 次。\n\n```python\nentry = {\n    \"content\": key,\n    \"confidence\": f\"{round(detection.get('confidence', 0) * 100)} %\"\n}\n```\n\n把检测结果整理成一个新的字典：\n\n```python\n{\n    \"content\": \"person\",\n    \"confidence\": \"91 %\"\n}\n```\n\n其中：\n\n- `content`：识别到的物体类别。\n- `confidence`：置信度百分比。\n- `detection.get('confidence', 0)`：从检测结果里取 `confidence`，如果没有这个字段就用 `0`。\n- `* 100`：把 `0.91` 转成 `91`。\n- `round(...)`：四舍五入。\n- `f\"... %\"`：格式化成字符串，例如 `\"91 %\"`。\n\n```python\nprint(entry)\n```\n\n把结果打印到控制台。\n\n```python\ndetection_stream.on_detect_all(print_detections)\n```\n\n注册回调函数。  \n意思是：**当检测到所有对象时，调用 `print_detections` 这个函数处理结果。**\n\n```python\nApp.run()\n```\n\n启动 App。  \n没有这一行，App Lab 不会真正开始运行检测。\n\n所以整段代码可以理解为：\n\n```text\n启动视频目标检测\n如果画面中识别到物体\n就把物体名称和置信度打印出来\n```\n\n例如运行时可能输出：\n\n```python\n{'content': 'person', 'confidence': '93 %'}\n{'content': 'cup', 'confidence': '78 %'}\n```\n\n如果你训练的是自己的模型，比如识别 `apple`、`banana`、`bottle`，那么这里的 `content` 就会显示你的模型标签名称。"}];</script>
+<script>(function() {
+  var totalPages = 1;
+  var searchBox = document.getElementById('search-box');
+  var searchInput = document.getElementById('search-input');
+  var searchBtn = document.getElementById('search-btn');
+  var modal = document.getElementById('search-modal');
+  var modalInput = document.getElementById('modal-search-input');
+  var modalSearchBtn = document.getElementById('modal-search-btn');
+  var modalCloseBtn = document.getElementById('modal-close-btn');
+  var searchStatus = document.getElementById('search-status');
+  var searchResults = document.getElementById('search-results');
+  var embeddedSearchData = Array.isArray(window.__CONVERSION_SEARCH_DATA__) ? window.__CONVERSION_SEARCH_DATA__ : [];
+  var isFileProtocol = window.location.protocol === 'file:';
+
+  if (!searchBox || !modal || !searchInput || !searchBtn || !modalInput || !modalSearchBtn || !modalCloseBtn) {
+    return;
+  }
+
+  if (isFileProtocol && !embeddedSearchData.length) {
+    return;
+  }
+
+  searchBox.style.display = 'flex';
+
+  var hostname = window.location.hostname;
+  var isGistPreview = hostname === 'gisthost.github.io' || hostname === 'gistpreview.github.io';
+  var gistId = null;
+  var gistOwner = null;
+  var gistInfoLoaded = false;
+
+  if (isGistPreview) {
+    var gistMatch = window.location.search.match(/^\?([^/]+)/);
+    if (gistMatch) {
+      gistId = gistMatch[1];
+    }
+  }
+
+  async function loadGistInfo() {
+    if (!isGistPreview || !gistId || gistInfoLoaded) {
+      return;
+    }
+    try {
+      var response = await fetch('https://api.github.com/gists/' + gistId);
+      if (response.ok) {
+        var info = await response.json();
+        gistOwner = info.owner && info.owner.login ? info.owner.login : null;
+        gistInfoLoaded = true;
+      }
+    } catch (error) {
+      console.error('Failed to load gist info:', error);
+    }
+  }
+
+  function getPageFetchUrl(pageFile) {
+    if (isGistPreview && gistOwner && gistId) {
+      return 'https://gist.githubusercontent.com/' + gistOwner + '/' + gistId + '/raw/' + pageFile;
+    }
+    return pageFile;
+  }
+
+  function getPageLinkUrl(pageFile) {
+    if (isGistPreview && gistId) {
+      return '?' + gistId + '/' + pageFile;
+    }
+    return pageFile;
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function escapeRegex(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function openModal(query) {
+    modalInput.value = query || '';
+    searchResults.innerHTML = '';
+    searchStatus.textContent = '';
+    modal.showModal();
+    modalInput.focus();
+    if (query) {
+      performSearch(query);
+    }
+  }
+
+  function closeModal() {
+    modal.close();
+    if (window.location.hash.startsWith('#search=')) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+
+  function updateUrlHash(query) {
+    if (!query) {
+      return;
+    }
+    history.replaceState(null, '', window.location.pathname + window.location.search + '#search=' + encodeURIComponent(query));
+  }
+
+  function highlightTextNodes(element, searchTerm) {
+    var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+    var nodesToReplace = [];
+
+    while (walker.nextNode()) {
+      var node = walker.currentNode;
+      if (node.nodeValue.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+        nodesToReplace.push(node);
+      }
+    }
+
+    nodesToReplace.forEach(function(node) {
+      var text = node.nodeValue;
+      var regex = new RegExp('(' + escapeRegex(searchTerm) + ')', 'gi');
+      var parts = text.split(regex);
+      if (parts.length <= 1) {
+        return;
+      }
+      var span = document.createElement('span');
+      parts.forEach(function(part) {
+        if (part.toLowerCase() === searchTerm.toLowerCase()) {
+          var mark = document.createElement('mark');
+          mark.textContent = part;
+          span.appendChild(mark);
+        } else if (part) {
+          span.appendChild(document.createTextNode(part));
+        }
+      });
+      node.parentNode.replaceChild(span, node);
+    });
+  }
+
+  function fixInternalLinks(element, pageFile) {
+    element.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      var href = link.getAttribute('href');
+      link.setAttribute('href', pageFile + href);
+    });
+  }
+
+  function processPage(pageFile, html, query) {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    var resultsFromPage = 0;
+
+    doc.querySelectorAll('.message').forEach(function(message) {
+      var text = message.textContent || '';
+      if (text.toLowerCase().indexOf(query.toLowerCase()) === -1) {
+        return;
+      }
+
+      resultsFromPage++;
+      var msgId = message.id || '';
+      var pageLinkUrl = getPageLinkUrl(pageFile);
+      var link = pageLinkUrl + (msgId ? '#' + msgId : '');
+      var clone = message.cloneNode(true);
+
+      fixInternalLinks(clone, pageLinkUrl);
+      highlightTextNodes(clone, query);
+
+      var resultDiv = document.createElement('div');
+      resultDiv.className = 'search-result';
+      resultDiv.innerHTML = '<a href="' + link + '">' +
+        '<div class="search-result-page">' + escapeHtml(pageFile) + '</div>' +
+        '<div class="search-result-content">' + clone.innerHTML + '</div>' +
+        '</a>';
+      searchResults.appendChild(resultDiv);
+    });
+
+    return resultsFromPage;
+  }
+
+  function processEmbeddedData(query) {
+    var resultsFound = 0;
+    embeddedSearchData.forEach(function(item) {
+      var text = item.text || '';
+      if (text.toLowerCase().indexOf(query.toLowerCase()) === -1) {
+        return;
+      }
+
+      resultsFound++;
+      var pageLinkUrl = getPageLinkUrl(item.page);
+      var link = pageLinkUrl + (item.anchor ? '#' + item.anchor : '');
+      var escapedText = escapeHtml(text);
+      var regex = new RegExp('(' + escapeRegex(query) + ')', 'gi');
+      var highlighted = escapedText.replace(regex, '<mark>$1</mark>');
+
+      var resultDiv = document.createElement('div');
+      resultDiv.className = 'search-result';
+      resultDiv.innerHTML = '<a href="' + link + '">' +
+        '<div class="search-result-page">' + escapeHtml(item.page) + ' · ' + escapeHtml(item.role || '') + '</div>' +
+        '<div class="search-result-content"><div class="message-content"><p>' + highlighted + '</p></div></div>' +
+        '</a>';
+      searchResults.appendChild(resultDiv);
+    });
+    return resultsFound;
+  }
+
+  async function performSearch(query) {
+    if (!query.trim()) {
+      searchStatus.textContent = 'Enter a search term';
+      return;
+    }
+
+    updateUrlHash(query);
+    searchResults.innerHTML = '';
+    searchStatus.textContent = 'Searching...';
+
+    if (isFileProtocol) {
+      var embeddedResults = processEmbeddedData(query);
+      searchStatus.textContent = 'Found ' + embeddedResults + ' result(s) in local conversion data';
+      return;
+    }
+
+    if (isGistPreview && !gistInfoLoaded) {
+      searchStatus.textContent = 'Loading gist info...';
+      await loadGistInfo();
+      if (!gistOwner) {
+        searchStatus.textContent = 'Failed to load gist info. Search unavailable.';
+        return;
+      }
+    }
+
+    var resultsFound = 0;
+    var pagesSearched = 0;
+    var pagesToFetch = [];
+
+    for (var i = 1; i <= totalPages; i++) {
+      pagesToFetch.push('page-' + String(i).padStart(3, '0') + '.html');
+    }
+
+    var batchSize = 3;
+    for (var start = 0; start < pagesToFetch.length; start += batchSize) {
+      var batch = pagesToFetch.slice(start, start + batchSize);
+      await Promise.all(batch.map(function(pageFile) {
+        return fetch(getPageFetchUrl(pageFile))
+          .then(function(response) {
+            if (!response.ok) {
+              throw new Error('Failed to fetch');
+            }
+            return response.text();
+          })
+          .then(function(html) {
+            resultsFound += processPage(pageFile, html, query);
+            pagesSearched++;
+            searchStatus.textContent = 'Found ' + resultsFound + ' result(s) in ' + pagesSearched + '/' + totalPages + ' pages...';
+          })
+          .catch(function() {
+            pagesSearched++;
+            searchStatus.textContent = 'Found ' + resultsFound + ' result(s) in ' + pagesSearched + '/' + totalPages + ' pages...';
+          });
+      }));
+    }
+
+    searchStatus.textContent = 'Found ' + resultsFound + ' result(s) in ' + totalPages + ' pages';
+  }
+
+  searchBtn.addEventListener('click', function() {
+    openModal(searchInput.value);
+  });
+
+  searchInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      openModal(searchInput.value);
+    }
+  });
+
+  modalSearchBtn.addEventListener('click', function() {
+    performSearch(modalInput.value);
+  });
+
+  modalInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      performSearch(modalInput.value);
+    }
+  });
+
+  modalCloseBtn.addEventListener('click', function() {
+    closeModal();
+  });
+
+  modal.addEventListener('cancel', function() {
+    closeModal();
+  });
+})();</script>
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>
