@@ -1,0 +1,6 @@
+name: opencv detection
+description: "WebUI for a host Debian OpenCV camera service."
+ports: []
+bricks:
+- arduino:web_ui: {}
+icon: 📷
