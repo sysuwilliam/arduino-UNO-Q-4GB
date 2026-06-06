@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6 · Page 7</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6</a></h1>
+  <p>Page 7 / 7</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-006.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <span class="current">7</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-31">
+  <div class="turn-head">
+    <div class="turn-title">Turn 31 · general_goal_checker:</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-22-01-155Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-22-01-155Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:22:01.155Z" data-timestamp="2026-04-22T13:22:01.155Z">2026-04-22T13:22:01.155Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>general_goal_checker:
+      stateful: True
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # DWB parameters
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      debug_trajectory_details: True
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 2.0
+      max_vel_y: 0.0
+      max_vel_theta: 2.0
+      min_speed_xy: 0.0
+      max_speed_xy: 2.0
+      min_speed_theta: 0.0
+      # Add high threshold velocity for turtlebot 3 issue.
+      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
+      acc_lim_x: 3.5
+      acc_lim_y: 0.0
+      acc_lim_theta: 6.2
+      decel_lim_x: -2.5
+      decel_lim_y: 0.0
+      decel_lim_theta: -6.2
+      vx_samples: 20
+      vy_samples: 5
+      vtheta_samples: 20
+      sim_time: 1.7
+      linear_granularity: 0.05
+      angular_granularity: 0.025
+      transform_tolerance: 0.2
+      xy_goal_tolerance: 0.25
+      trans_stopped_velocity: 0.25
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      BaseObstacle.scale: 0.02
+      PathAlign.scale: 32.0
+      PathAlign.forward_point_distance: 0.1
+      GoalAlign.scale: 24.0
+      GoalAlign.forward_point_distance: 0.1
+      PathDist.scale: 32.0
+      GoalDist.scale: 24.0
+      RotateToGoal.scale: 32.0
+      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.lookahead_time: -1.0就是这里是吧</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T13-22-12-066Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-22-12-066Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:22:12.066Z" data-timestamp="2026-04-22T13:22:12.066Z">2026-04-22T13:22:12.066Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>对，就是这里。</p>
+<p>这段配置所在的位置是 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a>，它定义的是 <code>controller_server</code> 里的局部控制器插件。</p>
+<p>这里可以分成两部分看：</p>
+<ul>
+<li><code>general_goal_checker</code>
+  这是目标判定器，决定“什么时候算到达目标”</li>
+<li><code>FollowPath</code>
+  这是局部控制器插件本体，当前实现是 <code>dwb_core::DWBLocalPlanner</code></li>
+</ul>
+<p>你后面要接 TEB，核心就是改 <code>FollowPath</code> 这一块，而不是先动 <code>general_goal_checker</code>。</p>
+<p>也就是说，最核心的替换点就是这一行：</p>
+<pre><code class="language-yaml">plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+</code></pre>
+<p>后面会变成类似：</p>
+<pre><code class="language-yaml">plugin: &quot;teb_local_planner::TebLocalPlannerROS&quot;
+</code></pre>
+<p>然后把下面这一大段 DWB 专属参数替换成 TEB 的参数。</p>
+<p>像这些就是 DWB 专属的：</p>
+<ul>
+<li><code>vx_samples</code></li>
+<li><code>vtheta_samples</code></li>
+<li><code>critics</code></li>
+<li><code>PathAlign.scale</code></li>
+<li><code>GoalAlign.scale</code></li>
+<li><code>RotateToGoal.scale</code></li>
+</ul>
+<p>这些参数切到 TEB 后通常就不再用了。</p>
+<p>而 TEB 会换成另一套参数体系，比如：</p>
+<ul>
+<li><code>teb_autosize</code></li>
+<li><code>dt_ref</code></li>
+<li><code>max_global_plan_lookahead_dist</code></li>
+<li><code>footprint_model</code></li>
+<li><code>min_obstacle_dist</code></li>
+<li><code>weight_obstacle</code></li>
+<li><code>enable_homotopy_class_planning</code></li>
+</ul>
+<p>所以，是的，你要找的主要接入点就是这里。</p>
+<p>但我提醒你一点：<br />
+这不是“只改一行 plugin 就结束”。如果只把插件名改了、不换参数块，<code>controller_server</code> 基本会因为参数不匹配而报错，或者即使启动了也跑不正常。</p>
+<p>如果你愿意，我下一步可以继续只读帮你把：
+“这段 DWB 配置里哪些参数会被删，换成哪些 TEB 参数”
+整理成一份对照表。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-32">
+  <div class="turn-head">
+    <div class="turn-title">Turn 32 · 你查询一下ros2官方是否提供了TEB local planner插件</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-23-07-171Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-23-07-171Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:07.171Z" data-timestamp="2026-04-22T13:23:07.171Z">2026-04-22T13:23:07.171Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>你查询一下ros2官方是否提供了TEB local planner插件</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-22T13-23-10-982Z-2026-04-22T13-23-38-315Z">
+  <summary>Codex process (13 items: 7 Reasoning, 6 Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-22T13-23-10-982Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-10-982Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:10.982Z" data-timestamp="2026-04-22T13:23:10.982Z">2026-04-22T13:23:10.982Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-16-093Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-16-093Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:16.093Z" data-timestamp="2026-04-22T13:23:16.093Z">2026-04-22T13:23:16.093Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbbec80c8197a5675cbbd0515b12&quot;,
+  &quot;query&quot;: &quot;site:docs.nav2.org TEB local planner Nav2 plugin official&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:docs.nav2.org TEB local planner Nav2 plugin official&quot;,
+    &quot;queries&quot;: [
+      &quot;site:docs.nav2.org TEB local planner Nav2 plugin official&quot;,
+      &quot;site:github.com/ros-navigation/navigation2 TEB TebLocalPlannerROS nav2 official&quot;,
+      &quot;site:docs.ros.org ROS 2 teb local planner&quot;,
+      &quot;site:index.ros.org teb_local_planner ros2&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-16-592Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-16-592Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:16.592Z" data-timestamp="2026-04-22T13:23:16.592Z">2026-04-22T13:23:16.592Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-19-620Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-19-620Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:19.620Z" data-timestamp="2026-04-22T13:23:19.620Z">2026-04-22T13:23:19.620Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbc455f08197a16fc21f16d7f1c8&quot;,
+  &quot;query&quot;: &quot;site:docs.nav2.org navigation plugins controllers Nav2 DWB MPPI regulated pure pursuit&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:docs.nav2.org navigation plugins controllers Nav2 DWB MPPI regulated pure pursuit&quot;,
+    &quot;queries&quot;: [
+      &quot;site:docs.nav2.org navigation plugins controllers Nav2 DWB MPPI regulated pure pursuit&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-20-439Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-20-439Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:20.439Z" data-timestamp="2026-04-22T13:23:20.439Z">2026-04-22T13:23:20.439Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-22-618Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-22-618Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:22.618Z" data-timestamp="2026-04-22T13:23:22.618Z">2026-04-22T13:23:22.618Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbc83cb88197b87b8695a594a420&quot;,
+  &quot;query&quot;: &quot;https://docs.nav2.org/plugins/index.html&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://docs.nav2.org/plugins/index.html&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-23-067Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-23-067Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:23.067Z" data-timestamp="2026-04-22T13:23:23.067Z">2026-04-22T13:23:23.067Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-29-352Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-29-352Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:29.352Z" data-timestamp="2026-04-22T13:23:29.352Z">2026-04-22T13:23:29.352Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbcadc348197be5a4177b0b73eea&quot;,
+  &quot;query&quot;: &quot;&#x27;TEB&#x27; in https://docs.nav2.org/configuration/index.html&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;find_in_page&quot;,
+    &quot;url&quot;: &quot;https://docs.nav2.org/configuration/index.html&quot;,
+    &quot;pattern&quot;: &quot;TEB&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-30-524Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-30-524Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:30.524Z" data-timestamp="2026-04-22T13:23:30.524Z">2026-04-22T13:23:30.524Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-31-971Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-31-971Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:31.971Z" data-timestamp="2026-04-22T13:23:31.971Z">2026-04-22T13:23:31.971Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbd250d8819790e28a9a56bd4790&quot;,
+  &quot;query&quot;: &quot;https://github.com/rst-tu-dortmund/teb_local_planner&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://github.com/rst-tu-dortmund/teb_local_planner&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-35-144Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-35-144Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:35.144Z" data-timestamp="2026-04-22T13:23:35.144Z">2026-04-22T13:23:35.144Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-23-38-060Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-23-38-060Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:38.060Z" data-timestamp="2026-04-22T13:23:38.060Z">2026-04-22T13:23:38.060Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_05eb4fde5c555d000169e8cbd6f47c81979bb2accf9e8f3115&quot;,
+  &quot;query&quot;: &quot;site:github.com/ros-navigation/navigation2 \&quot;teb\&quot; \&quot;navigation2\&quot;&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:github.com/ros-navigation/navigation2 \&quot;teb\&quot; \&quot;navigation2\&quot;&quot;,
+    &quot;queries&quot;: [
+      &quot;site:github.com/ros-navigation/navigation2 \&quot;teb\&quot; \&quot;navigation2\&quot;&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-23-38-315Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-23-38-315Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:38.315Z" data-timestamp="2026-04-22T13:23:38.315Z">2026-04-22T13:23:38.315Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-22T13-23-50-925Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-23-50-925Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:23:50.925Z" data-timestamp="2026-04-22T13:23:50.925Z">2026-04-22T13:23:50.925Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>结论：<code>ROS 2 / Nav2 官方文档把 TEB 列为“可用的控制器插件之一”，但它不是 Nav2 官方仓库内置、主维护的控制器包。</code></p>
+<p>我查到的依据是：</p>
+<ul>
+<li>Nav2 官方插件页把 <code>TEB Controller</code> 列在 controllers 里，说明官方认可它可以作为 Nav2 控制器使用：
+  https://docs.nav2.org/plugins/index.html</li>
+<li>Nav2 官方“算法选择”页面也把 <code>TEB Controller</code> 列入控制器选项：
+  https://docs.nav2.org/setup_guides/algorithm/select_algorithm.html</li>
+<li>但 Nav2 官方配置指南的“Controller Plugins”里没有 TEB 条目，主要列的是 DWB、RPP、MPPI 等：
+  https://docs.nav2.org/configuration/index.html</li>
+<li>ROS Index 上常见的 <code>teb_local_planner</code> 包说明它实现的是 ROS 1 <code>base_local_planner</code> 插件，不是 ROS 2 <code>nav2_core::Controller</code>：
+  https://index.ros.org/p/teb_local_planner/</li>
+<li>对应源码仓库 <code>rst-tu-dortmund/teb_local_planner</code> 也还是 ROS 1 风格仓库：
+  https://github.com/rst-tu-dortmund/teb_local_planner</li>
+</ul>
+<p>所以更准确地说：</p>
+<ul>
+<li>
+<p>“官方是否承认 TEB 能用于 Nav2？”<br />
+  是，官方文档把它当作一个已知控制器选项。</p>
+</li>
+<li>
+<p>“官方是否像 DWB / MPPI / RPP 那样，在 Nav2 主仓库里直接提供并维护一个 TEB 控制器插件？”<br />
+  不是。</p>
+</li>
+<li>
+<p>“你项目里现在写的 <code>teb_local_planner::TebLocalPlannerROS</code> 能否直接作为 ROS 2 Nav2 插件使用？”<br />
+  不能直接据此下结论，因为这个类名明显是 ROS 1 风格，不像 Nav2 原生控制器插件命名。</p>
+</li>
+</ul>
+<p>对你当前任务的直接影响是：</p>
+<ul>
+<li>不能默认认为“把 <code>FollowPath.plugin</code> 改成 <code>teb_local_planner::TebLocalPlannerROS</code> 就能在 ROS 2 Humble 里跑”</li>
+<li>你需要先确认你们准备接入的是：</li>
+<li>一个 ROS 2 版本的 TEB/Nav2 controller 插件</li>
+<li>还是历史 ROS 1 的 <code>teb_local_planner</code></li>
+</ul>
+<p>如果你要，我下一步可以继续帮你查：
+“你们项目里这份 <code>teb_local_planner::TebLocalPlannerROS</code> 配置到底是不是无效历史遗留，以及 ROS 2 Humble 下应该接哪个实际可用的 TEB 实现。”</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-33">
+  <div class="turn-head">
+    <div class="turn-title">Turn 33 · 我要ros2版本的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-27-17-783Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-27-17-783Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:17.783Z" data-timestamp="2026-04-22T13:27:17.783Z">2026-04-22T13:27:17.783Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我要ros2版本的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-22T13-27-23-355Z-2026-04-22T13-27-35-460Z">
+  <summary>Codex process (7 items: 4 Reasoning, 3 Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-22T13-27-23-355Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-27-23-355Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:23.355Z" data-timestamp="2026-04-22T13:27:23.355Z">2026-04-22T13:27:23.355Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-27-26-749Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-27-26-749Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:26.749Z" data-timestamp="2026-04-22T13:27:26.749Z">2026-04-22T13:27:26.749Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_031ffd64b49082ea0169e8ccbb040c8197b755caee4e6285e8&quot;,
+  &quot;query&quot;: &quot;site:docs.nav2.org \&quot;TEB Controller\&quot;&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:docs.nav2.org \&quot;TEB Controller\&quot;&quot;,
+    &quot;queries&quot;: [
+      &quot;site:docs.nav2.org \&quot;TEB Controller\&quot;&quot;,
+      &quot;site:docs.nav2.org \&quot;teb controller\&quot; nav2&quot;,
+      &quot;site:github.com/ros-navigation/navigation2 \&quot;TEB Controller\&quot;&quot;,
+      &quot;site:index.ros.org nav2 teb controller ros2&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-27-27-540Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-27-27-540Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:27.540Z" data-timestamp="2026-04-22T13:27:27.540Z">2026-04-22T13:27:27.540Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-27-30-850Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-27-30-850Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:30.850Z" data-timestamp="2026-04-22T13:27:30.850Z">2026-04-22T13:27:30.850Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_031ffd64b49082ea0169e8ccbf3fec81978e6dd5992e451525&quot;,
+  &quot;query&quot;: &quot;https://docs.nav2.org/plugins/index.html&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://docs.nav2.org/plugins/index.html&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-27-31-453Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-27-31-453Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:31.453Z" data-timestamp="2026-04-22T13:27:31.453Z">2026-04-22T13:27:31.453Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-27-34-967Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-04-22T13-27-34-967Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:34.967Z" data-timestamp="2026-04-22T13:27:34.967Z">2026-04-22T13:27:34.967Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_031ffd64b49082ea0169e8ccc311bc8197a4b547af97e9138c&quot;,
+  &quot;query&quot;: &quot;&#x27;TEB Controller&#x27; in https://docs.nav2.org/plugins/index.html&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;find_in_page&quot;,
+    &quot;url&quot;: &quot;https://docs.nav2.org/plugins/index.html&quot;,
+    &quot;pattern&quot;: &quot;TEB Controller&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-27-35-460Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-27-35-460Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:35.460Z" data-timestamp="2026-04-22T13:27:35.460Z">2026-04-22T13:27:35.460Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-22T13-27-45-722Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-27-45-722Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:27:45.722Z" data-timestamp="2026-04-22T13:27:45.722Z">2026-04-22T13:27:45.722Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>如果你要的是“ROS 2 版本、能接 Nav2 的 TEB”，结论是：</p>
+<p>没有一个像 <code>dwb_core</code>、<code>nav2_mppi_controller</code>、<code>nav2_regulated_pure_pursuit_controller</code> 那样由 Nav2 官方主仓库直接提供和维护的 <code>ROS 2 TEB</code> 插件。</p>
+<p>依据：</p>
+<ul>
+<li>Nav2 官方插件页把 <code>TEB Controller</code> 列为已知控制器选项，但只是列为“known/available plugin”，不是 Nav2 内置控制器之一：
+  https://docs.nav2.org/plugins/index.html</li>
+<li>Nav2 官方算法选择页也提到 <code>TEB Controller</code>，但官方主线重点维护的是 DWB、RPP、MPPI 等：
+  https://docs.nav2.org/setup_guides/algorithm/select_algorithm.html</li>
+<li>ROS Index 上的 <code>teb_local_planner</code> 明确还是 ROS 1 <code>base_local_planner</code> 体系的插件，不是 Nav2 controller：
+  https://index.ros.org/p/teb_local_planner/</li>
+<li>而且 ROS Index 明确显示它对 <code>humble</code> 没有发行版本：
+  https://index.ros.org/p/teb_local_planner/</li>
+</ul>
+<p>所以对你这个项目的直接结论是：</p>
+<ul>
+<li>你仓库里写的 <code>teb_local_planner::TebLocalPlannerROS</code> 不是可直接默认当作 ROS 2 Nav2 官方插件来用的东西</li>
+<li>如果你坚持要“ROS 2 TEB”，你需要找一个第三方 ROS 2 / Nav2 适配实现</li>
+<li>如果你的目标是“官方支持、ROS 2 原生、适合替代 DWB 的局部控制器”，更稳的是 <code>MPPI Controller</code></li>
+</ul>
+<p>Nav2 官方对 MPPI 的描述里甚至直接把它称作 “a successor to TEB”：
+https://docs.nav2.org/configuration/packages/configuring-mppic.html</p>
+<p>所以你现在有两个方向：</p>
+<ol>
+<li>严格要 TEB<br />
+   需要找第三方 ROS 2 Nav2 TEB 实现，再评估是否引入项目</li>
+<li>要一个 ROS 2 官方主线稳定方案<br />
+   直接考虑把当前 DWB 换成 MPPI，而不是 TEB</li>
+</ol>
+<p>如果你要，我下一步可以继续帮你查“有没有成熟的第三方 ROS 2 TEB for Nav2 实现”，或者我们转成更稳的 <code>MPPI</code> 接入方案。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-006.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <span class="current">7</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

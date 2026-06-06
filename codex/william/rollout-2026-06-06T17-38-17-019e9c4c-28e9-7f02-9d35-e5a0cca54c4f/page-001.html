@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-06-06T17-38-17-019e9c4c-28e9-7f02-9d35-e5a0cca54c4f · Page 1</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-06-06T17-38-17-019e9c4c-28e9-7f02-9d35-e5a0cca54c4f</a></h1>
+  <p>Page 1 / 1</p>
+</div>
+
+
+<div class="pagination"><a href="index.html" class="index-link">Index</a></div>
+
+
+
+<section class="turn-shell" id="turn-1">
+  <div class="turn-head">
+    <div class="turn-title">Turn 1 · # AGENTS.md instructions for /home/william</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T09-39-04-523Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-39-04-523Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:04.523Z" data-timestamp="2026-06-06T09:39:04.523Z">2026-06-06T09:39:04.523Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><h1>AGENTS.md instructions for /home/william</h1>
+<p><INSTRUCTIONS></p>
+<h1>Project Agent Instructions</h1>
+<ul>
+<li>Work autonomously until the requested task is handled end-to-end: inspect, implement, verify, and summarize.</li>
+<li>Use the repository's existing style, tooling, scripts, and tests before introducing new conventions.</li>
+<li>Keep the main conversation responsive: delegate long exploration, status checks, broad scans, and slow verification to subagents when practical.</li>
+<li>Prefer <code>rg</code> / <code>rg --files</code> for search, and run the narrowest useful test or syntax check after edits.</li>
+<li>Do not expose secrets from <code>.env</code>, <code>~/.codex/private.env</code>, shell history, keychains, local config files, or CI variables.</li>
+<li>Preserve user work: do not revert unrelated changes, do not run destructive git commands, and create backups before changing user-level agent configuration.</li>
+<li>Prefer official Codex/OpenAI compatibility for plugins, apps, MCP tools, and subagents unless the project explicitly requires a custom provider.</li>
+<li>When Codex is configured with <code>approval_policy = "never"</code> and <code>sandbox_mode = "danger-full-access"</code>, act carefully: make small reversible edits, avoid broad filesystem mutations, and verify paths before writes.</li>
+<li>For frontend work, preserve the existing design system unless the task explicitly asks for a redesign.</li>
+<li>For documentation, keep commands copy-pasteable and avoid committing real tokens.</li>
+</ul>
+<p></INSTRUCTIONS></p><p><environment_context>
+  <cwd>/home/william</cwd>
+  <shell>bash</shell>
+  <current_date>2026-06-06</current_date>
+  <timezone>Asia/Shanghai</timezone>
+  <filesystem><workspace_roots><root>/home/william</root></workspace_roots><permission_profile type="managed"><file_system type="restricted"><entry access="read"><special>:root</special></entry><entry access="write"><path>/home/william</path></entry><entry access="write"><special>:slash_tmp</special></entry><entry access="write"><special>:tmpdir</special></entry><entry access="read"><path>/home/william/.git</path></entry><entry access="read"><path>/home/william/.agents</path></entry><entry access="read"><path>/home/william/.codex</path></entry></file_system></permission_profile></filesystem>
+</environment_context></p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message user" id="msg-2026-06-06T09-39-04-526Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-39-04-526Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:04.526Z" data-timestamp="2026-06-06T09:39:04.526Z">2026-06-06T09:39:04.526Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>根据https://docs.arduino.cc/software/app-lab/integrations/ai-models/的内容，我现在在网页训练好了一个模型，怎么导入app中</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-06-06T09-39-32-949Z-2026-06-06T09-40-24-442Z">
+  <summary>Codex process (9 items: 4 Reasoning, Commentary, 3 Web Search End, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-06-06T09-39-32-949Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T09-39-32-949Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:32.949Z" data-timestamp="2026-06-06T09:39:32.949Z">2026-06-06T09:39:32.949Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-06-06T09-39-33-089Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-06-06T09-39-33-089Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:33.089Z" data-timestamp="2026-06-06T09:39:33.089Z">2026-06-06T09:39:33.089Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先看一下你给的 Arduino App Lab 文档，确认它目前对网页训练模型和 App 导入流程的官方说法。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-06-06T09-39-33-089Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-06-06T09-39-33-089Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:33.089Z" data-timestamp="2026-06-06T09:39:33.089Z">2026-06-06T09:39:33.089Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0cc7b345940c1fd5016a23eac6faf4819aaaaa47649a4dc02f&quot;,
+  &quot;query&quot;: &quot;https://docs.arduino.cc/software/app-lab/integrations/ai-models/&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://docs.arduino.cc/software/app-lab/integrations/ai-models/&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-06-06T09-39-33-090Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T09-39-33-090Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:39:33.090Z" data-timestamp="2026-06-06T09:39:33.090Z">2026-06-06T09:39:33.090Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-06-06T09-40-11-274Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-06-06T09-40-11-274Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:11.274Z" data-timestamp="2026-06-06T09:40:11.274Z">2026-06-06T09:40:11.274Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0cc7b345940c1fd5016a23eac9bbe0819a92253f22d888fab6&quot;,
+  &quot;query&quot;: &quot;site:docs.arduino.cc/software/app-lab/integrations/ai-models Arduino App Lab AI Models import model&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;site:docs.arduino.cc/software/app-lab/integrations/ai-models Arduino App Lab AI Models import model&quot;,
+    &quot;queries&quot;: [
+      &quot;site:docs.arduino.cc/software/app-lab/integrations/ai-models Arduino App Lab AI Models import model&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-06-06T09-40-11-804Z">
+  <div class="message-header">
+    <span class="role-label">Agent Reasoning</span>
+    <a href="#msg-2026-06-06T09-40-11-804Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:11.804Z" data-timestamp="2026-06-06T09:40:11.804Z">2026-06-06T09:40:11.804Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;agent_reasoning&quot;,
+  &quot;text&quot;: &quot;**Explaining app integration**\n\nI’m focusing on how to explain the integration of a trained model into an app. First, I’ll mention returning to App Lab, navigating to the AI models tab, and then selecting “Install” from the Brick configuration. If it doesn’t appear, it might be due to account issues, and I’ll suggest launching from “Train new AI model” with the correct type. I’ll also consider exporting .eim files for manual access, ensuring I include adequate citations and links. I might check GitHub docs for detailed content.&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-06-06T09-40-11-805Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T09-40-11-805Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:11.805Z" data-timestamp="2026-06-06T09:40:11.805Z">2026-06-06T09:40:11.805Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="thinking"><p>{"type": "summary_text", "text": "<strong>Explaining app integration</strong>\n\nI’m focusing on how to explain the integration of a trained model into an app. First, I’ll mention returning to App Lab, navigating to the AI models tab, and then selecting “Install” from the Brick configuration. If it doesn’t appear, it might be due to account issues, and I’ll suggest launching from “Train new AI model” with the correct type. I’ll also consider exporting .eim files for manual access, ensuring I include adequate citations and links. I might check GitHub docs for detailed content."}</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-06-06T09-40-24-225Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-06-06T09-40-24-225Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:24.225Z" data-timestamp="2026-06-06T09:40:24.225Z">2026-06-06T09:40:24.225Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_0cc7b345940c1fd5016a23eaf9cc18819a93c12b1689dd0844&quot;,
+  &quot;query&quot;: &quot;github arduino docs app-lab tutorials ai-models markdown Custom AI Model Usage&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;search&quot;,
+    &quot;query&quot;: &quot;github arduino docs app-lab tutorials ai-models markdown Custom AI Model Usage&quot;,
+    &quot;queries&quot;: [
+      &quot;github arduino docs app-lab tutorials ai-models markdown Custom AI Model Usage&quot;
+    ]
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-06-06T09-40-24-442Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T09-40-24-442Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:24.442Z" data-timestamp="2026-06-06T09:40:24.442Z">2026-06-06T09:40:24.442Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-06-06T09-40-25-933Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T09-40-25-933Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:40:25.933Z" data-timestamp="2026-06-06T09:40:25.933Z">2026-06-06T09:40:25.933Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>根据 Arduino 文档，<strong>不是把模型文件手动上传到 App 里</strong>，而是通过 App Lab 和 Edge Impulse 的账号集成同步回来。</p>
+<p>你现在模型已经在网页里训练好后，按这个流程做：</p>
+<ol>
+<li>回到 <strong>Arduino App Lab</strong>。</li>
+<li>打开你要使用模型的 App。</li>
+<li>确认 App 里已经添加了对应的 Brick，例如图像识别要用 <strong>Video Object Detection Brick</strong>。</li>
+<li>进入这个 Brick 的 <strong>AI models</strong> 标签页。</li>
+<li>训练好的自定义模型应该会出现在可用模型列表里。</li>
+<li>点击模型旁边的 <strong>Install</strong>，等待它构建并安装到 Arduino UNO Q。</li>
+<li>安装完成后，打开 Brick 的 <strong>Configuration</strong>，选择你的新模型。</li>
+<li>运行 App，之后这个 Brick 就会使用你的自定义模型。</li>
+</ol>
+<p>文档里的关键点是：训练完成后“回到 Arduino App Lab，你的新模型会出现在 Brick 的可用模型列表中”，然后点击 <strong>Install</strong> 安装到 UNO Q，再在 Brick 配置里选择它。来源：Arduino 文档的 Custom AI Model Usage 部分：<br />
+https://docs.arduino.cc/software/app-lab/tutorials/ai-models/</p>
+<p>如果你回到 App Lab 后没有看到模型，优先检查这几个点：</p>
+<ul>
+<li>是否用的是同一个 <strong>Arduino / Edge Impulse 账号</strong>。</li>
+<li>是否是从 App Lab 里的 <strong>Train new AI model</strong> 入口跳转到 Edge Impulse 的。</li>
+<li>模型类型是否匹配 Brick，例如 Object Detection 模型要配 <strong>Video Object Detection Brick</strong>。</li>
+<li>训练是否已经完成，并且模型在 Edge Impulse 里测试通过。</li>
+<li>关闭再重新打开 App 或刷新 App Lab 的 Brick 页面。</li>
+</ul>
+<p>另外，Edge Impulse 可以导出 <code>.eim</code> 文件，但按这篇文档的说法，<code>.eim</code> 手动导出主要是用于在 Arduino App Lab 之外的 C++ 或 Python 项目里实验；在 App Lab 里通常走 <strong>AI models 列表 -&gt; Install -&gt; Configuration 选择模型</strong> 这条路径。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-2">
+  <div class="turn-head">
+    <div class="turn-title">Turn 2 · https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T09-42-11-282Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-42-11-282Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:42:11.282Z" data-timestamp="2026-06-06T09:42:11.282Z">2026-06-06T09:42:11.282Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-06-06T09-42-22-209Z-2026-06-06T09-42-38-434Z">
+  <summary>Codex process (3 items: Reasoning, Commentary, Web Search End)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-06-06T09-42-22-209Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T09-42-22-209Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:42:22.209Z" data-timestamp="2026-06-06T09:42:22.209Z">2026-06-06T09:42:22.209Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-06-06T09-42-22-263Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-06-06T09-42-22-263Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:42:22.263Z" data-timestamp="2026-06-06T09:42:22.263Z">2026-06-06T09:42:22.263Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会核对一下 Edge Impulse 对 Arduino UNO Q 的官方说明，特别是模型部署格式和 App Lab 之间的关系。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-06-06T09-42-38-434Z">
+  <div class="message-header">
+    <span class="role-label">Web Search End</span>
+    <a href="#msg-2026-06-06T09-42-38-434Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:42:38.434Z" data-timestamp="2026-06-06T09:42:38.434Z">2026-06-06T09:42:38.434Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;web_search_end&quot;,
+  &quot;call_id&quot;: &quot;ws_00b4d04b51c49c1b016a23eb7b15308199a2ddc36130444bbe&quot;,
+  &quot;query&quot;: &quot;https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q&quot;,
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;open_page&quot;,
+    &quot;url&quot;: &quot;https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q&quot;
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-06-06T09-42-41-288Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T09-42-41-288Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:42:41.288Z" data-timestamp="2026-06-06T09:42:41.288Z">2026-06-06T09:42:41.288Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这篇 Edge Impulse 文档讲的是 <strong>不通过 Arduino App Lab 的另一条部署路线</strong>：直接把 UNO Q 当作 Linux 设备连接到 Edge Impulse，然后用命令行下载安装到板子上运行。</p>
+<p>也就是说你现在有两种方式：</p>
+<p><strong>方式 A：在 Arduino App Lab 里用模型</strong></p>
+<p>适合你前面说的“导入 app 中”。</p>
+<p>流程是：</p>
+<ol>
+<li>在 App Lab 里打开你的 App。</li>
+<li>找到对应的 AI Brick，例如 <code>Video Object Detection Brick</code>。</li>
+<li>进入 Brick 的 <code>AI models</code>。</li>
+<li>找到你训练好的模型。</li>
+<li>点 <code>Install</code>。</li>
+<li>安装完成后，在 Brick 的 <code>Configuration</code> 里选择这个模型。</li>
+<li>运行 App。</li>
+</ol>
+<p>这个方式不需要你手动下载 <code>.eim</code> 文件，也不需要 SSH 到 UNO Q。</p>
+<p><strong>方式 B：直接在 UNO Q 上运行 Edge Impulse 模型</strong></p>
+<p>这是你发的 Edge Impulse 文档里的方式。适合你想绕过 App Lab，用命令行在 UNO Q 上直接跑模型。</p>
+<p>大致流程是：</p>
+<ol>
+<li>给 UNO Q 连网，并开启 SSH 或接屏幕进入终端。</li>
+<li>在 UNO Q 上安装 Edge Impulse 依赖：</li>
+</ol>
+<pre><code class="language-bash">sudo apt update
+curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
+sudo apt install -y gcc g++ make build-essential nodejs sox gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps
+sudo npm install edge-impulse-linux -g --unsafe-perm
+</code></pre>
+<ol>
+<li>连接 Edge Impulse 项目：</li>
+</ol>
+<pre><code class="language-bash">edge-impulse-linux
+</code></pre>
+<p>它会让你登录 Edge Impulse，并选择项目。</p>
+<ol>
+<li>运行模型：</li>
+</ol>
+<pre><code class="language-bash">edge-impulse-linux-runner
+</code></pre>
+<p>这个命令会自动编译、下载模型到 UNO Q，然后开始推理。</p>
+<p>官方文档来源：<br />
+https://docs.edgeimpulse.com/hardware/boards/arduino-uno-q</p>
+<p>关键区别是：</p>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>用哪种方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>想在 Arduino App Lab 做的 App 里使用模型</td>
+<td>用 App Lab 的 <code>AI models -&gt; Install -&gt; Configuration</code></td>
+</tr>
+<tr>
+<td>想在 UNO Q Linux 系统里直接测试模型</td>
+<td>用 <code>edge-impulse-linux-runner</code></td>
+</tr>
+<tr>
+<td>想自己写 Python / C++ 程序调用模型</td>
+<td>用 Edge Impulse Linux SDK 或导出的 Linux <code>.eim</code></td>
+</tr>
+</tbody>
+</table>
+<p>所以，如果你的目标仍然是“导入 App Lab 的 App 中”，不要按这篇 Edge Impulse 文档去跑 <code>edge-impulse-linux-runner</code>。那是独立运行模型，不是把模型放进 App Lab 的 Brick 里。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-3">
+  <div class="turn-head">
+    <div class="turn-title">Turn 3 · 如何确认自己是否有训练好的模型</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T09-43-32-361Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-43-32-361Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:43:32.361Z" data-timestamp="2026-06-06T09:43:32.361Z">2026-06-06T09:43:32.361Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>如何确认自己是否有训练好的模型</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-06T09-43-53-404Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T09-43-53-404Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:43:53.404Z" data-timestamp="2026-06-06T09:43:53.404Z">2026-06-06T09:43:53.404Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以从 <strong>Edge Impulse 网页端</strong> 和 <strong>Arduino App Lab</strong> 两边确认。</p>
+<p><strong>在 Edge Impulse 确认</strong></p>
+<ol>
+<li>打开你的 Edge Impulse 项目。</li>
+<li>进入左侧的 <strong>Impulse design</strong>。</li>
+<li>确认里面已经有完整流程，例如：</li>
+<li>输入数据类型，比如 image / audio / sensor</li>
+<li>Processing block</li>
+<li>Learning block，例如 object detection / classification</li>
+<li>进入左侧 <strong>Model testing</strong>。</li>
+<li>如果你能看到测试结果、准确率、混淆矩阵或检测结果，说明模型已经训练过。</li>
+<li>再进入 <strong>Dashboard</strong> 或 <strong>Deployment</strong>。</li>
+<li>如果页面提示模型可以部署，或者可以生成 Linux / <code>.eim</code> / Arduino library 等部署包，说明模型已经训练完成。</li>
+</ol>
+<p>最直接的判断是：<br />
+<strong>Model testing 页面能跑出结果，Deployment 页面能构建模型。</strong></p>
+<p><strong>在 Arduino App Lab 确认</strong></p>
+<p>如果你是从 App Lab 的 <strong>Train new AI model</strong> 跳转到 Edge Impulse 训练的：</p>
+<ol>
+<li>回到 Arduino App Lab。</li>
+<li>打开你的 App。</li>
+<li>选中对应的 AI Brick，例如 <strong>Video Object Detection Brick</strong>。</li>
+<li>打开 Brick 的 <strong>AI models</strong> 页面。</li>
+<li>看列表里是否出现你训练的模型。</li>
+<li>如果出现并且有 <strong>Install</strong> 按钮，就说明 App Lab 识别到了这个模型。</li>
+</ol>
+<p>注意：模型必须和 Brick 类型匹配。比如：</p>
+<table>
+<thead>
+<tr>
+<th>训练的模型</th>
+<th>App Lab 中对应 Brick</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>图像分类</td>
+<td>Image Classification 相关 Brick</td>
+</tr>
+<tr>
+<td>目标检测</td>
+<td>Video Object Detection Brick</td>
+</tr>
+<tr>
+<td>音频分类</td>
+<td>Audio Classification 相关 Brick</td>
+</tr>
+<tr>
+<td>传感器分类</td>
+<td>Sensor / IMU 相关 Brick</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如果你在 Edge Impulse 里不确定有没有训练成功</strong></p>
+<p>看这几个地方：</p>
+<ul>
+<li><code>Impulse design &gt; Image</code> 或类似训练页面里是否点过 <strong>Start training</strong></li>
+<li>是否有训练完成后的准确率，例如 accuracy / F1 score / loss</li>
+<li><code>Model testing</code> 是否可以点击 <strong>Classify all</strong> 或显示测试结果</li>
+<li><code>Deployment</code> 是否可以成功 build</li>
+<li>项目 Dashboard 是否显示最近训练过的 model / impulse</li>
+</ul>
+<p><strong>如果 App Lab 里看不到模型</strong></p>
+<p>常见原因是：</p>
+<ul>
+<li>Edge Impulse 和 Arduino App Lab 不是同一个账号或没有正确绑定。</li>
+<li>不是从 App Lab 的训练入口创建的模型。</li>
+<li>训练还没完成。</li>
+<li>模型类型和当前 Brick 不匹配。</li>
+<li>App Lab 页面还没刷新。</li>
+<li>Edge Impulse 项目没有部署到兼容 UNO Q / App Lab 的格式。</li>
+</ul>
+<p>简单判断路径：</p>
+<pre><code class="language-text">Edge Impulse 能 Model testing -&gt; 说明模型训练过
+Edge Impulse 能 Deployment build -&gt; 说明模型可部署
+App Lab 的 AI models 里能看到 -&gt; 说明可以导入当前 App
+</code></pre>
+<p>如果你愿意，可以把你 Edge Impulse 左侧菜单里目前能看到的页面名称，或者 <code>Dashboard / Model testing / Deployment</code> 页面截图发我，我可以帮你判断现在卡在哪一步。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-4">
+  <div class="turn-head">
+    <div class="turn-title">Turn 4 · Your impulse is not fully trained. Use the items in the navigation bar to configure and train your model before you can validate your model.</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T09-44-57-735Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-44-57-735Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:44:57.735Z" data-timestamp="2026-06-06T09:44:57.735Z">2026-06-06T09:44:57.735Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>Your impulse is not fully trained. Use the items in the navigation bar to configure and train your model before you can validate your model.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-06T09-45-16-475Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T09-45-16-475Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:45:16.475Z" data-timestamp="2026-06-06T09:45:16.475Z">2026-06-06T09:45:16.475Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这个提示的意思是：<strong>你的 Edge Impulse 项目里还没有完成完整训练</strong>，所以现在不能做 <code>Model testing / Validate</code>，也还不能导入 App Lab 使用。</p>
+<p>你需要按左侧导航栏把训练流程补完。一般步骤如下：</p>
+<ol>
+<li><strong>Data acquisition</strong></li>
+<li>确认已经上传或采集了数据。</li>
+<li>数据要有标签，例如 <code>person</code>、<code>object</code>、<code>normal</code>、<code>warning</code> 等。</li>
+<li>
+<p>如果是图像目标检测，还要确认图片里已经画了 bounding box。</p>
+</li>
+<li>
+<p><strong>Impulse design</strong></p>
+</li>
+<li>进入 <code>Create impulse</code>。</li>
+<li>配好输入大小和处理模块。</li>
+<li>例如图像模型通常是：<ul>
+<li><code>Image</code></li>
+<li><code>Classification</code> 或 <code>Object Detection</code></li>
+</ul>
+</li>
+<li>
+<p>配好后点击 <strong>Save impulse</strong>。</p>
+</li>
+<li>
+<p><strong>Processing block</strong></p>
+</li>
+<li>如果你选的是 Image，左侧通常会出现 <code>Image</code> 页面。</li>
+<li>进入它。</li>
+<li>点击 <strong>Save parameters</strong>。</li>
+<li>
+<p>然后点击 <strong>Generate features</strong>。</p>
+</li>
+<li>
+<p><strong>Learning block</strong></p>
+</li>
+<li>进入你的训练页面，例如：<ul>
+<li><code>Classifier</code></li>
+<li><code>Object detection</code></li>
+<li><code>Transfer learning</code></li>
+</ul>
+</li>
+<li>设置训练参数。</li>
+<li>点击 <strong>Start training</strong>。</li>
+<li>
+<p>等训练完成，页面应该显示 accuracy / loss / F1 score 等结果。</p>
+</li>
+<li>
+<p><strong>Model testing</strong></p>
+</li>
+<li>回到 <code>Model testing</code>。</li>
+<li>这时再点击测试/验证，应该就不会再出现 “not fully trained”。</li>
+</ol>
+<p>也就是说，Edge Impulse 里不是只上传数据就算有模型。必须完成：</p>
+<pre><code class="language-text">Create impulse
+-&gt; Save parameters
+-&gt; Generate features
+-&gt; Start training
+-&gt; Model testing
+</code></pre>
+<p>如果你是做 Arduino App Lab 的视觉模型，最常见漏掉的是：</p>
+<ul>
+<li>只创建了 impulse，但没有点 <strong>Generate features</strong>。</li>
+<li>只生成了 features，但没有点 <strong>Start training</strong>。</li>
+<li>图片上传了，但没有标注标签或 bounding box。</li>
+<li>选择了 Object Detection，但数据不是目标检测格式。</li>
+<li>修改过 <code>Create impulse</code> 后，没有重新生成 features 和重新训练。</li>
+</ul>
+<p>你可以先检查左侧导航栏：<br />
+如果某个项目旁边还有感叹号、灰色状态、或者提示未完成，就从那里继续配置。完成训练后，再回到 App Lab 的 AI Brick 里看模型是否出现。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-5">
+  <div class="turn-head">
+    <div class="turn-title">Turn 5 · from arduino.app_utils import App</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T09-58-15-191Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T09-58-15-191Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:58:15.191Z" data-timestamp="2026-06-06T09:58:15.191Z">2026-06-06T09:58:15.191Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>from arduino.app_utils import App
+from arduino.app_bricks.video_objectdetection import VideoObjectDetection</p>
+<p>detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)</p>
+<h1>Register a callback for when all objects are detected</h1>
+<p>def print_detections(detections: dict):
+  for key, value in detections.items():
+        for detection in value:
+            entry = {
+                "content": key,
+                "confidence": f"{round(detection.get('confidence', 0) * 100)} %"
+            }
+            print(entry)</p>
+<p>detection_stream.on_detect_all(print_detections)</p>
+<p>App.run()这个什么意思</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-06T09-58-44-355Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T09-58-44-355Z" class="timestamp-link">
+      <time datetime="2026-06-06T09:58:44.355Z" data-timestamp="2026-06-06T09:58:44.355Z">2026-06-06T09:58:44.355Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这段代码是在 <strong>Arduino App Lab</strong> 里使用一个“视频目标检测 Brick”，打开摄像头/视频流后持续识别画面里的物体；一旦检测到对象，就把检测结果打印出来。</p>
+<p>逐段解释：</p>
+<pre><code class="language-python">from arduino.app_utils import App
+from arduino.app_bricks.video_objectdetection import VideoObjectDetection
+</code></pre>
+<p>导入 App Lab 运行所需的模块：</p>
+<ul>
+<li><code>App</code>：负责启动 App Lab 应用。</li>
+<li><code>VideoObjectDetection</code>：视频目标检测功能，也就是识别摄像头画面中的物体。</li>
+</ul>
+<pre><code class="language-python">detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
+</code></pre>
+<p>创建一个目标检测对象。</p>
+<p>参数含义：</p>
+<ul>
+<li><code>confidence=0.5</code>：只接受置信度大于等于 <code>0.5</code> 的检测结果，也就是 <strong>50% 以上把握</strong> 的识别结果。</li>
+<li><code>debounce_sec=0.0</code>：去抖时间为 0 秒。也就是说，只要检测到对象，就可以立刻触发回调，不做延迟过滤。</li>
+</ul>
+<pre><code class="language-python">def print_detections(detections: dict):
+</code></pre>
+<p>定义一个函数，用来处理检测结果。<br />
+这个函数会在检测到物体时被调用。</p>
+<p><code>detections</code> 大概是一个字典，结构类似：</p>
+<pre><code class="language-python">{
+    &quot;person&quot;: [
+        {&quot;confidence&quot;: 0.91, &quot;x&quot;: 100, &quot;y&quot;: 80, &quot;width&quot;: 50, &quot;height&quot;: 120}
+    ],
+    &quot;cup&quot;: [
+        {&quot;confidence&quot;: 0.76, &quot;x&quot;: 220, &quot;y&quot;: 130, &quot;width&quot;: 40, &quot;height&quot;: 60}
+    ]
+}
+</code></pre>
+<p>也就是：</p>
+<ul>
+<li>key 是识别出的类别名称，比如 <code>"person"</code>、<code>"cup"</code>。</li>
+<li>value 是这个类别对应的检测列表，因为同一画面里可能有多个同类物体。</li>
+</ul>
+<pre><code class="language-python">for key, value in detections.items():
+</code></pre>
+<p>遍历每一种检测到的类别。</p>
+<p>比如：</p>
+<pre><code class="language-python">key = &quot;person&quot;
+value = [{&quot;confidence&quot;: 0.91, ...}]
+</code></pre>
+<pre><code class="language-python">for detection in value:
+</code></pre>
+<p>遍历这一类里的每一个检测框。</p>
+<p>例如画面里有 2 个人，就会循环 2 次。</p>
+<pre><code class="language-python">entry = {
+    &quot;content&quot;: key,
+    &quot;confidence&quot;: f&quot;{round(detection.get('confidence', 0) * 100)} %&quot;
+}
+</code></pre>
+<p>把检测结果整理成一个新的字典：</p>
+<pre><code class="language-python">{
+    &quot;content&quot;: &quot;person&quot;,
+    &quot;confidence&quot;: &quot;91 %&quot;
+}
+</code></pre>
+<p>其中：</p>
+<ul>
+<li><code>content</code>：识别到的物体类别。</li>
+<li><code>confidence</code>：置信度百分比。</li>
+<li><code>detection.get('confidence', 0)</code>：从检测结果里取 <code>confidence</code>，如果没有这个字段就用 <code>0</code>。</li>
+<li><code>* 100</code>：把 <code>0.91</code> 转成 <code>91</code>。</li>
+<li><code>round(...)</code>：四舍五入。</li>
+<li><code>f"... %"</code>：格式化成字符串，例如 <code>"91 %"</code>。</li>
+</ul>
+<pre><code class="language-python">print(entry)
+</code></pre>
+<p>把结果打印到控制台。</p>
+<pre><code class="language-python">detection_stream.on_detect_all(print_detections)
+</code></pre>
+<p>注册回调函数。<br />
+意思是：<strong>当检测到所有对象时，调用 <code>print_detections</code> 这个函数处理结果。</strong></p>
+<pre><code class="language-python">App.run()
+</code></pre>
+<p>启动 App。<br />
+没有这一行，App Lab 不会真正开始运行检测。</p>
+<p>所以整段代码可以理解为：</p>
+<pre><code class="language-text">启动视频目标检测
+如果画面中识别到物体
+就把物体名称和置信度打印出来
+</code></pre>
+<p>例如运行时可能输出：</p>
+<pre><code class="language-python">{'content': 'person', 'confidence': '93 %'}
+{'content': 'cup', 'confidence': '78 %'}
+</code></pre>
+<p>如果你训练的是自己的模型，比如识别 <code>apple</code>、<code>banana</code>、<code>bottle</code>，那么这里的 <code>content</code> 就会显示你的模型标签名称。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination"><a href="index.html" class="index-link">Index</a></div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

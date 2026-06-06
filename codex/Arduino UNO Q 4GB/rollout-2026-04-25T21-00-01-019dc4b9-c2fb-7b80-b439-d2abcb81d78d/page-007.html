@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d · Page 7</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d</a></h1>
+  <p>Page 7 / 8</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-006.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <span class="current">7</span>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-008.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-31">
+  <div class="turn-head">
+    <div class="turn-title">Turn 31 · 我的拓展坞买错了</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-15-30-564Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-15-30-564Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:15:30.564Z" data-timestamp="2026-04-27T05:15:30.564Z">2026-04-27T05:15:30.564Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我的拓展坞买错了</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-15-49-343Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-15-49-343Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:15:49.343Z" data-timestamp="2026-04-27T05:15:49.343Z">2026-04-27T05:15:49.343Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>先别硬接。你把“买错”具体错在哪说清楚，不然容易继续走偏。</p>
+<p>最关键的是这几个信息：</p>
+<ul>
+<li>拓展坞的 <code>接口类型</code>
+  是 <code>USB-C</code>、<code>USB-A</code>，还是别的</li>
+<li>它有没有 <code>独立供电输入</code>
+  以及供电口是什么规格</li>
+<li>它是普通 <code>USB 数据 Hub</code>，还是偏视频扩展坞</li>
+<li>它连接上游设备的线/口是什么</li>
+<li>你现在手上 UNO Q 和拓展坞各自实际长什么口</li>
+</ul>
+<p>你可以直接发我：
+- 拓展坞型号
+- 商品链接
+- 或者拍一张接口照片</p>
+<p>如果你现在想先自己判断，最核心只有一句：</p>
+<p><code>你需要的是能让 UNO Q 当 USB 主机去挂多个 USB 外设的、带独立供电的数据 Hub。</code></p>
+<p>也就是说，至少应满足：</p>
+<ul>
+<li>能接 <code>USB 摄像头</code></li>
+<li>能接 <code>USB 转串口</code></li>
+<li>能通过一个上行口接到 <code>UNO Q</code></li>
+<li>最好带 <code>外接供电</code></li>
+</ul>
+<p>常见买错的情况有这些：</p>
+<ul>
+<li>买成只有 <code>充电/供电</code>，不带正常数据 Hub 功能</li>
+<li>买成面向手机的 OTG 配件，供电或兼容性很差</li>
+<li>买成主要做 <code>HDMI 扩展</code> 的坞，USB 口能力很弱</li>
+<li>买成 <code>USB-A 分线器</code> 但没有独立供电</li>
+<li>买成接口不对，没法正常接 UNO Q</li>
+</ul>
+<p>如果你把具体型号或照片给我，我可以直接告诉你：
+- 还能不能凑合用
+- 是否只差一个转接头
+- 还是应该直接退掉重买</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-32">
+  <div class="turn-head">
+    <div class="turn-title">Turn 32 · 我先试试ubuntu系统能不能识别到摄像头</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-19-32-077Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-19-32-077Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:19:32.077Z" data-timestamp="2026-04-27T05:19:32.077Z">2026-04-27T05:19:32.077Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我先试试ubuntu系统能不能识别到摄像头</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-19-44-431Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-19-44-431Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:19:44.431Z" data-timestamp="2026-04-27T05:19:44.431Z">2026-04-27T05:19:44.431Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以，先别纠结拓展坞，先验证 <code>Ubuntu/Linux 能不能识别摄像头</code> 是对的。</p>
+<p>如果你现在是把摄像头接到一台 Ubuntu 电脑上测试，就按这个顺序来。</p>
+<p>先看系统有没有识别到视频设备：</p>
+<pre><code class="language-bash">ls /dev/video*
+</code></pre>
+<p>再看设备列表：</p>
+<pre><code class="language-bash">v4l2-ctl --list-devices
+</code></pre>
+<p>如果没有 <code>v4l2-ctl</code>，先装：</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install -y v4l-utils
+</code></pre>
+<p>然后看这颗摄像头支持哪些格式和分辨率：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video0 --list-formats-ext
+</code></pre>
+<p>再用 OpenCV 做最小测试：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(0)
+print(&quot;opened:&quot;, cap.isOpened())
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>如果你还想更直观看一下画面，也可以装一个简单工具：</p>
+<pre><code class="language-bash">sudo apt install -y cheese
+cheese
+</code></pre>
+<p>你现在判断成功与否，主要看这几条：</p>
+<ul>
+<li>出现了 <code>/dev/video0</code></li>
+<li><code>v4l2-ctl --list-devices</code> 能列出摄像头名字</li>
+<li><code>--list-formats-ext</code> 能看到 <code>MJPG</code> 或 <code>YUYV</code></li>
+<li>OpenCV 输出 <code>opened: True</code> 和 <code>ret: True</code></li>
+</ul>
+<p>你跑完后把输出发我，我可以直接帮你判断这颗摄像头是否靠谱。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-33">
+  <div class="turn-head">
+    <div class="turn-title">Turn 33 · william@william:~$ v4l2-ctl -d /dev/video0 --list-formats-ext</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-20-12-941Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-20-12-941Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:20:12.941Z" data-timestamp="2026-04-27T05:20:12.941Z">2026-04-27T05:20:12.941Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~$ v4l2-ctl -d /dev/video0 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+    Type: Video Capture</p>
+<pre><code>[0]: 'MJPG' (Motion-JPEG, compressed)
+    Size: Discrete 1280x720
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 640x480
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 640x360
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 352x288
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 320x240
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 176x144
+        Interval: Discrete 0.033s (30.000 fps)
+[1]: 'YUYV' (YUYV 4:2:2)
+    Size: Discrete 640x480
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 640x360
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 352x288
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 320x240
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 176x144
+        Interval: Discrete 0.033s (30.000 fps)
+</code></pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-20-34-255Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-20-34-255Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:20:34.255Z" data-timestamp="2026-04-27T05:20:34.255Z">2026-04-27T05:20:34.255Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这颗摄像头 <code>可以用</code>，而且从结果看，至少作为你项目的第一版视觉输入是合格的。</p>
+<p>你这条输出说明了几件明确的事：</p>
+<ul>
+<li>Linux 已经正确识别到它了</li>
+<li>支持 <code>MJPG</code></li>
+<li>最高支持到 <code>1280x720 @ 30fps</code></li>
+<li>也支持 <code>YUYV</code></li>
+<li><code>/dev/video0</code> 正常工作</li>
+</ul>
+<p>这和你项目是匹配的，尤其是：
+- <code>MJPG 720p 30fps</code> 已经足够做 OpenCV 实时处理
+- <code>640x480 / 640x360</code> 也适合后面做低负载调试</p>
+<p>不过也有一个和商家宣传不一致的地方：</p>
+<ul>
+<li>你现在实际测到的最高分辨率是 <code>1280x720</code></li>
+<li>没看到 <code>1920x1080</code></li>
+</ul>
+<p>所以更稳妥的结论是：</p>
+<ul>
+<li><code>这颗摄像头能用</code></li>
+<li><code>但你目前在这台 Ubuntu 上测到的是 720p 顶格，不是 1080p</code></li>
+</ul>
+<p>这不一定说明被骗，也可能有几种原因：</p>
+<ul>
+<li>这就是实际规格</li>
+<li>不同接口/模式下暴露的格式不同</li>
+<li>固件或驱动只枚举出这组模式</li>
+<li>商家图和你收到的版本并不完全一致</li>
+</ul>
+<p>你下一步先别纠结 1080p，先验证 OpenCV 能不能正常取流。直接跑：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(0)
+print(&quot;opened:&quot;, cap.isOpened())
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>如果你想顺手验证 720p MJPEG 采集，也可以跑这个：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+print(&quot;opened:&quot;, cap.isOpened())
+print(&quot;width:&quot;, cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+print(&quot;height:&quot;, cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>现阶段判断是：</p>
+<ul>
+<li><code>这颗摄像头值得继续用</code></li>
+<li><code>先按 720p 方案推进</code></li>
+<li><code>对黑色矩形检测、角点提取、中心点计算来说，720p 已经够你开始开发</code></li>
+</ul>
+<p>把 OpenCV 读帧结果发我，我继续帮你判断下一步。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-34">
+  <div class="turn-head">
+    <div class="turn-title">Turn 34 · 用你说的那个cheese吧</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-21-14-196Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-21-14-196Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:21:14.196Z" data-timestamp="2026-04-27T05:21:14.196Z">2026-04-27T05:21:14.196Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>用你说的那个cheese吧</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-21-23-587Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-21-23-587Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:21:23.587Z" data-timestamp="2026-04-27T05:21:23.587Z">2026-04-27T05:21:23.587Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以，<code>cheese</code> 适合先做最直观的验证。</p>
+<p>先安装：</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install -y cheese
+</code></pre>
+<p>然后直接启动：</p>
+<pre><code class="language-bash">cheese
+</code></pre>
+<p>你打开后重点看 3 件事：</p>
+<ul>
+<li>能不能正常出画面</li>
+<li>画面是否稳定，不黑屏、不频繁卡死</li>
+<li>切换分辨率或默认预览时是否正常</li>
+</ul>
+<p>如果 <code>cheese</code> 能正常看到实时画面，说明至少这几层是通的：</p>
+<ul>
+<li>Ubuntu 识别摄像头</li>
+<li>V4L2 正常</li>
+<li>图像流可以被上层应用读取</li>
+</ul>
+<p>但我要提醒一句：</p>
+<p><code>cheese 能显示画面，只能证明摄像头基础可用，不代表 OpenCV 参数就已经完全合适。</code></p>
+<p>所以更稳的顺序是：</p>
+<ol>
+<li>先用 <code>cheese</code> 看画面</li>
+<li>再回头用 OpenCV 做程序化取流测试</li>
+</ol>
+<p>你先试 <code>cheese</code>。如果能看到正常画面，告诉我：
+- 画面是否正常
+- 是否卡顿
+- 是否能切到 720p</p>
+<p>然后我再带你做下一步。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-35">
+  <div class="turn-head">
+    <div class="turn-title">Turn 35 · 但是cheese上显示的是电脑的摄像头</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-22-47-145Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-22-47-145Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:22:47.145Z" data-timestamp="2026-04-27T05:22:47.145Z">2026-04-27T05:22:47.145Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>但是cheese上显示的是电脑的摄像头</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-22-59-869Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-22-59-869Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:22:59.869Z" data-timestamp="2026-04-27T05:22:59.869Z">2026-04-27T05:22:59.869Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这说明 <code>cheese</code> 默认选了你电脑内置摄像头，不是 USB 摄像头。问题不大，先把设备区分清楚。</p>
+<p>先执行这两条：</p>
+<pre><code class="language-bash">v4l2-ctl --list-devices
+</code></pre>
+<pre><code class="language-bash">ls -l /dev/v4l/by-id/
+</code></pre>
+<p>第一条会告诉你：
+- 电脑内置摄像头对应哪个 <code>/dev/videoX</code>
+- USB 摄像头对应哪个 <code>/dev/videoX</code></p>
+<p>第二条通常能更直观地看到 USB 摄像头名字，并映射到具体设备节点。</p>
+<p>如果你想临时禁用内置摄像头，最简单的办法是：
+- 先拔掉 USB 摄像头再看一次设备列表
+- 再插回去再看一次
+- 新出现的那个一般就是 USB 摄像头</p>
+<p>也可以直接看插入摄像头后的内核日志：</p>
+<pre><code class="language-bash">dmesg | tail -n 50
+</code></pre>
+<p>你现在真正要确认的是：
+- USB 摄像头到底是 <code>/dev/video0</code>、<code>/dev/video1</code> 还是别的
+- 然后后面在 OpenCV 里用对应编号打开它</p>
+<p>如果你只是想快速验证 USB 摄像头画面，不一定非要用 <code>cheese</code>，更直接的是用 <code>ffplay</code> 或 OpenCV 指定设备号。但先把 <code>v4l2-ctl --list-devices</code> 输出发我，我可以直接帮你判断哪个是 USB 摄像头。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-006.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <span class="current">7</span>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-008.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

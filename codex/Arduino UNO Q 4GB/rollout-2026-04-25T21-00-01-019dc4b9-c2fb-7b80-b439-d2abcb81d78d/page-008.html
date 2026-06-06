@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d · Page 8</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-25T21-00-01-019dc4b9-c2fb-7b80-b439-d2abcb81d78d</a></h1>
+  <p>Page 8 / 8</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-007.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <span class="current">8</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-36">
+  <div class="turn-head">
+    <div class="turn-title">Turn 36 · william@william:~$ v4l2-ctl --list-devices</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-23-33-114Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-23-33-114Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:23:33.114Z" data-timestamp="2026-04-27T05:23:33.114Z">2026-04-27T05:23:33.114Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~$ v4l2-ctl --list-devices
+USB Composite Device: USB Camer (usb-0000:64:00.3-1.2):
+    /dev/video4
+    /dev/video5
+    /dev/media2</p>
+<p>HD Webcam: HD Webcam (usb-0000:64:00.4-1):
+    /dev/video0
+    /dev/video1
+    /dev/video2
+    /dev/video3
+    /dev/media0
+    /dev/media1</p>
+<p>william@william:~$ ls -l /dev/v4l/by-id/
+total 0
+lrwxrwxrwx 1 root root 12  4月 27 13:17 usb-Jieli_Technology_USB_Composite_Device-video-index0 -&gt; ../../video4
+lrwxrwxrwx 1 root root 12  4月 27 13:17 usb-Jieli_Technology_USB_Composite_Device-video-index1 -&gt; ../../video5
+lrwxrwxrwx 1 root root 12  4月 27 12:41 usb-SunplusIT_Inc_HD_Webcam_01.00.00-video-index0 -&gt; ../../video2
+lrwxrwxrwx 1 root root 12  4月 27 12:41 usb-SunplusIT_Inc_HD_Webcam_01.00.00-video-index1 -&gt; ../../video3</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-23-49-926Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-23-49-926Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:23:49.926Z" data-timestamp="2026-04-27T05:23:49.926Z">2026-04-27T05:23:49.926Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>已经分清了。</p>
+<p>你的 <code>USB 外接摄像头</code> 是这个：</p>
+<ul>
+<li><code>USB Composite Device: USB Camer</code></li>
+<li>对应 <code>/dev/video4</code> 和 <code>/dev/video5</code></li>
+</ul>
+<p>电脑自带摄像头是这个：</p>
+<ul>
+<li><code>HD Webcam: HD Webcam</code></li>
+<li>对应 <code>/dev/video0</code> <code>/dev/video1</code> <code>/dev/video2</code> <code>/dev/video3</code></li>
+</ul>
+<p>所以你后面要测试外接 USB 摄像头时，优先用 <code>video4</code>，也就是：</p>
+<pre><code class="language-bash">/dev/video4
+</code></pre>
+<p>你前面那次 <code>v4l2-ctl -d /dev/video0 --list-formats-ext</code> 实际测到的是电脑自带摄像头，不是你刚买的 USB 摄像头。这个要纠正过来。</p>
+<p>现在请直接测外接摄像头：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video4 --list-formats-ext
+</code></pre>
+<p>如果你想验证画面，不建议继续靠 <code>cheese</code> 自动选设备了，直接用 <code>ffplay</code> 更准。如果没装：</p>
+<pre><code class="language-bash">sudo apt install -y ffmpeg
+</code></pre>
+<p>然后打开 USB 摄像头：</p>
+<pre><code class="language-bash">ffplay /dev/video4
+</code></pre>
+<p>如果这个不行，再用指定格式方式试：</p>
+<pre><code class="language-bash">ffplay -f video4linux2 -input_format mjpeg -video_size 1280x720 /dev/video4
+</code></pre>
+<p>或者先用 OpenCV 明确指定设备号：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(4)
+print(&quot;opened:&quot;, cap.isOpened())
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>你现在下一步最重要的是把这颗外接摄像头自己的格式列表跑出来。先执行：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video4 --list-formats-ext
+</code></pre>
+<p>把输出发我，我继续帮你判断这颗 USB 摄像头到底达不达标。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-37">
+  <div class="turn-head">
+    <div class="turn-title">Turn 37 · [video4linux2,v4l2 @ 0x75f4d8000cc0] The V4L2 driver changed the video from 1920x1080 to 640x480</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-25-12-706Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-25-12-706Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:25:12.706Z" data-timestamp="2026-04-27T05:25:12.706Z">2026-04-27T05:25:12.706Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>[video4linux2,v4l2 @ 0x75f4d8000cc0] The V4L2 driver changed the video from 1920x1080 to 640x480
+Input #0, video4linux2,v4l2, from '/dev/video4':B sq=    0B f=0/0 <br />
+  Duration: N/A, start: 2742.001250, bitrate: 147456 kb/s
+  Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422, 640x480, 147456 kb/s, 30 fps, 30 tbr, 1000k tbn, 1000k tbc
+2786.15 M-V:  0.000 fd=   0 aq=    0KB vq=    0KB sq=    0B f=0/0</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-25-26-470Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-25-26-470Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:25:26.470Z" data-timestamp="2026-04-27T05:25:26.470Z">2026-04-27T05:25:26.470Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这说明外接 USB 摄像头已经 <code>能正常出流</code>，这是关键好消息。</p>
+<p>你这段输出能确认几件事：</p>
+<ul>
+<li><code>ffplay</code> 已经成功打开了 <code>/dev/video4</code></li>
+<li>摄像头当前输出的是 <code>640x480</code></li>
+<li>像素格式是 <code>YUYV/YUY2</code></li>
+<li>帧率是 <code>30 fps</code></li>
+</ul>
+<p>也就是说，这颗摄像头在 Ubuntu 下基础功能是通的。</p>
+<p>但同时也说明一件事：</p>
+<ul>
+<li>你这次请求 <code>1920x1080</code></li>
+<li>驱动把它改成了 <code>640x480</code></li>
+</ul>
+<p>这通常意味着几种可能：</p>
+<ul>
+<li>这颗摄像头当前这个节点不支持你请求的 1080p</li>
+<li>你没有指定它支持的正确压缩格式</li>
+<li>你现在打开的是原始流节点，默认协商成了 <code>YUYV 640x480</code></li>
+</ul>
+<p>这不算坏事，很多 UVC 摄像头都是这样，<code>想拿高分辨率通常要明确指定 MJPEG</code>。</p>
+<p>下一步别猜，直接看它自己的格式表。执行：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video4 --list-formats-ext
+</code></pre>
+<p>然后如果里面确实有 <code>MJPG 1920x1080</code> 或 <code>1280x720</code>，你再这样试：</p>
+<pre><code class="language-bash">ffplay -f video4linux2 -input_format mjpeg -video_size 1920x1080 /dev/video4
+</code></pre>
+<p>如果没有 1080p，就试：</p>
+<pre><code class="language-bash">ffplay -f video4linux2 -input_format mjpeg -video_size 1280x720 /dev/video4
+</code></pre>
+<p>如果你只是想先稳定验证画面，我建议先用更保守的：</p>
+<pre><code class="language-bash">ffplay -f video4linux2 -input_format mjpeg -video_size 640x480 /dev/video4
+</code></pre>
+<p>你现在的状态可以这样总结：</p>
+<ul>
+<li><code>摄像头通了</code></li>
+<li><code>设备节点找对了</code></li>
+<li><code>视频流能打开</code></li>
+<li><code>但高分辨率能力还需要用格式列表确认</code></li>
+</ul>
+<p>把这条命令的输出发我：</p>
+<pre><code class="language-bash">v4l2-ctl -d /dev/video4 --list-formats-ext
+</code></pre>
+<p>我就能直接判断这颗摄像头到底支持到什么程度，以及后面在 UNO Q 上该怎么开。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-38">
+  <div class="turn-head">
+    <div class="turn-title">Turn 38 · william@william:~$ v4l2-ctl -d /dev/video4 --list-formats-ext</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T05-27-03-653Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T05-27-03-653Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:27:03.653Z" data-timestamp="2026-04-27T05:27:03.653Z">2026-04-27T05:27:03.653Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>william@william:~$ v4l2-ctl -d /dev/video4 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+    Type: Video Capture</p>
+<pre><code>[0]: 'MJPG' (Motion-JPEG, compressed)
+    Size: Discrete 1920x1080
+        Interval: Discrete 0.033s (30.000 fps)
+        Interval: Discrete 0.040s (25.000 fps)
+    Size: Discrete 1280x720
+        Interval: Discrete 0.033s (30.000 fps)
+        Interval: Discrete 0.040s (25.000 fps)
+    Size: Discrete 640x480
+        Interval: Discrete 0.033s (30.000 fps)
+        Interval: Discrete 0.040s (25.000 fps)
+    Size: Discrete 640x360
+        Interval: Discrete 0.033s (30.000 fps)
+        Interval: Discrete 0.040s (25.000 fps)
+    Size: Discrete 352x288
+        Interval: Discrete 0.033s (30.000 fps)
+        Interval: Discrete 0.040s (25.000 fps)
+[1]: 'YUYV' (YUYV 4:2:2)
+    Size: Discrete 640x480
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 640x360
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 352x288
+        Interval: Discrete 0.033s (30.000 fps)
+    Size: Discrete 320x240
+        Interval: Discrete 0.033s (30.000 fps)
+</code></pre>
+<p>william@william:~$ ffplay -f video4linux2 -input_format mjpeg -video_size 1920x1080 /dev/video4
+ffplay version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2003-2021 the FFmpeg developers
+  built with gcc 11 (Ubuntu 11.2.0-19ubuntu1)
+  configuration: --prefix=/usr --extra-version=0ubuntu0.22.04.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librabbitmq --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-pocketsphinx --enable-librsvg --enable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
+  libavutil      56. 70.100 / 56. 70.100
+  libavcodec     58.134.100 / 58.134.100
+  libavformat    58. 76.100 / 58. 76.100
+  libavdevice    58. 13.100 / 58. 13.100
+  libavfilter     7.110.100 /  7.110.100
+  libswscale      5.  9.100 /  5.  9.100
+  libswresample   3.  9.100 /  3.  9.100
+  libpostproc    55.  9.100 / 55.  9.100
+Input #0, video4linux2,v4l2, from '/dev/video4':B sq=    0B f=0/0 <br />
+  Duration: N/A, start: 2831.286373, bitrate: N/A
+  Stream #0:0: Video: mjpeg (Baseline), yuvj422p(pc, bt470bg/unknown/unknown), 1920x1080 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 1000k tbn, 1000k tbc
+[swscaler @ 0x730f10028e00] deprecated pixel format used, make sure you did set range correctly
+2895.67 M-V: -0.015 fd= 151 aq=    0KB vq=    0KB sq=    0B f=0/0</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T05-27-21-758Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T05-27-21-758Z" class="timestamp-link">
+      <time datetime="2026-04-27T05:27:21.758Z" data-timestamp="2026-04-27T05:27:21.758Z">2026-04-27T05:27:21.758Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以确认了，这颗摄像头是合格的，而且和商家描述基本一致。</p>
+<p>你现在已经验证出两件关键事实：</p>
+<ul>
+<li><code>MJPG 1920x1080 @ 30fps</code> 确实支持</li>
+<li><code>ffplay</code> 已经成功以 <code>1920x1080 MJPEG</code> 打开 <code>/dev/video4</code></li>
+</ul>
+<p>这说明：
+- Linux/UVC 兼容没问题
+- 高分辨率模式没问题
+- 真正要高分辨率时，必须明确指定 <code>MJPEG</code>
+- 默认打开时回落到 <code>YUYV 640x480</code> 是正常现象，不是坏摄像头</p>
+<p>所以这颗摄像头对你的项目来说，已经可以定性为：</p>
+<ul>
+<li><code>能买对</code></li>
+<li><code>能用</code></li>
+<li><code>适合 UNO Q + OpenCV 路线</code></li>
+</ul>
+<p>接下来你要记住一个很重要的使用原则：</p>
+<ul>
+<li>想省带宽、跑高分辨率，就优先用 <code>MJPEG</code></li>
+<li>想调试简单、低负载，可以先用 <code>640x480</code></li>
+<li>实际做视觉闭环时，不一定要一直跑 <code>1080p</code>
+  很多阶段 <code>1280x720</code> 或 <code>640x480</code> 更实用</li>
+</ul>
+<p>我建议你后面开发按这个分辨率策略走：</p>
+<ul>
+<li><code>初期调通</code>
+  用 <code>640x480</code></li>
+<li><code>开始做多边形检测</code>
+  用 <code>1280x720</code></li>
+<li><code>确实需要更高定位精度</code>
+  再切到 <code>1920x1080</code></li>
+</ul>
+<p>下一步就该验证 OpenCV 读这颗外接摄像头了，而且要明确指定设备号和 MJPEG。你在 Ubuntu 上直接跑这个：</p>
+<pre><code class="language-bash">python3 - &lt;&lt;'PY'
+import cv2
+
+cap = cv2.VideoCapture(4)
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
+print(&quot;opened:&quot;, cap.isOpened())
+print(&quot;width:&quot;, cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+print(&quot;height:&quot;, cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+print(&quot;fourcc:&quot;, int(cap.get(cv2.CAP_PROP_FOURCC)))
+
+ret, frame = cap.read()
+print(&quot;ret:&quot;, ret)
+if ret:
+    print(&quot;shape:&quot;, frame.shape)
+
+cap.release()
+PY
+</code></pre>
+<p>如果这一步也通了，就说明：
+- 摄像头本身没问题
+- OpenCV 路线没问题
+- 你后面把它接到 UNO Q 时，只需要重点解决 <code>Hub/供电/接口</code>，而不是怀疑摄像头本体</p>
+<p>你把这段 OpenCV 输出发我，我再继续教你下一步。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-39">
+  <div class="turn-head">
+    <div class="turn-title">Turn 39 · clear</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-29T11-32-49-734Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-29T11-32-49-734Z" class="timestamp-link">
+      <time datetime="2026-04-29T11:32:49.734Z" data-timestamp="2026-04-29T11:32:49.734Z">2026-04-29T11:32:49.734Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>clear</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-29T11-32-51-567Z-2026-04-29T11-32-51-567Z">
+  <summary>Codex process (1 item: Error)</summary>
+  <div class="process-group-body">
+<div class="message system" id="msg-2026-04-29T11-32-51-567Z">
+  <div class="message-header">
+    <span class="role-label">Error</span>
+    <a href="#msg-2026-04-29T11-32-51-567Z" class="timestamp-link">
+      <time datetime="2026-04-29T11:32:51.567Z" data-timestamp="2026-04-29T11:32:51.567Z">2026-04-29T11:32:51.567Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;exceeded retry limit, last status: 429 Too Many Requests, request id: 1777462371421-o7vh7sxetxnto&quot;,
+  &quot;codex_error_info&quot;: {
+    &quot;response_too_many_failed_attempts&quot;: {
+      &quot;http_status_code&quot;: 429
+    }
+  }
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-007.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <span class="current">8</span>
+    
+  
+  
+  <span>Next &rarr;</span>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

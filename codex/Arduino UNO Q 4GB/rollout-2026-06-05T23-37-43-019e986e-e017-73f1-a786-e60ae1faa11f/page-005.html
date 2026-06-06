@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-06-05T23-37-43-019e986e-e017-73f1-a786-e60ae1faa11f · Page 5</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-06-05T23-37-43-019e986e-e017-73f1-a786-e60ae1faa11f</a></h1>
+  <p>Page 5 / 9</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-21">
+  <div class="turn-head">
+    <div class="turn-title">Turn 21 · 这个结果说明了根因：App 容器里没有正常的 V4L2 摄像头访问能力。宿主系统 terminal 可以 VideoCapture(0)，但容器内同一命令 opened=False；</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-05T17-19-08-729Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-05T17-19-08-729Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:19:08.729Z" data-timestamp="2026-06-05T17:19:08.729Z">2026-06-05T17:19:08.729Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>这个结果说明了根因：App 容器里没有正常的 V4L2 摄像头访问能力。宿主系统 terminal 可以 VideoCapture(0)，但容器内同一命令 opened=False；
+  所以继续在容器里直接 cv2.VideoCapture(0) 不会稳定。要继续学习 OpenCV，我们需要把 OpenCV 的输入源改成官方 Brick 已经能提供的摄像头流，
+  而不是直接读 /dev/video0。这个可以在开发板环境修复吗，我想试着修一下</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-05T17-19-51-988Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-05T17-19-51-988Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:19:51.988Z" data-timestamp="2026-06-05T17:19:51.988Z">2026-06-05T17:19:51.988Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以尝试修，但要分清两层：</p>
+<ol>
+<li><strong>宿主 Debian 环境</strong>
+   你已经验证过这里可以：</li>
+</ol>
+<pre><code class="language-text">cv2.VideoCapture(0) -&gt; opened=True, read=True
+</code></pre>
+<p>所以宿主环境没问题。</p>
+<ol>
+<li><strong>App Lab Docker 容器环境</strong>
+   这里失败：</li>
+</ol>
+<pre><code class="language-text">docker exec opencv-detection-main-1 ...
+opened=False
+</code></pre>
+<p>所以要修的是：<strong>App 容器访问摄像头设备的权限/设备映射/用户组/运行参数</strong>。</p>
+<p>理论上可以修，常见原因有这些：</p>
+<ul>
+<li>容器没有挂载 <code>/dev/video0</code></li>
+<li>容器内用户不在 <code>video</code> 组</li>
+<li>App Lab 启动容器时没有传 <code>--device=/dev/video0</code></li>
+<li>容器没有访问 <code>/dev/media0</code> 或相关 V4L2/media controller 设备</li>
+<li>摄像头被另一个 Brick 或进程占用</li>
+<li>App Lab 的容器运行策略限制了普通 App 直接访问摄像头</li>
+</ul>
+<p>你可以先在开发板上做这些检查。</p>
+<p><strong>1. 看容器里有没有视频设备</strong></p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 ls -l /dev/video* /dev/media* 2&gt;/dev/null
+</code></pre>
+<p>预期如果正常，至少应该看到：</p>
+<pre><code class="language-text">/dev/video0
+/dev/video1
+/dev/media0
+</code></pre>
+<p>如果容器里没有这些设备，那就是 Docker 没映射设备。</p>
+<p><strong>2. 看容器内运行用户和组</strong></p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 id
+</code></pre>
+<p>再看设备权限：</p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 ls -l /dev/video0
+</code></pre>
+<p>如果 <code>/dev/video0</code> 是：</p>
+<pre><code class="language-text">crw-rw---- root video ...
+</code></pre>
+<p>但容器内用户不在 <code>video</code> 组，就会打不开。</p>
+<p><strong>3. 看容器实际启动参数</strong></p>
+<pre><code class="language-bash">docker inspect opencv-detection-main-1 --format '{{json .HostConfig.Devices}}'
+</code></pre>
+<p>如果输出是：</p>
+<pre><code class="language-text">[]
+</code></pre>
+<p>说明容器没有通过 Docker <code>--device</code> 映射摄像头。</p>
+<p>再看挂载：</p>
+<pre><code class="language-bash">docker inspect opencv-detection-main-1 --format '{{json .Mounts}}'
+</code></pre>
+<p><strong>4. 看是否被官方 Brick 占用</strong></p>
+<p>如果你的 <code>app.yaml</code> 里用了：</p>
+<pre><code class="language-yaml">- arduino:video_object_detection: {}
+</code></pre>
+<p>这个 Brick 可能已经打开了摄像头。你要测试容器内直接 OpenCV，就先把 <code>video_object_detection</code> Brick 去掉，只保留：</p>
+<pre><code class="language-yaml">bricks:
+- arduino:web_ui: {}
+</code></pre>
+<p>否则摄像头可能被 Brick 占用。</p>
+<p><strong>5. 用 privileged 临时容器验证是不是 Docker 权限问题</strong></p>
+<p>你可以在开发板上跑一个临时容器验证设备映射。先看 App Lab 镜像名，你日志里是：</p>
+<pre><code class="language-text">ghcr.io/arduino/app-bricks/python-apps-base:0.10.1
+</code></pre>
+<p>然后尝试：</p>
+<pre><code class="language-bash">docker run --rm -it \
+  --device=/dev/video0 \
+  --device=/dev/video1 \
+  --device=/dev/media0 \
+  --group-add video \
+  ghcr.io/arduino/app-bricks/python-apps-base:0.10.1 \
+  python3 -c 'import cv2; cap=cv2.VideoCapture(0, cv2.CAP_V4L2); print(&quot;opened=&quot;, cap.isOpened()); ret, frame=cap.read(); print(&quot;read=&quot;, ret, &quot;shape=&quot;, None if frame is None else frame.shape, &quot;brightness=&quot;, None if frame is None else frame.mean()); cap.release()'
+</code></pre>
+<p>如果这个临时容器成功，说明问题就是 App Lab 启动 <code>opencv-detection-main-1</code> 时没有给摄像头设备权限。</p>
+<p>如果这个临时容器也失败，可以试：</p>
+<pre><code class="language-bash">docker run --rm -it --privileged \
+  ghcr.io/arduino/app-bricks/python-apps-base:0.10.1 \
+  python3 -c 'import cv2; cap=cv2.VideoCapture(0, cv2.CAP_V4L2); print(&quot;opened=&quot;, cap.isOpened()); ret, frame=cap.read(); print(&quot;read=&quot;, ret, &quot;shape=&quot;, None if frame is None else frame.shape, &quot;brightness=&quot;, None if frame is None else frame.mean()); cap.release()'
+</code></pre>
+<p>如果 <code>--privileged</code> 成功，那就是普通设备映射还缺东西。</p>
+<p><strong>6. 能不能永久修 App Lab 容器</strong></p>
+<p>这取决于 Arduino App Lab 是否允许你配置容器设备映射。</p>
+<p>如果 App Lab 不支持在 <code>app.yaml</code> 里声明 <code>/dev/video0</code> 这种原始设备映射，那不能优雅地从 App 配置层修，只能走这些路线：</p>
+<ul>
+<li>用官方 <code>video_object_detection</code> Brick 管摄像头，OpenCV 处理它输出的视频流。</li>
+<li>在宿主 Debian 上直接运行你的 OpenCV 程序，不通过 App Lab 容器。</li>
+<li>修改 App Lab/arduino-app-cli 的容器启动配置，但这属于系统级 hack，更新后可能失效。</li>
+<li>自己用 Docker Compose 或 <code>docker run --device</code> 部署 OpenCV 应用，不走 App Lab。</li>
+</ul>
+<p>我建议你现在先执行这三条，把结果贴出来：</p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 ls -l /dev/video* /dev/media* 2&gt;/dev/null
+docker exec opencv-detection-main-1 id
+docker inspect opencv-detection-main-1 --format '{{json .HostConfig.Devices}}'
+</code></pre>
+<p>这三条基本就能判断容器到底是“没设备”“没权限”，还是“设备有但被 App Lab/Brick 占用”。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-22">
+  <div class="turn-head">
+    <div class="turn-title">Turn 22 · arduino@sysuwilliam:~$ docker exec opencv-detection-main-1 ls -l /dev/video* /dev/media* 2&gt;/dev/null</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-05T17-21-22-147Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-05T17-21-22-147Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:21:22.147Z" data-timestamp="2026-06-05T17:21:22.147Z">2026-06-05T17:21:22.147Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>arduino@sysuwilliam:~$ docker exec opencv-detection-main-1 ls -l /dev/video<em> /dev/media</em> 2&gt;/dev/null
+crw-rw----+ 1 root video 504, 0 May 30 09:31 /dev/media0
+crw-rw----+ 1 root video  81, 0 May 30 09:31 /dev/video0
+crw-rw----+ 1 root video  81, 1 May 30 09:31 /dev/video1
+crw-rw----+ 1 root video  81, 2 May 30 09:31 /dev/video2
+crw-rw----+ 1 root video  81, 3 May 30 09:31 /dev/video3
+arduino@sysuwilliam:~$ docker exec opencv-detection-main-1 id
+uid=1000(arduino) gid=1000(arduino) groups=1000(arduino),20(dialout),29(audio),44(video),991,1001
+arduino@sysuwilliam:~$ docker inspect opencv-detection-main-1 --format '{{json .HostConfig.Devices}}'
+null
+arduino@sysuwilliam:~$</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-05T17-21-55-094Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-05T17-21-55-094Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:21:55.094Z" data-timestamp="2026-06-05T17:21:55.094Z">2026-06-05T17:21:55.094Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这三条结果很关键：</p>
+<pre><code class="language-text">容器里有 /dev/video0 /dev/video1 /dev/media0
+容器用户 arduino 在 video 组
+HostConfig.Devices = null
+</code></pre>
+<p>结论是：<strong>设备节点被挂进容器了，权限组也对，但 Docker 没用 <code>--device</code> 方式授权这些字符设备。</strong><br />
+这类情况下，容器里能看到 <code>/dev/video0</code>，但内核 device cgroup 可能仍然不允许真正打开它，所以 OpenCV 报：</p>
+<pre><code class="language-text">can't open camera by index
+</code></pre>
+<p>这就是“看得见设备，但打不开”的典型情况。</p>
+<p>你可以继续验证一下是不是 cgroup 设备授权问题。执行：</p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 bash -lc 'cat /sys/fs/cgroup/devices/devices.list 2&gt;/dev/null || true'
+</code></pre>
+<p>如果是 cgroup v2，也可以看：</p>
+<pre><code class="language-bash">docker exec opencv-detection-main-1 bash -lc 'mount | grep cgroup; cat /sys/fs/cgroup/cgroup.controllers 2&gt;/dev/null || true'
+</code></pre>
+<p>但其实 <code>HostConfig.Devices=null</code> 已经很说明问题了。</p>
+<p>下一步建议你做一个 <strong>临时容器对照实验</strong>。这不会改系统，只是验证假设：</p>
+<pre><code class="language-bash">docker run --rm -it \
+  --device=/dev/video0 \
+  --device=/dev/video1 \
+  --device=/dev/media0 \
+  --group-add video \
+  ghcr.io/arduino/app-bricks/python-apps-base:0.10.1 \
+  python3 -c 'import cv2; cap=cv2.VideoCapture(0, cv2.CAP_V4L2); cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*&quot;MJPG&quot;)); cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640); cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480); cap.set(cv2.CAP_PROP_FPS, 30); print(&quot;opened=&quot;, cap.isOpened()); ret, frame=cap.read(); print(&quot;read=&quot;, ret, &quot;shape=&quot;, None if frame is None else frame.shape, &quot;brightness=&quot;, None if frame is None else frame.mean()); cap.release()'
+</code></pre>
+<p>如果这个成功，就可以确认：<strong>App Lab 启动的容器缺少 Docker <code>--device</code> 授权。</strong></p>
+<p>如果它还是失败，再试 privileged：</p>
+<pre><code class="language-bash">docker run --rm -it --privileged \
+  ghcr.io/arduino/app-bricks/python-apps-base:0.10.1 \
+  python3 -c 'import cv2; cap=cv2.VideoCapture(0, cv2.CAP_V4L2); cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*&quot;MJPG&quot;)); cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640); cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480); cap.set(cv2.CAP_PROP_FPS, 30); print(&quot;opened=&quot;, cap.isOpened()); ret, frame=cap.read(); print(&quot;read=&quot;, ret, &quot;shape=&quot;, None if frame is None else frame.shape, &quot;brightness=&quot;, None if frame is None else frame.mean()); cap.release()'
+</code></pre>
+<p>后续修复路线有三种：</p>
+<ol>
+<li>
+<p><strong>如果 App Lab 支持设备声明</strong>
+   找 Arduino App Lab / <code>arduino-app-cli</code> 是否有配置能给用户 App 添加 device mapping。这个最干净。</p>
+</li>
+<li>
+<p><strong>如果不支持</strong>
+   只能绕过 App Lab 容器，自己用 <code>docker run --device ...</code> 部署 OpenCV App，或者在宿主 Debian 直接跑 OpenCV 服务。</p>
+</li>
+<li>
+<p><strong>保留 App Lab WebUI，但 OpenCV 在宿主跑</strong>
+   宿主上跑一个 OpenCV HTTP/WebSocket 服务，App Lab WebUI 页面去访问宿主服务。这能继续用浏览器界面，但 OpenCV 不在 App 容器内。</p>
+</li>
+</ol>
+<p>现在最该做的是跑第一个 <code>docker run --device</code> 对照实验。它会直接告诉我们能不能通过正确 Docker 参数修复。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-23">
+  <div class="turn-head">
+    <div class="turn-title">Turn 23 · 在宿主debian直接跑opencv服务吧，我现在已经打开远程桌面了</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-05T17-23-49-955Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-05T17-23-49-955Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:23:49.955Z" data-timestamp="2026-06-05T17:23:49.955Z">2026-06-05T17:23:49.955Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>在宿主debian直接跑opencv服务吧，我现在已经打开远程桌面了</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-05T17-24-39-671Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-05T17-24-39-671Z" class="timestamp-link">
+      <time datetime="2026-06-05T17:24:39.671Z" data-timestamp="2026-06-05T17:24:39.671Z">2026-06-05T17:24:39.671Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以。既然宿主 Debian 已经确认能打开摄像头，最直接的方式是在宿主上跑一个 OpenCV Web 服务，然后电脑浏览器访问它。这样完全绕开 App Lab 容器的摄像头权限问题。</p>
+<p>你在开发板 terminal 里执行下面命令，先新建一个脚本：</p>
+<pre><code class="language-bash">cat &gt; ~/opencv_camera_server.py &lt;&lt;'PY'
+import time
+from http import HTTPStatus
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import threading
+
+import cv2
+
+HOST = &quot;0.0.0.0&quot;
+PORT = 8080
+CAMERA_INDEX = 0
+WIDTH = 640
+HEIGHT = 480
+FPS = 30
+JPEG_QUALITY = 80
+
+latest_frame = None
+latest_brightness = 0.0
+latest_status = &quot;starting&quot;
+lock = threading.Lock()
+
+
+def camera_loop():
+    global latest_frame, latest_brightness, latest_status
+
+    cap = cv2.VideoCapture(CAMERA_INDEX, cv2.CAP_V4L2)
+    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*&quot;MJPG&quot;))
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
+    cap.set(cv2.CAP_PROP_FPS, FPS)
+
+    if not cap.isOpened():
+        with lock:
+            latest_status = &quot;cannot open camera&quot;
+        print(&quot;cannot open camera&quot;)
+        return
+
+    print(&quot;camera opened&quot;)
+
+    while True:
+        ok, frame = cap.read()
+        if not ok or frame is None:
+            with lock:
+                latest_status = &quot;failed to read frame&quot;
+            time.sleep(0.2)
+            continue
+
+        # OpenCV processing demo: overlay text and brightness.
+        brightness = float(frame.mean())
+        cv2.putText(
+            frame,
+            f&quot;OpenCV brightness={brightness:.1f}&quot;,
+            (20, 40),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1.0,
+            (0, 255, 0),
+            2,
+            cv2.LINE_AA,
+        )
+
+        with lock:
+            latest_frame = frame
+            latest_brightness = brightness
+            latest_status = &quot;streaming&quot;
+
+        time.sleep(1 / FPS)
+
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path in (&quot;/&quot;, &quot;/index.html&quot;):
+            self.send_index()
+        elif self.path == &quot;/stream.mjpg&quot;:
+            self.send_stream()
+        elif self.path == &quot;/snapshot.jpg&quot;:
+            self.send_snapshot()
+        elif self.path == &quot;/health&quot;:
+            self.send_health()
+        else:
+            self.send_error(HTTPStatus.NOT_FOUND, &quot;not found&quot;)
+
+    def log_message(self, fmt, *args):
+        print(f&quot;{self.address_string()} - {fmt % args}&quot;)
+
+    def send_index(self):
+        body = f&quot;&quot;&quot;&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;OpenCV Camera&lt;/title&gt;
+  &lt;style&gt;
+    body {{
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #f4f7fb;
+      font-family: Arial, sans-serif;
+      color: #1f2933;
+    }}
+    main {{
+      width: min(960px, calc(100vw - 32px));
+      display: grid;
+      gap: 14px;
+    }}
+    header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+    }}
+    h1 {{
+      margin: 0;
+      font-size: 28px;
+    }}
+    .viewer {{
+      aspect-ratio: 4 / 3;
+      background: #111827;
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }}
+    img {{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }}
+    .meta {{
+      color: #52606d;
+      font-size: 14px;
+    }}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main&gt;
+    &lt;header&gt;
+      &lt;div&gt;
+        &lt;h1&gt;OpenCV Camera&lt;/h1&gt;
+        &lt;div class=&quot;meta&quot;&gt;Host Debian OpenCV stream&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;a href=&quot;/snapshot.jpg&quot; target=&quot;_blank&quot;&gt;Snapshot&lt;/a&gt;
+    &lt;/header&gt;
+    &lt;section class=&quot;viewer&quot;&gt;
+      &lt;img src=&quot;/stream.mjpg&quot; alt=&quot;OpenCV stream&quot;&gt;
+    &lt;/section&gt;
+    &lt;div class=&quot;meta&quot;&gt;Health: &lt;a href=&quot;/health&quot; target=&quot;_blank&quot;&gt;/health&lt;/a&gt;&lt;/div&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&quot;&quot;&quot;
+        data = body.encode(&quot;utf-8&quot;)
+        self.send_response(HTTPStatus.OK)
+        self.send_header(&quot;Content-Type&quot;, &quot;text/html; charset=utf-8&quot;)
+        self.send_header(&quot;Content-Length&quot;, str(len(data)))
+        self.send_header(&quot;Cache-Control&quot;, &quot;no-store&quot;)
+        self.end_headers()
+        self.wfile.write(data)
+
+    def get_jpeg(self):
+        with lock:
+            frame = None if latest_frame is None else latest_frame.copy()
+
+        if frame is None:
+            return None
+
+        ok, encoded = cv2.imencode(
+            &quot;.jpg&quot;,
+            frame,
+            [int(cv2.IMWRITE_JPEG_QUALITY), JPEG_QUALITY],
+        )
+        if not ok:
+            return None
+        return encoded.tobytes()
+
+    def send_snapshot(self):
+        jpeg = self.get_jpeg()
+        if jpeg is None:
+            self.send_error(HTTPStatus.SERVICE_UNAVAILABLE, &quot;no frame&quot;)
+            return
+
+        self.send_response(HTTPStatus.OK)
+        self.send_header(&quot;Content-Type&quot;, &quot;image/jpeg&quot;)
+        self.send_header(&quot;Content-Length&quot;, str(len(jpeg)))
+        self.send_header(&quot;Cache-Control&quot;, &quot;no-store&quot;)
+        self.end_headers()
+        self.wfile.write(jpeg)
+
+    def send_stream(self):
+        self.send_response(HTTPStatus.OK)
+        self.send_header(&quot;Age&quot;, &quot;0&quot;)
+        self.send_header(&quot;Cache-Control&quot;, &quot;no-cache, private&quot;)
+        self.send_header(&quot;Pragma&quot;, &quot;no-cache&quot;)
+        self.send_header(&quot;Content-Type&quot;, &quot;multipart/x-mixed-replace; boundary=frame&quot;)
+        self.end_headers()
+
+        while True:
+            jpeg = self.get_jpeg()
+            if jpeg is None:
+                time.sleep(0.1)
+                continue
+
+            try:
+                self.wfile.write(b&quot;--frame\r\n&quot;)
+                self.wfile.write(b&quot;Content-Type: image/jpeg\r\n&quot;)
+                self.wfile.write(f&quot;Content-Length: {len(jpeg)}\r\n\r\n&quot;.encode(&quot;ascii&quot;))
+                self.wfile.write(jpeg)
+                self.wfile.write(b&quot;\r\n&quot;)
+            except (BrokenPipeError, ConnectionResetError):
+                break
+
+            time.sleep(1 / FPS)
+
+    def send_health(self):
+        with lock:
+            text = f&quot;{latest_status}, brightness={latest_brightness:.1f}\n&quot;
+        data = text.encode(&quot;utf-8&quot;)
+        self.send_response(HTTPStatus.OK)
+        self.send_header(&quot;Content-Type&quot;, &quot;text/plain; charset=utf-8&quot;)
+        self.send_header(&quot;Content-Length&quot;, str(len(data)))
+        self.send_header(&quot;Cache-Control&quot;, &quot;no-store&quot;)
+        self.end_headers()
+        self.wfile.write(data)
+
+
+threading.Thread(target=camera_loop, daemon=True).start()
+
+server = ThreadingHTTPServer((HOST, PORT), Handler)
+print(f&quot;OpenCV camera server: http://0.0.0.0:{PORT}&quot;)
+server.serve_forever()
+PY
+</code></pre>
+<p>然后运行：</p>
+<pre><code class="language-bash">python3 ~/opencv_camera_server.py
+</code></pre>
+<p>看到类似：</p>
+<pre><code class="language-text">OpenCV camera server: http://0.0.0.0:8080
+camera opened
+</code></pre>
+<p>之后在你的电脑浏览器打开：</p>
+<pre><code class="language-text">http://10.233.80.145:8080
+</code></pre>
+<p>也可以单独测试：</p>
+<pre><code class="language-text">http://10.233.80.145:8080/health
+http://10.233.80.145:8080/snapshot.jpg
+http://10.233.80.145:8080/stream.mjpg
+</code></pre>
+<p>如果你想让它后台运行：</p>
+<pre><code class="language-bash">nohup python3 ~/opencv_camera_server.py &gt; ~/opencv_camera_server.log 2&gt;&amp;1 &amp;
+</code></pre>
+<p>查看日志：</p>
+<pre><code class="language-bash">tail -f ~/opencv_camera_server.log
+</code></pre>
+<p>停止服务：</p>
+<pre><code class="language-bash">pkill -f opencv_camera_server.py
+</code></pre>
+<p>这条路线适合你后续学习 OpenCV：后面要加灰度、边缘检测、人脸检测、目标框、颜色识别，直接改 <code>camera_loop()</code> 里 <code># OpenCV processing demo</code> 那一段就行。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-24">
+  <div class="turn-head">
+    <div class="turn-title">Turn 24 · 我发现之前那个例程也有问题，你现在使用/home/william/Desktop/Arduino UNO Q 4GB/Apps/Copy of Detect Objects on Camera这个程序做为参考</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T07-39-12-811Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T07-39-12-811Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:12.811Z" data-timestamp="2026-06-06T07:39:12.811Z">2026-06-06T07:39:12.811Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我发现之前那个例程也有问题，你现在使用/home/william/Desktop/Arduino UNO Q 4GB/Apps/Copy of Detect Objects on Camera这个程序做为参考</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-06-06T07-39-36-860Z-2026-06-06T07-40-01-506Z">
+  <summary>Codex process (19 items: 2 Commentary, 8 Tool Call, 8 Tool Result, ...)</summary>
+  <div class="process-group-body">
+<div class="message commentary" id="msg-2026-06-06T07-39-36-860Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-06-06T07-39-36-860Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:36.860Z" data-timestamp="2026-06-06T07:39:36.860Z">2026-06-06T07:39:36.860Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会把你提到的 <code>Apps/Copy of Detect Objects on Camera</code> 当成当前可运行参考来读，而不是继续依赖 <code>例程分析</code> 里的版本。先检查它的配置、Python 和前端，找出它实际显示摄像头的方式。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-39-36-918Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-39-36-918Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:36.918Z" data-timestamp="2026-06-06T07:39:36.918Z">2026-06-06T07:39:36.918Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;find &#39;Apps/Copy of Detect Objects on Camera&#39; -maxdepth 4 -type f -print&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-39-36-978Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-39-36-978Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:36.978Z" data-timestamp="2026-06-06T07:39:36.978Z">2026-06-06T07:39:36.978Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,140p&#39; &#39;Apps/Copy of Detect Objects on Camera/app.yaml&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:3000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-39-37-059Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-39-37-059Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.059Z" data-timestamp="2026-06-06T07:39:37.059Z">2026-06-06T07:39:37.059Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,220p&#39; &#39;Apps/Copy of Detect Objects on Camera/python/main.py&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-39-37-059Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-39-37-059Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.059Z" data-timestamp="2026-06-06T07:39:37.059Z">2026-06-06T07:39:37.059Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,220p&#39; &#39;Apps/Copy of Detect Objects on Camera/assets/app.js&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:12000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-39-37-678Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-39-37-678Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.678Z" data-timestamp="2026-06-06T07:39:37.678Z">2026-06-06T07:39:37.678Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: e10a09
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 680
+Output:
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/python/main.py
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/app.yaml
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/README.md
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/libs/socket.io.min.js
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/app.js
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/style.css
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/fonts/fonts.css
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/docs_assets/launch-app.png
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/docs_assets/hardware-setup.png
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/docs_assets/special-detection.png
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/docs_assets/video-object-detection.png
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/stars.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/delete-scan.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/dog.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/link.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/no-face.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/clock.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/barcode.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/cat.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/copy.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/logo.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/cup.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/plant.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/lens.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/icon-reset.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/hand.gif
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/info.svg
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/img/phone.webp
+Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/index.html
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-39-37-678Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-39-37-678Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.678Z" data-timestamp="2026-06-06T07:39:37.678Z">2026-06-06T07:39:37.678Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: cce9fb
+Wall time: 0.0000 seconds
+Process exited with code 2
+Original token count: 23
+Output:
+sed: can&#x27;t read Apps/Copy of Detect Objects on Camera/app.yaml: No such file or directory
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-39-37-678Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-39-37-678Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.678Z" data-timestamp="2026-06-06T07:39:37.678Z">2026-06-06T07:39:37.678Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: ec25e4
+Wall time: 0.0000 seconds
+Process exited with code 2
+Original token count: 24
+Output:
+sed: can&#x27;t read Apps/Copy of Detect Objects on Camera/python/main.py: No such file or directory
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-39-37-678Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-39-37-678Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:37.678Z" data-timestamp="2026-06-06T07:39:37.678Z">2026-06-06T07:39:37.678Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 8bb7a4
+Wall time: 0.0000 seconds
+Process exited with code 2
+Original token count: 24
+Output:
+sed: can&#x27;t read Apps/Copy of Detect Objects on Camera/assets/app.js: No such file or directory
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-06-06T07-39-55-076Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-06-06T07-39-55-076Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:39:55.076Z" data-timestamp="2026-06-06T07:39:55.076Z">2026-06-06T07:39:55.076Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-06-06T07-40-01-199Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-06-06T07-40-01-199Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.199Z" data-timestamp="2026-06-06T07:40:01.199Z">2026-06-06T07:40:01.199Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>这个参考 App 实际多了一层目录：<code>Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/</code>。我刚才按外层路径读文件失败了，现在改读内层真实 App。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-40-01-200Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-40-01-200Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.200Z" data-timestamp="2026-06-06T07:40:01.200Z">2026-06-06T07:40:01.200Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,140p&#39; &#39;Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/app.yaml&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:3000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-40-01-269Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-40-01-269Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.269Z" data-timestamp="2026-06-06T07:40:01.269Z">2026-06-06T07:40:01.269Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,220p&#39; &#39;Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/python/main.py&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-40-01-270Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-40-01-270Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.270Z" data-timestamp="2026-06-06T07:40:01.270Z">2026-06-06T07:40:01.270Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,260p&#39; &#39;Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/app.js&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:14000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-06-06T07-40-01-270Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-06-06T07-40-01-270Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.270Z" data-timestamp="2026-06-06T07:40:01.270Z">2026-06-06T07:40:01.270Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,140p&#39; &#39;Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera/assets/index.html&#39;&#34;,&#34;workdir&#34;:&#34;/home/william/Desktop/Arduino UNO Q 4GB&#34;,&#34;yield_time_ms&#34;:10000,&#34;max_output_tokens&#34;:8000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-40-01-506Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-40-01-506Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.506Z" data-timestamp="2026-06-06T07:40:01.506Z">2026-06-06T07:40:01.506Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 0788aa
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 55
+Output:
+name: Copy of Detect Objects on Camera
+description: This example showcases object detection within a live feed from a USB camera.
+ports: []
+bricks:
+- arduino:video_object_detection: {}
+- arduino:web_ui: {}
+icon: 📽️
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-40-01-506Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-40-01-506Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.506Z" data-timestamp="2026-06-06T07:40:01.506Z">2026-06-06T07:40:01.506Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 297df0
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 233
+Output:
+# SPDX-FileCopyrightText: Copyright (C) Arduino s.r.l. and/or its affiliated companies
+#
+# SPDX-License-Identifier: MPL-2.0
+
+from arduino.app_utils import App
+from arduino.app_bricks.web_ui import WebUI
+from arduino.app_bricks.video_objectdetection import VideoObjectDetection
+from datetime import datetime, UTC
+
+ui = WebUI()
+detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
+
+ui.on_message(&quot;override_th&quot;, lambda sid, threshold: detection_stream.override_threshold(threshold))
+
+# Register a callback for when all objects are detected
+def send_detections_to_ui(detections: dict):
+  for key, values in detections.items():
+    for value in values:
+      entry = {
+        &quot;content&quot;: key,
+        &quot;confidence&quot;: value.get(&quot;confidence&quot;),
+        &quot;timestamp&quot;: datetime.now(UTC).isoformat()
+      }
+      ui.send_message(&quot;detection&quot;, message=entry)
+
+detection_stream.on_detect_all(send_detections_to_ui)
+
+App.run()
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-40-01-506Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-40-01-506Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.506Z" data-timestamp="2026-06-06T07:40:01.506Z">2026-06-06T07:40:01.506Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: a28cbf
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 1935
+Output:
+// SPDX-FileCopyrightText: Copyright (C) Arduino s.r.l. and/or its affiliated companies
+//
+// SPDX-License-Identifier: MPL-2.0
+
+const recentDetectionsElement = document.getElementById(&#x27;recentDetections&#x27;);
+const feedbackContentElement = document.getElementById(&#x27;feedback-content&#x27;);
+const MAX_RECENT_SCANS = 5;
+let scans = [];
+const socket = io(`http://${window.location.host}`); // Initialize socket.io connection
+let errorContainer = document.getElementById(&#x27;error-container&#x27;);
+
+// Start the application
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+    initSocketIO();
+    initializeConfidenceSlider();
+    updateFeedback(null);
+    renderDetections();
+
+    // Popover logic
+    const confidencePopoverText = &quot;Minimum confidence score for detected objects. Lower values show more results but may include false positives.&quot;;
+    const feedbackPopoverText = &quot;When the camera detects an object like cat, cell phone, clock, cup, dog or potted plant, a picture and a message will be shown here.&quot;;
+
+    document.querySelectorAll(&#x27;.info-btn.confidence&#x27;).forEach(img =&gt; {
+        const popover = img.nextElementSibling;
+        img.addEventListener(&#x27;mouseenter&#x27;, () =&gt; {
+            popover.textContent = confidencePopoverText;
+            popover.style.display = &#x27;block&#x27;;
+        });
+        img.addEventListener(&#x27;mouseleave&#x27;, () =&gt; {
+            popover.style.display = &#x27;none&#x27;;
+        });
+    });
+
+    document.querySelectorAll(&#x27;.info-btn.feedback&#x27;).forEach(img =&gt; {
+        const popover = img.nextElementSibling;
+        img.addEventListener(&#x27;mouseenter&#x27;, () =&gt; {
+            popover.textContent = feedbackPopoverText;
+            popover.style.display = &#x27;block&#x27;;
+        });
+        img.addEventListener(&#x27;mouseleave&#x27;, () =&gt; {
+            popover.style.display = &#x27;none&#x27;;
+        });
+    });
+});
+
+function initSocketIO() {
+    socket.on(&#x27;connect&#x27;, () =&gt; {
+        if (errorContainer) {
+            errorContainer.style.display = &#x27;none&#x27;;
+            errorContainer.textContent = &#x27;&#x27;;
+        }
+    });
+
+    socket.on(&#x27;disconnect&#x27;, () =&gt; {
+        if (errorContainer) {
+            errorContainer.textContent = &#x27;Connection to the board lost. Please check the connection.&#x27;;
+            errorContainer.style.display = &#x27;block&#x27;;
+        }
+    });
+
+    socket.on(&#x27;detection&#x27;, async (message) =&gt; {
+        printDetection(message);
+        renderDetections();
+        updateFeedback(message);
+    });
+
+}
+
+function updateFeedback(detection) {
+    const objectInfo = {
+        &quot;cat&quot;: { text: &quot;Meow!&quot;, gif: &quot;cat.webp&quot; },
+        &quot;cell phone&quot;: { text: &quot;Stay connected&quot;, gif: &quot;phone.webp&quot; },
+        &quot;clock&quot;: { text: &quot;Time to go&quot;, gif: &quot;clock.webp&quot; },
+        &quot;cup&quot;: { text: &quot;Need a break?&quot;, gif: &quot;cup.webp&quot; },
+        &quot;dog&quot;: { text: &quot;Walkies?&quot;, gif: &quot;dog.webp&quot; },
+        &quot;potted plant&quot;: { text: &quot;Glow your ideas!&quot;, gif: &quot;plant.webp&quot; }
+    };
+
+    if (detection &amp;&amp; objectInfo[detection.content]) {
+        const info = objectInfo[detection.content];
+        const confidence = Math.floor(detection.confidence * 100);
+        feedbackContentElement.innerHTML = `
+            &lt;div class=&quot;feedback-detection&quot;&gt;
+                &lt;div class=&quot;percentage&quot;&gt;${confidence}%&lt;/div&gt;
+                &lt;img src=&quot;img/${info.gif}&quot; alt=&quot;${detection.content}&quot;&gt;
+                &lt;p&gt;${info.text}&lt;/p&gt;
+            &lt;/div&gt;
+        `;
+    } else {
+        feedbackContentElement.innerHTML = `
+            &lt;img src=&quot;img/stars.svg&quot; alt=&quot;Stars&quot;&gt;
+            &lt;p class=&quot;feedback-text&quot;&gt;System response will appear here&lt;/p&gt;
+        `;
+    }
+}
+
+function printDetection(newDetection) {
+    scans.unshift(newDetection);
+    if (scans.length &gt; MAX_RECENT_SCANS) { scans.pop(); }
+}
+
+// Function to render the list of scans
+function renderDetections() {
+    // Clear the list
+    recentDetectionsElement.innerHTML = ``;
+
+    if (scans.length === 0) {
+        recentDetectionsElement.innerHTML = `
+            &lt;div class=&quot;no-recent-scans&quot;&gt;
+                &lt;img src=&quot;./img/no-face.svg&quot;&gt;
+                No object detected yet
+            &lt;/div&gt;
+        `;
+        return;
+    }
+
+    scans.forEach((scan) =&gt; {
+        const row = document.createElement(&#x27;div&#x27;);
+        row.className = &#x27;scan-container&#x27;;
+
+        // Create a container for content and time
+        const cellContainer = document.createElement(&#x27;span&#x27;);
+        cellContainer.className = &#x27;scan-cell-container cell-border&#x27;;
+
+        // Content (text + icon)
+        const contentText = document.createElement(&#x27;span&#x27;);
+        contentText.className = &#x27;scan-content&#x27;;
+		const value = scan.confidence;
+		const result = Math.floor(value * 1000) / 10;
+        contentText.innerHTML = `${result}% - ${scan.content}`;
+
+        // Time
+        const timeText = document.createElement(&#x27;span&#x27;);
+        timeText.className = &#x27;scan-content-time&#x27;;
+        timeText.textContent = new Date(scan.timestamp).toLocaleString(&#x27;it-IT&#x27;).replace(&#x27;,&#x27;, &#x27; -&#x27;);
+
+        // Append content and time to the container
+        cellContainer.appendChild(contentText);
+        cellContainer.appendChild(timeText);
+
+        row.appendChild(cellContainer);
+        recentDetectionsElement.appendChild(row);
+    });
+}
+
+
+function initializeConfidenceSlider() {
+    const confidenceSlider = document.getElementById(&#x27;confidenceSlider&#x27;);
+    const confidenceInput = document.getElementById(&#x27;confidenceInput&#x27;);
+    const confidenceResetButton = document.getElementById(&#x27;confidenceResetButton&#x27;);
+
+    confidenceSlider.addEventListener(&#x27;input&#x27;, updateConfidenceDisplay);
+    confidenceInput.addEventListener(&#x27;input&#x27;, handleConfidenceInputChange);
+    confidenceInput.addEventListener(&#x27;blur&#x27;, validateConfidenceInput);
+    updateConfidenceDisplay();
+
+    confidenceResetButton.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+        if (e.target.classList.contains(&#x27;reset-icon&#x27;) || e.target.closest(&#x27;.reset-icon&#x27;)) {
+            resetConfidence();
+        }
+    });
+}
+
+function handleConfidenceInputChange() {
+    const confidenceInput = document.getElementById(&#x27;confidenceInput&#x27;);
+    const confidenceSlider = document.getElementById(&#x27;confidenceSlider&#x27;);
+
+    let value = parseFloat(confidenceInput.value);
+
+    if (isNaN(value)) value = 0.5;
+    if (value &lt; 0) value = 0;
+    if (value &gt; 1) value = 1;
+
+    confidenceSlider.value = value;
+    updateConfidenceDisplay();
+}
+
+function validateConfidenceInput() {
+    const confidenceInput = document.getElementById(&#x27;confidenceInput&#x27;);
+    let value = parseFloat(confidenceInput.value);
+
+    if (isNaN(value)) value = 0.5;
+    if (value &lt; 0) value = 0;
+    if (value &gt; 1) value = 1;
+
+    confidenceInput.value = value.toFixed(2);
+
+    handleConfidenceInputChange();
+}
+
+function updateConfidenceDisplay() {
+    const confidenceSlider = document.getElementById(&#x27;confidenceSlider&#x27;);
+    const confidenceInput = document.getElementById(&#x27;confidenceInput&#x27;);
+    const confidenceValueDisplay = document.getElementById(&#x27;confidenceValueDisplay&#x27;);
+    const sliderProgress = document.getElementById(&#x27;sliderProgress&#x27;);
+
+    const value = parseFloat(confidenceSlider.value);
+    socket.emit(&#x27;override_th&#x27;, value); // Send confidence to backend
+    const percentage = (value - confidenceSlider.min) / (confidenceSlider.max - confidenceSlider.min) * 100;
+
+    const displayValue = value.toFixed(2);
+    confidenceValueDisplay.textContent = displayValue;
+
+    if (document.activeElement !== confidenceInput) {
+        confidenceInput.value = displayValue;
+    }
+
+    sliderProgress.style.width = percentage + &#x27;%&#x27;;
+    confidenceValueDisplay.style.left = percentage + &#x27;%&#x27;;
+}
+
+function resetConfidence() {
+    const confidenceSlider = document.getElementById(&#x27;confidenceSlider&#x27;);
+    const confidenceInput = document.getElementById(&#x27;confidenceInput&#x27;);
+
+    confidenceSlider.value = &#x27;0.5&#x27;;
+    confidenceInput.value = &#x27;0.50&#x27;;
+    updateConfidenceDisplay();
+}
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-06-06T07-40-01-506Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-06-06T07-40-01-506Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:01.506Z" data-timestamp="2026-06-06T07:40:01.506Z">2026-06-06T07:40:01.506Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 5b065c
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 1319
+Output:
+&lt;!--
+SPDX-FileCopyrightText: Copyright (C) Arduino s.r.l. and/or its affiliated companies
+
+SPDX-License-Identifier: MPL-2.0
+--&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Video Generic Object Detection&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;h1 class=&quot;arduino-text&quot;&gt;Video Generic Object Detection&lt;/h1&gt;
+            &lt;img class=&quot;arduino-logo&quot; src=&quot;./img/logo.svg&quot; alt=&quot;Arduino Logo&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;main-content&quot;&gt;
+            &lt;div class=&quot;container&quot; id=&quot;video-container&quot;&gt;
+                &lt;div id=&quot;videoFeedContainer&quot;&gt;
+                    &lt;div id=&quot;videoPlaceholder&quot; class=&quot;camera-status&quot;&gt;
+                        &lt;img src=&quot;./img/no-face.svg&quot; alt=&quot;Searching webcam&quot;&gt;
+                        &lt;p class=&quot;feedback-text&quot;&gt;Searching Webcam...&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;iframe id=&quot;dynamicIframe&quot; title=&quot;Video stream&quot; width=&quot;1024px&quot; height=&quot;768px&quot; frameBorder=&quot;0&quot; style=&quot;display: none;&quot;&gt;&lt;/iframe&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;right-column&quot;&gt;
+                &lt;div class=&quot;container container-right&quot;&gt;
+                    &lt;div class=&quot;controls-section&quot;&gt;
+                        &lt;div class=&quot;control-group&quot;&gt;
+                            &lt;div class=&quot;control-confidence&quot;&gt;
+                                &lt;div style=&quot;display: flex; align-items: center; gap: 8px; position: relative;&quot;&gt;
+                                &lt;label id=&quot;confidence-label&quot; for=&quot;confidenceSlider&quot;&gt;Confidence&lt;/label&gt;
+                                &lt;img src=&quot;./img/info.svg&quot; alt=&quot;Info&quot; class=&quot;info-btn confidence&quot;/&gt;
+                                &lt;div class=&quot;popover&quot;&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                                &lt;button id=&quot;confidenceResetButton&quot; class=&quot;btn-tertiary&quot;&gt;
+                                    &lt;input type=&quot;number&quot; id=&quot;confidenceInput&quot; class=&quot;confidence-input&quot; min=&quot;0&quot; max=&quot;1&quot; step=&quot;0.05&quot; value=&quot;0.50&quot;&gt;
+                                    &lt;img src=&quot;img/icon-reset.svg&quot; alt=&quot;Reset&quot; class=&quot;reset-icon&quot;&gt;
+                                &lt;/button&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;slider-box&quot;&gt;
+                                &lt;span class=&quot;confidence-limits&quot;&gt;0&lt;/span&gt;
+                                &lt;div class=&quot;slider-container&quot;&gt;
+                                    &lt;div class=&quot;slider-progress&quot; id=&quot;sliderProgress&quot;&gt;&lt;/div&gt;
+                                    &lt;div class=&quot;confidence-value-display&quot; id=&quot;confidenceValueDisplay&quot;&gt;0.5&lt;/div&gt;
+                                    &lt;input type=&quot;range&quot; id=&quot;confidenceSlider&quot; min=&quot;0&quot; max=&quot;1&quot; step=&quot;0.01&quot; value=&quot;0.5&quot;&gt;
+                                &lt;/div&gt;
+                                &lt;span class=&quot;confidence-limits&quot;&gt;1&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;container container-right&quot;&gt;
+                    &lt;div id=&quot;feedback-section&quot; class=&quot;feedback-section&quot;&gt;
+                        &lt;div style=&quot;display: flex; align-items: center; gap: 8px; position: relative;&quot;&gt;
+                        &lt;h2 class=&quot;recent-scans-title&quot; style=&quot;margin: 0;&quot;&gt;Feedback&lt;/h2&gt;
+                        &lt;img src=&quot;./img/info.svg&quot; alt=&quot;Info&quot; class=&quot;info-btn feedback&quot;/&gt;
+                        &lt;div class=&quot;popover&quot;&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+                        &lt;div id=&quot;feedback-content&quot; class=&quot;feedback-content&quot;&gt;
+                            &lt;img src=&quot;img/stars.svg&quot; alt=&quot;Stars&quot;&gt;
+                            &lt;p class=&quot;feedback-text&quot;&gt;System response will appear here&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;container container-right&quot;&gt;
+                    &lt;div class=&quot;recent-detections-section&quot;&gt;
+                        &lt;div class=&quot;recent-scans-title-container&quot;&gt;
+                            &lt;h2 class=&quot;recent-scans-title&quot;&gt;Recent detections&lt;/h2&gt;
+                        &lt;/div&gt;
+                        &lt;ul id=&quot;recentDetections&quot;&gt;&lt;/ul&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;error-container&quot; class=&quot;error-message&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const iframe = document.getElementById(&#x27;dynamicIframe&#x27;);
+        const placeholder = document.getElementById(&#x27;videoPlaceholder&#x27;);
+        const currentHostname = window.location.hostname;
+        const targetPort = 4912;
+        const targetPath = &#x27;/embed&#x27;;
+        const streamUrl = `http://${currentHostname}:${targetPort}${targetPath}`;
+
+        let intervalId;
+
+        iframe.onload = () =&gt; {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            placeholder.style.display = &#x27;none&#x27;;
+            iframe.style.display = &#x27;block&#x27;;
+        };
+
+        const startLoading = () =&gt; {
+            // Set the src to start loading
+            iframe.src = streamUrl;
+        };
+
+        intervalId = setInterval(startLoading, 1000); // Try to load every second
+    &lt;/script&gt;
+
+    &lt;script src=&quot;libs/socket.io.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-06-06T07-40-36-973Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T07-40-36-973Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:40:36.973Z" data-timestamp="2026-06-06T07:40:36.973Z">2026-06-06T07:40:36.973Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我读了 <code>Apps/Copy of Detect Objects on Camera/copy-of-detect-objects-on-camera</code>。它和之前 <code>例程分析/detect-objects-on-camera</code> 的关键结构一致：</p>
+<ul>
+<li><code>app.yaml</code> 使用两个 Brick：</li>
+</ul>
+<pre><code class="language-yaml">bricks:
+- arduino:video_object_detection: {}
+- arduino:web_ui: {}
+</code></pre>
+<ul>
+<li><code>python/main.py</code> 没有 <code>cv2</code>，只初始化：</li>
+</ul>
+<pre><code class="language-python">ui = WebUI()
+detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
+</code></pre>
+<ul>
+<li>摄像头画面不是 Python/OpenCV 读出来的，而是前端 iframe 加载：</li>
+</ul>
+<pre><code class="language-javascript">const streamUrl = `http://${currentHostname}:4912/embed`;
+iframe.src = streamUrl;
+</code></pre>
+<p>也就是说，这个参考程序本质上仍然是：</p>
+<pre><code class="language-text">video_object_detection Brick 打开摄像头
+-&gt; Brick 在 4912 端口提供 /embed 画面
+-&gt; WebUI 页面 iframe 显示 /embed
+</code></pre>
+<p>它不是 OpenCV 架构，也不能证明 App 容器内 <code>cv2.VideoCapture(0)</code> 可用。</p>
+<p>结合你刚才的容器测试：</p>
+<pre><code class="language-text">docker exec opencv-detection-main-1 ... cv2.VideoCapture(0)
+opened= False
+</code></pre>
+<p>现在可以确定：</p>
+<ul>
+<li>宿主 Debian 可以直接用 OpenCV 打开摄像头。</li>
+<li>App Lab 容器里不能直接用 OpenCV 打开摄像头。</li>
+<li><code>Copy of Detect Objects on Camera</code> 能显示，是因为 <code>video_object_detection</code> Brick 用它自己的摄像头管线，不是因为容器里的 OpenCV 能读 <code>/dev/video0</code>。</li>
+</ul>
+<p>所以如果目标是学习 OpenCV，有两条现实路线：</p>
+<ol>
+<li>
+<p><strong>宿主 Debian 直接跑 OpenCV 服务</strong>
+   这是最适合你现在学习 OpenCV 的方式。摄像头已经验证可用，后续图像处理都能直接写 <code>cv2</code>。</p>
+</li>
+<li>
+<p><strong>App Lab 页面 + Brick 摄像头流 + OpenCV 处理</strong>
+   这需要找到 <code>4912</code> 上是否有 OpenCV 可读取的原始 MJPEG/视频流地址。当前参考程序只用了 <code>/embed</code>，它是给浏览器 iframe 的页面，不一定能被 <code>cv2.VideoCapture()</code> 解码。</p>
+</li>
+</ol>
+<p>如果你要继续用这个 <code>Copy of Detect Objects on Camera</code> 做参考，我建议下一步是在开发板上探测 <code>4912</code> 的实际路径，例如：</p>
+<pre><code class="language-bash">curl -v http://127.0.0.1:4912/embed | head
+</code></pre>
+<p>以及：</p>
+<pre><code class="language-bash">curl -v http://127.0.0.1:4912/
+</code></pre>
+<p>如果能找到真正的视频流 URL，再让 OpenCV 读取那个 URL。否则还是建议宿主 Debian 跑 OpenCV 服务，这是最直接、最可控的 OpenCV 学习路线。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-25">
+  <div class="turn-head">
+    <div class="turn-title">Turn 25 · 如果在宿主Debian跑opencv的话，我还能使用brick和bridge这些吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-06-06T07-43-35-191Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-06-06T07-43-35-191Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:43:35.191Z" data-timestamp="2026-06-06T07:43:35.191Z">2026-06-06T07:43:35.191Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>如果在宿主Debian跑opencv的话，我还能使用brick和bridge这些吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-06-06T07-44-09-305Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-06-06T07-44-09-305Z" class="timestamp-link">
+      <time datetime="2026-06-06T07:44:09.305Z" data-timestamp="2026-06-06T07:44:09.305Z">2026-06-06T07:44:09.305Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以，但要分清楚：</p>
+<p><strong>宿主 Debian 直接跑 OpenCV 时，不能像 App Lab App 里那样直接使用 Bricks。</strong><br />
+<code>arduino.app_bricks.*</code> 和 <code>arduino.app_utils.App</code> 是 App Lab 容器运行时的一部分，通常不是给宿主普通 Python 脚本直接用的。</p>
+<p>但你仍然有几种方式和 App Lab / MCU 协作。</p>
+<p><strong>1. 宿主 Debian 跑 OpenCV，App Lab 负责 WebUI/MCU Bridge</strong></p>
+<p>这是我最推荐的架构：</p>
+<pre><code class="language-text">宿主 Debian OpenCV 服务
+  -&gt; HTTP/WebSocket API
+  -&gt; App Lab Python
+  -&gt; Bridge
+  -&gt; MCU / LED / GPIO
+</code></pre>
+<p>例如宿主 Debian 跑：</p>
+<pre><code class="language-text">http://127.0.0.1:8080/detection
+http://127.0.0.1:8080/snapshot.jpg
+</code></pre>
+<p>App Lab 里的 Python 用 <code>requests</code> 去访问宿主服务，然后再：</p>
+<pre><code class="language-python">Bridge.call(&quot;set_text&quot;, result)
+</code></pre>
+<p>或者：</p>
+<pre><code class="language-python">ui.send_message(&quot;result&quot;, result)
+</code></pre>
+<p>这样你可以同时保留：</p>
+<ul>
+<li>OpenCV：宿主 Debian 直接访问摄像头，稳定。</li>
+<li>WebUI Brick：App Lab 继续做网页界面。</li>
+<li>RouterBridge：App Lab 继续和 MCU 通信。</li>
+<li>MCU：继续控制 LED Matrix、GPIO 等。</li>
+</ul>
+<p><strong>2. 宿主 Debian 跑 OpenCV，直接和 MCU 通信</strong></p>
+<p>这个理论上也可以，但不一定方便。<code>Arduino_RouterBridge</code> 的 Python 侧运行时通常由 App Lab 管理。你在宿主普通 Python 里未必能直接：</p>
+<pre><code class="language-python">from arduino.app_utils import Bridge
+</code></pre>
+<p>即使能 import，也可能缺少 App Lab 的运行上下文。</p>
+<p>所以不建议一开始就让宿主 OpenCV 直接调 Bridge。</p>
+<p><strong>3. 宿主 Debian 跑 OpenCV，App Lab WebUI 页面直接访问它</strong></p>
+<p>也可以：</p>
+<pre><code class="language-text">WebUI 页面
+  -&gt; fetch(&quot;http://board.local:8080/status&quot;)
+  -&gt; 显示 OpenCV 结果
+</code></pre>
+<p>但要注意浏览器跨端口请求可能遇到 CORS，需要 OpenCV 服务加：</p>
+<pre><code class="language-http">Access-Control-Allow-Origin: *
+</code></pre>
+<p>如果只是 <code>&lt;img src="http://board:8080/stream.mjpg"&gt;</code>，通常更简单。</p>
+<p><strong>4. Bricks 和宿主 OpenCV 的关系</strong></p>
+<p>Bricks 适合在 App Lab 内部做高级能力，例如：</p>
+<pre><code class="language-python">WebUI()
+VideoObjectDetection()
+WeatherForecast()
+</code></pre>
+<p>宿主 OpenCV 服务不应该依赖这些 Brick。更合理的是：</p>
+<pre><code class="language-text">Bricks 做 App Lab 侧能力
+OpenCV 做宿主侧视觉处理
+二者通过 HTTP API 通信
+</code></pre>
+<p><strong>推荐最终架构</strong></p>
+<p>如果你的目标是“学习 OpenCV，同时还能用 WebUI、Bridge、MCU”，我建议这样做：</p>
+<pre><code class="language-text">[宿主 Debian]
+OpenCV Camera Service
+- cv2.VideoCapture(0)
+- 图像处理
+- /stream.mjpg
+- /status.json
+- /result.json
+
+        HTTP
+
+[App Lab 容器]
+WebUI Brick
+RouterBridge
+- 显示 OpenCV 服务结果
+- 把识别结果发给 MCU
+
+        Bridge
+
+[MCU]
+LED Matrix / GPIO / 其他硬件
+</code></pre>
+<p>这样每部分都用它最擅长的能力：</p>
+<ul>
+<li>宿主 Debian：直接访问摄像头，跑 OpenCV。</li>
+<li>App Lab：WebUI、Bricks、Bridge。</li>
+<li>MCU：硬件控制。</li>
+</ul>
+<p>所以答案是：<strong>宿主 Debian 跑 OpenCV 后，Bricks/Bridge 仍然可以用，但建议通过 App Lab 作为中间层使用，不要强行在宿主 OpenCV 脚本里直接调用 Bricks/Bridge。</strong></p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+    
+    <a href="page-009.html">9</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

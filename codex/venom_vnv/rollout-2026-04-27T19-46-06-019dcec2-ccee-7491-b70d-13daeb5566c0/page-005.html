@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-27T19-46-06-019dcec2-ccee-7491-b70d-13daeb5566c0 · Page 5</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-27T19-46-06-019dcec2-ccee-7491-b70d-13daeb5566c0</a></h1>
+  <p>Page 5 / 6</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-21">
+  <div class="turn-head">
+    <div class="turn-title">Turn 21 · 那TEB的时间间隔是干什么的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-37-52-373Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-37-52-373Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:37:52.373Z" data-timestamp="2026-04-27T12:37:52.373Z">2026-04-27T12:37:52.373Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那TEB的时间间隔是干什么的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-38-12-297Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-38-12-297Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:38:12.297Z" data-timestamp="2026-04-27T12:38:12.297Z">2026-04-27T12:38:12.297Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>TEB 里的时间间隔 <code>dt</code>，本质上是在描述：</p>
+<p><strong>轨迹上相邻两个位姿点之间，机器人打算用多少时间走过去。</strong></p>
+<p>这很关键，因为 TEB 优化的不只是空间路径，还优化“怎么分配时间”。也就是说，它不是只决定“往哪走”，还决定“每一段走多快”。</p>
+<p>你可以这样理解。</p>
+<p>假设轨迹上有几个位姿点：</p>
+<ul>
+<li><code>P1</code></li>
+<li><code>P2</code></li>
+<li><code>P3</code></li>
+</ul>
+<p>TEB 不只是有：
+- <code>P1 -&gt; P2 -&gt; P3</code> 这条空间路径</p>
+<p>还会同时有：
+- <code>dt1</code>：从 <code>P1</code> 到 <code>P2</code> 用多久
+- <code>dt2</code>：从 <code>P2</code> 到 <code>P3</code> 用多久</p>
+<p>这样它就能从“位移 / 时间”推导出速度，从“速度变化 / 时间”推导出加速度，于是才能检查：</p>
+<ul>
+<li>有没有超过最大线速度</li>
+<li>有没有超过最大角速度</li>
+<li>有没有超过加速度限制</li>
+<li>某段是不是该慢一点通过障碍区</li>
+<li>某段是不是可以快一点提高效率</li>
+</ul>
+<p>这就是为什么 TEB 叫 <code>Timed</code> Elastic Band，不只是弹性带，而是<strong>带时间标注的弹性带</strong>。</p>
+<p><code>dt</code> 具体起几个作用：</p>
+<ol>
+<li>
+<p>用来约束速度和加速度
+如果没有时间信息，只有一串点，你只能知道“怎么走”，不知道“走多快”。<br />
+有了 <code>dt</code>，TEB 才能把轨迹转成动态可执行的运动。</p>
+</li>
+<li>
+<p>用来平衡“快”和“稳”
+TEB 通常会一边想尽快到目标，一边又不能违反速度、加速度和障碍约束。<br />
+<code>dt</code> 小，意味着想更快通过；<code>dt</code> 大，意味着放慢节奏、更保守。</p>
+</li>
+<li>
+<p>用来在复杂区域主动减速
+比如窄通道、急转弯、贴障绕行时，TEB 可以通过拉大某些段的 <code>dt</code>，让局部动作更慢、更可行。<br />
+所以它不是简单地全程固定速度。</p>
+</li>
+<li>
+<p>用来让轨迹优化更连续
+TEB 优化的是“位姿点 + 时间间隔”的整体结构。<br />
+这样轨迹在空间和时间上都是连续调整的，不会像纯速度采样那样只是在每个控制周期临时选一个命令。</p>
+</li>
+</ol>
+<p>你配置里常见和时间间隔最相关的是：</p>
+<ul>
+<li><code>dt_ref</code></li>
+<li><code>dt_hysteresis</code></li>
+<li><code>teb_autosize</code></li>
+<li><code>max_samples</code></li>
+</ul>
+<p>它们大概是这个关系：</p>
+<ul>
+<li>
+<p><code>dt_ref</code>
+  期望的时间分辨率，TEB 希望大多数相邻点间隔接近这个值</p>
+</li>
+<li>
+<p><code>dt_hysteresis</code>
+  允许 <code>dt</code> 在 <code>dt_ref</code> 周围有一定浮动，避免频繁增删轨迹点</p>
+</li>
+<li>
+<p><code>teb_autosize</code>
+  允许 TEB 根据轨迹长度和情况自动调整点数与时间离散</p>
+</li>
+<li>
+<p><code>max_samples</code>
+  限制轨迹里最多保留多少个时空点，防止优化规模过大</p>
+</li>
+</ul>
+<p>直观上：
+- <code>dt_ref</code> 太小：轨迹点更密，优化更细，但计算更重，也更容易敏感
+- <code>dt_ref</code> 太大：轨迹太粗，细节不足，拐弯和避障可能不够自然</p>
+<p>所以 <code>dt</code> 不是附属参数，而是 TEB 跟 DWB 最大的本质区别之一。<br />
+DWB 主要是在“当前速度命令集合”里选；TEB 是在“整条时空轨迹”上做优化。</p>
+<p>如果你要，我可以下一步继续讲：
+- <code>dt_ref</code> 和 <code>controller_frequency</code> 之间是什么关系
+- 为什么 <code>dt_ref</code> 设太小会让 TEB 更容易抖
+- 在 <code>scout_mini</code> 这种差速底盘上，<code>dt_ref</code> 一般怎么起步调</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-22">
+  <div class="turn-head">
+    <div class="turn-title">Turn 22 · 所以dt是控制什么的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-40-04-369Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-40-04-369Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:40:04.369Z" data-timestamp="2026-04-27T12:40:04.369Z">2026-04-27T12:40:04.369Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以dt是控制什么的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-40-14-904Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-40-14-904Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:40:14.904Z" data-timestamp="2026-04-27T12:40:14.904Z">2026-04-27T12:40:14.904Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>是。更准确地说，<code>dt</code> 控制的是<strong>轨迹的时间分配</strong>，也就是“这一小段路准备花多久走完”。</p>
+<p>它不直接等于某个控制指令，但它会直接影响：</p>
+<ul>
+<li>速度有多大</li>
+<li>加速度有多大</li>
+<li>转弯是急还是缓</li>
+<li>轨迹是更激进还是更保守</li>
+</ul>
+<p>因为同样两个位姿点之间：</p>
+<ul>
+<li>如果 <code>dt</code> 更小，表示要更快走过去</li>
+<li>线速度更大</li>
+<li>角速度往往也更大</li>
+<li>
+<p>加速度约束更容易被触发</p>
+</li>
+<li>
+<p>如果 <code>dt</code> 更大，表示慢一点过去</p>
+</li>
+<li>速度更小</li>
+<li>动作更柔和</li>
+<li>更容易满足避障和运动学约束</li>
+</ul>
+<p>所以你可以把它理解成：</p>
+<ul>
+<li><code>空间上</code>：轨迹点决定“往哪走”</li>
+<li><code>时间上</code>：<code>dt</code> 决定“多快走”</li>
+</ul>
+<p>最终 TEB 是根据“位姿点 + dt”这整条时空轨迹，算出实际发给底盘的速度命令。</p>
+<p>如果再压缩成一句话：</p>
+<p><strong><code>dt</code> 控制的不是方向，而是节奏。</strong></p>
+<p>如果你要，我可以接着给你讲 <code>dt_ref</code>、<code>dt_hysteresis</code>、<code>controller_frequency</code> 三者之间的关系。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-23">
+  <div class="turn-head">
+    <div class="turn-title">Turn 23 · 那DWB的原理是什么</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-41-49-685Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-41-49-685Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:41:49.685Z" data-timestamp="2026-04-27T12:41:49.685Z">2026-04-27T12:41:49.685Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那DWB的原理是什么</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-42-10-197Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-42-10-197Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:42:10.197Z" data-timestamp="2026-04-27T12:42:10.197Z">2026-04-27T12:42:10.197Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>DWB 的原理可以概括成一句话：</p>
+<p><strong>在当前时刻采样很多候选速度，分别向前模拟一下，然后给每条候选轨迹打分，选分数最好的那一个。</strong></p>
+<p>它的全称是 <code>Dynamic Window Approach</code> 的一个 Nav2 实现版本，核心仍然是“速度空间搜索”。</p>
+<p>基本流程是这样的：</p>
+<ol>
+<li>先拿到当前状态
+DWB 会看机器人当前的：</li>
+<li>位置姿态</li>
+<li>当前速度</li>
+<li>全局路径</li>
+<li>局部代价地图</li>
+<li>
+<p>速度和加速度限制</p>
+</li>
+<li>
+<p>生成一批候选速度
+它不会直接优化整条轨迹，而是采样一组可能的控制命令，比如：</p>
+</li>
+<li>不同的前进速度 <code>vx</code></li>
+<li>不同的角速度 <code>vtheta</code></li>
+<li>如果是全向底盘，还可能有 <code>vy</code></li>
+</ol>
+<p>这些采样范围受参数限制，比如：
+- <code>max_vel_x</code>
+- <code>max_vel_theta</code>
+- <code>acc_lim_x</code>
+- <code>acc_lim_theta</code>
+- <code>vx_samples</code>
+- <code>vtheta_samples</code></p>
+<ol>
+<li>对每个候选速度做短时前向模拟
+对每一组候选速度，DWB 会假设机器人在一个短时间窗口里按这个速度去运动，生成一条短轨迹。</li>
+</ol>
+<p>这个时间窗口由类似下面的参数控制：
+- <code>sim_time</code>
+- <code>linear_granularity</code>
+- <code>angular_granularity</code></p>
+<p>所以它得到的不是“完整到终点的轨迹”，而是很多条“短期内可能怎么走”的轨迹。</p>
+<ol>
+<li>
+<p>用多个 critic 给每条轨迹打分
+每条候选轨迹都会经过一组评分器，也就是 <code>critics</code>。常见的包括：</p>
+</li>
+<li>
+<p><code>BaseObstacle</code>
+  看会不会撞障碍，离障碍多近</p>
+</li>
+<li>
+<p><code>PathAlign</code>
+  看轨迹方向是否贴合全局路径方向</p>
+</li>
+<li>
+<p><code>PathDist</code>
+  看轨迹离全局路径有多远</p>
+</li>
+<li>
+<p><code>GoalAlign</code>
+  看朝向是否更接近目标方向</p>
+</li>
+<li>
+<p><code>GoalDist</code>
+  看是不是更接近目标</p>
+</li>
+<li>
+<p><code>RotateToGoal</code>
+  看接近终点时是否适合转向对准</p>
+</li>
+</ol>
+<p>这些评分最后加权组合，分数最低或最高的那个实现细节取决于实现方式，但本质就是“选最优候选”。</p>
+<ol>
+<li>输出最优速度命令
+DWB 最后不会输出整条轨迹给底盘，而是输出当前这一拍要执行的那组速度命令。<br />
+到下一个控制周期，再重新采样、重新模拟、重新打分。</li>
+</ol>
+<p>所以 DWB 的核心特点是：</p>
+<ul>
+<li>它是<strong>基于速度采样</strong>的</li>
+<li>它是<strong>短视域</strong>的局部决策</li>
+<li>它依赖 critic 设计和权重</li>
+<li>它每个周期都重新做一次“候选速度评比”</li>
+</ul>
+<p>你可以把它想成：</p>
+<ul>
+<li>TEB：先想一小段“整条轨迹该怎么走”</li>
+<li>DWB：先问“这一拍我该发哪个速度最划算”</li>
+</ul>
+<p>DWB 的优点通常是：</p>
+<ul>
+<li>结构直观</li>
+<li>好理解</li>
+<li>在差速底盘和常规导航场景里很成熟</li>
+<li>对 Nav2 集成比较自然</li>
+<li>一般比复杂优化器更容易起步</li>
+</ul>
+<p>它的缺点也很明显：</p>
+<ul>
+<li>很依赖采样密度</li>
+<li>很依赖 critic 权重</li>
+<li>容易在窄通道、急转弯、复杂避障里出现局部摇摆</li>
+<li>它做的是“选一个当前最好的速度”，不是全局优化一条局部轨迹</li>
+</ul>
+<p>如果你要，我下一步可以继续把 <strong>DWB 和 TEB 的区别</strong> 用一张“同一路口转弯时它们各自怎么想”的方式讲给你。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-24">
+  <div class="turn-head">
+    <div class="turn-title">Turn 24 · 我现在要和别人介绍TEB替换DWB的项目，帮我在根目录生成一个文件简要讲解</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-46-17-936Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-46-17-936Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:17.936Z" data-timestamp="2026-04-27T12:46:17.936Z">2026-04-27T12:46:17.936Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我现在要和别人介绍TEB替换DWB的项目，帮我在根目录生成一个文件简要讲解</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-27T12-46-23-440Z-2026-04-27T12-46-46-445Z">
+  <summary>Codex process (5 items: Reasoning, Commentary, Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-27T12-46-23-440Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-27T12-46-23-440Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:23.440Z" data-timestamp="2026-04-27T12:46:23.440Z">2026-04-27T12:46:23.440Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-27T12-46-24-090Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-27T12-46-24-090Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:24.090Z" data-timestamp="2026-04-27T12:46:24.090Z">2026-04-27T12:46:24.090Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我会在根目录新增一份简短介绍文档，面向对外说明“为什么用 TEB 替换 DWB、改了什么、怎么验证”。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-27T12-46-46-305Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-27T12-46-46-305Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:46.305Z" data-timestamp="2026-04-27T12:46:46.305Z">2026-04-27T12:46:46.305Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">apply_patch</div>
+  
+  <pre>*** Begin Patch
+*** Add File: /home/william/venom_ws/src/venom_vnv/TEB_REPLACES_DWB_BRIEF.md
++# TEB 替换 DWB 项目简要说明
++
++## 项目目标
++
++本项目计划将当前 Nav2 中使用的 `DWBLocalPlanner` 替换为 `TEB Local Planner`，用于提升机器人在复杂局部环境中的轨迹质量与可通过性，尤其关注：
++
++- 窄通道通过
++- 急转弯与贴边绕障
++- 终点姿态调整
++- 轨迹平滑性与运动学一致性
++
++## 为什么要替换
++
++### DWB 的特点
++
++`DWB` 的工作方式是：
++
++- 采样一批候选速度
++- 对每组速度做短时间前向模拟
++- 用多个 critic 打分
++- 选出当前周期最优速度
++
++这种方法优点是成熟、直观、容易起步，但在以下场景中容易暴露问题：
++
++- 窄通道内左右摇摆
++- 急转弯时局部决策不稳定
++- 对 critic 权重和采样密度较敏感
++- 更偏“当前时刻选速度”，而不是“整体优化一段轨迹”
++
++### TEB 的特点
++
++`TEB` 的工作方式是：
++
++- 用一串带时间信息的轨迹点表示局部轨迹
++- 同时优化路径形状和每段时间分配
++- 将障碍物、速度、加速度、非完整运动学约束一起纳入优化
++
++它更适合处理：
++
++- 约束紧的局部环境
++- 需要连续姿态调整的轨迹
++- 对差速/阿克曼运动学一致性要求更高的场景
++
++## 预期收益
++
++- 局部轨迹更平滑
++- 窄通道与贴障绕行表现更稳定
++- 对转弯和终点姿态控制更自然
++- 更容易把“底盘真实能做到的动作”直接体现在局部规划中
++
++## 主要改动内容
++
++### 1. 控制器插件替换
++
++将 Nav2 `controller_server` 中的：
++
++```yaml
++FollowPath:
++  plugin: &#34;dwb_core::DWBLocalPlanner&#34;
++```
++
++替换为：
++
++```yaml
++FollowPath:
++  plugin: &#34;teb_local_planner::TebLocalPlannerROS&#34;
++```
++
++### 2. 参数体系替换
++
++移除 DWB 典型参数：
++
++- `vx_samples`
++- `vtheta_samples`
++- `critics`
++- `PathAlign.scale`
++- `GoalAlign.scale`
++- `GoalDist.scale`
++
++引入 TEB 典型参数：
++
++- `dt_ref`
++- `dt_hysteresis`
++- `max_samples`
++- `max_vel_x`
++- `max_vel_theta`
++- `acc_lim_x`
++- `acc_lim_theta`
++- `min_obstacle_dist`
++- `footprint_model`
++- `xy_goal_tolerance`
++- `yaw_goal_tolerance`
++
++### 3. 分平台迁移
++
++建议先在 `scout_mini` 上完成首轮接入与调参，再迁移到 `sentry`，避免两个平台同时改动导致问题定位困难。
++
++## 调试与验证方案
++
++### 仿真阶段
++
++在 Gazebo 和 RViz 中验证：
++
++- 直线路径跟踪
++- 90 度转弯
++- 窄门通过
++- 障碍物贴边绕行
++- 终点停车与姿态对准
++
++重点观察：
++
++- 局部轨迹是否平滑
++- 是否出现振荡或来回摆动
++- 是否贴障过近
++- 是否存在不必要倒车
++
++### 真机阶段
++
++按由易到难顺序验证：
++
++1. 空旷场地低速直行
++2. 低速转弯
++3. 简单避障
++4. 终点姿态调整
++5. 窄通道通过
++
++重点控制风险：
++
++- 初期降低最大速度和角速度
++- 先确认 footprint 与障碍距离参数正确
++- 先保证稳定，再追求速度和通过性
++
++## 项目风险
++
++- TEB 参数比 DWB 更多，调参复杂度更高
++- 对 footprint、定位质量、障碍层质量更敏感
++- 如果插件版本与当前 ROS 2 / Nav2 不兼容，可能无法正常加载
++
++## 成功标准
++
++如果下面几点成立，可以认为替换基本成功：
++
++- TEB 插件能稳定加载
++- 仿真中能稳定完成直行、转弯、避障、到点停车
++- 真机低速测试中无明显振荡、擦障或失控
++- 相比 DWB，在窄通道或急转场景中表现更稳定
++
++## 一句话总结
++
++这个项目不是单纯“换一个插件”，而是把局部规划从“速度采样打分”切换到“时空轨迹优化”，目标是在复杂局部环境中获得更平滑、更符合运动学约束的导航表现。
+*** End Patch
+</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-27T12-46-46-350Z">
+  <div class="message-header">
+    <span class="role-label">Patch Apply End</span>
+    <a href="#msg-2026-04-27T12-46-46-350Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:46.350Z" data-timestamp="2026-04-27T12:46:46.350Z">2026-04-27T12:46:46.350Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;patch_apply_end&quot;,
+  &quot;call_id&quot;: &quot;call_dLguzCndbbX9RgO9V95jq5OD&quot;,
+  &quot;turn_id&quot;: &quot;019dcef9-e94c-7a52-85ec-7ecb4ce13bb4&quot;,
+  &quot;stdout&quot;: &quot;Success. Updated the following files:\nA /home/william/venom_ws/src/venom_vnv/TEB_REPLACES_DWB_BRIEF.md\n&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;success&quot;: true,
+  &quot;changes&quot;: {
+    &quot;/home/william/venom_ws/src/venom_vnv/TEB_REPLACES_DWB_BRIEF.md&quot;: {
+      &quot;type&quot;: &quot;add&quot;,
+      &quot;content&quot;: &quot;# TEB 替换 DWB 项目简要说明\n\n## 项目目标\n\n本项目计划将当前 Nav2 中使用的 `DWBLocalPlanner` 替换为 `TEB Local Planner`，用于提升机器人在复杂局部环境中的轨迹质量与可通过性，尤其关注：\n\n- 窄通道通过\n- 急转弯与贴边绕障\n- 终点姿态调整\n- 轨迹平滑性与运动学一致性\n\n## 为什么要替换\n\n### DWB 的特点\n\n`DWB` 的工作方式是：\n\n- 采样一批候选速度\n- 对每组速度做短时间前向模拟\n- 用多个 critic 打分\n- 选出当前周期最优速度\n\n这种方法优点是成熟、直观、容易起步，但在以下场景中容易暴露问题：\n\n- 窄通道内左右摇摆\n- 急转弯时局部决策不稳定\n- 对 critic 权重和采样密度较敏感\n- 更偏“当前时刻选速度”，而不是“整体优化一段轨迹”\n\n### TEB 的特点\n\n`TEB` 的工作方式是：\n\n- 用一串带时间信息的轨迹点表示局部轨迹\n- 同时优化路径形状和每段时间分配\n- 将障碍物、速度、加速度、非完整运动学约束一起纳入优化\n\n它更适合处理：\n\n- 约束紧的局部环境\n- 需要连续姿态调整的轨迹\n- 对差速/阿克曼运动学一致性要求更高的场景\n\n## 预期收益\n\n- 局部轨迹更平滑\n- 窄通道与贴障绕行表现更稳定\n- 对转弯和终点姿态控制更自然\n- 更容易把“底盘真实能做到的动作”直接体现在局部规划中\n\n## 主要改动内容\n\n### 1. 控制器插件替换\n\n将 Nav2 `controller_server` 中的：\n\n```yaml\nFollowPath:\n  plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\n```\n\n替换为：\n\n```yaml\nFollowPath:\n  plugin: \&quot;teb_local_planner::TebLocalPlannerROS\&quot;\n```\n\n### 2. 参数体系替换\n\n移除 DWB 典型参数：\n\n- `vx_samples`\n- `vtheta_samples`\n- `critics`\n- `PathAlign.scale`\n- `GoalAlign.scale`\n- `GoalDist.scale`\n\n引入 TEB 典型参数：\n\n- `dt_ref`\n- `dt_hysteresis`\n- `max_samples`\n- `max_vel_x`\n- `max_vel_theta`\n- `acc_lim_x`\n- `acc_lim_theta`\n- `min_obstacle_dist`\n- `footprint_model`\n- `xy_goal_tolerance`\n- `yaw_goal_tolerance`\n\n### 3. 分平台迁移\n\n建议先在 `scout_mini` 上完成首轮接入与调参，再迁移到 `sentry`，避免两个平台同时改动导致问题定位困难。\n\n## 调试与验证方案\n\n### 仿真阶段\n\n在 Gazebo 和 RViz 中验证：\n\n- 直线路径跟踪\n- 90 度转弯\n- 窄门通过\n- 障碍物贴边绕行\n- 终点停车与姿态对准\n\n重点观察：\n\n- 局部轨迹是否平滑\n- 是否出现振荡或来回摆动\n- 是否贴障过近\n- 是否存在不必要倒车\n\n### 真机阶段\n\n按由易到难顺序验证：\n\n1. 空旷场地低速直行\n2. 低速转弯\n3. 简单避障\n4. 终点姿态调整\n5. 窄通道通过\n\n重点控制风险：\n\n- 初期降低最大速度和角速度\n- 先确认 footprint 与障碍距离参数正确\n- 先保证稳定，再追求速度和通过性\n\n## 项目风险\n\n- TEB 参数比 DWB 更多，调参复杂度更高\n- 对 footprint、定位质量、障碍层质量更敏感\n- 如果插件版本与当前 ROS 2 / Nav2 不兼容，可能无法正常加载\n\n## 成功标准\n\n如果下面几点成立，可以认为替换基本成功：\n\n- TEB 插件能稳定加载\n- 仿真中能稳定完成直行、转弯、避障、到点停车\n- 真机低速测试中无明显振荡、擦障或失控\n- 相比 DWB，在窄通道或急转场景中表现更稳定\n\n## 一句话总结\n\n这个项目不是单纯“换一个插件”，而是把局部规划从“速度采样打分”切换到“时空轨迹优化”，目标是在复杂局部环境中获得更平滑、更符合运动学约束的导航表现。\n&quot;
+    }
+  },
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-27T12-46-46-445Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-27T12-46-46-445Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:46.445Z" data-timestamp="2026-04-27T12:46:46.445Z">2026-04-27T12:46:46.445Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Success. Updated the following files:
+A /home/william/venom_ws/src/venom_vnv/TEB_REPLACES_DWB_BRIEF.md
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-27T12-46-52-163Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-46-52-163Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:46:52.163Z" data-timestamp="2026-04-27T12:46:52.163Z">2026-04-27T12:46:52.163Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>已在根目录生成简要说明文档：<a href="/home/william/venom_ws/src/venom_vnv/TEB_REPLACES_DWB_BRIEF.md:1">TEB_REPLACES_DWB_BRIEF.md</a>。</p>
+<p>这份文档适合拿来给别人快速介绍，内容包括：
+- 为什么要用 TEB 替换 DWB
+- 两者原理差异
+- 预计收益
+- 需要改哪些内容
+- 仿真和真机怎么验证
+- 项目风险和成功标准</p>
+<p>如果你要，我还可以继续帮你把它压缩成一页汇报版。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-25">
+  <div class="turn-head">
+    <div class="turn-title">Turn 25 · g2o优化框架是什么</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-27T12-49-04-341Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-27T12-49-04-341Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:49:04.341Z" data-timestamp="2026-04-27T12:49:04.341Z">2026-04-27T12:49:04.341Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>g2o优化框架是什么</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-27T12-49-20-244Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-27T12-49-20-244Z" class="timestamp-link">
+      <time datetime="2026-04-27T12:49:20.244Z" data-timestamp="2026-04-27T12:49:20.244Z">2026-04-27T12:49:20.244Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>g2o</code> 是一个<strong>通用图优化框架</strong>，全称是 <strong>General Graph Optimization</strong>。</p>
+<p>它主要用来解决这类问题：</p>
+<ul>
+<li>有一组待估计变量</li>
+<li>变量之间有很多约束关系</li>
+<li>想找到一组最优变量，使整体误差最小</li>
+</ul>
+<p>最常见的应用就是机器人和视觉里的：
+- SLAM
+- 位姿图优化
+- BA（Bundle Adjustment）
+- 轨迹优化
+- 标定问题</p>
+<p>你可以把它理解成：</p>
+<ul>
+<li>
+<p><code>顶点（vertex）</code>：待优化的变量<br />
+  例如机器人每一时刻的位姿、路标点位置、相机参数</p>
+</li>
+<li>
+<p><code>边（edge）</code>：变量之间的约束<br />
+  例如“这两个位姿之间的相对位移应该是多少”“这个地图点投影到图像上应该落在哪”</p>
+</li>
+<li>
+<p><code>优化目标</code>：让所有边对应的误差尽可能小</p>
+</li>
+</ul>
+<p>所以 g2o 本质上是在做：
+<strong>最小二乘意义下的非线性图优化。</strong></p>
+<p>它的一般流程是：</p>
+<ol>
+<li>
+<p>建图<br />
+把问题表示成“顶点 + 边”</p>
+</li>
+<li>
+<p>定义误差函数<br />
+每条边都定义一个 residual，表示当前估计和观测之间差多少</p>
+</li>
+<li>
+<p>线性化<br />
+因为很多问题是非线性的，所以在当前估计点附近做近似</p>
+</li>
+<li>
+<p>迭代求解<br />
+常见用高斯牛顿、Levenberg-Marquardt 之类的方法不断更新变量</p>
+</li>
+<li>
+<p>收敛后得到最优解</p>
+</li>
+</ol>
+<p>为什么它叫“图优化”：
+因为整个问题可以自然表示成图结构，不同变量是节点，约束是边。</p>
+<p>它和 TEB 的关系也很直接：
+- TEB 的轨迹本身可以表示成一串状态点和约束
+- 这些状态点、时间间隔、运动学约束、障碍约束，本质上也能写成图优化问题
+- TEB 的底层优化就是借助类似 g2o 这样的稀疏图优化思想来做</p>
+<p>一句话讲：</p>
+<p><strong>g2o 不是某个具体算法，而是一个用来搭建和求解非线性图优化问题的框架。</strong></p>
+<p>如果你要，我可以继续专门讲：
+- <code>g2o</code> 在 TEB 里具体扮演什么角色
+- <code>顶点</code> 和 <code>边</code> 在 TEB 中分别对应什么
+- 为什么 TEB 适合用 g2o 来做优化</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-004.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <span class="current">5</span>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+  
+  <a href="page-006.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6 · Page 6</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-22T20-21-55-019db523-cc3d-7112-9c3b-74845ceb97e6</a></h1>
+  <p>Page 6 / 7</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-005.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <span class="current">6</span>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+  
+  <a href="page-007.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-26">
+  <div class="turn-head">
+    <div class="turn-title">Turn 26 · 我目前的任务是要将TEB接入nav2并测试，你告诉我步骤</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-04-35-483Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-04-35-483Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:04:35.483Z" data-timestamp="2026-04-22T13:04:35.483Z">2026-04-22T13:04:35.483Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>我目前的任务是要将TEB接入nav2并测试，你告诉我步骤</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-22T13-04-40-594Z-2026-04-22T13-04-40-594Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-22T13-04-40-594Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-04-40-594Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:04:40.594Z" data-timestamp="2026-04-22T13:04:40.594Z">2026-04-22T13:04:40.594Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-22T13-05-06-965Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-05-06-965Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:05:06.965Z" data-timestamp="2026-04-22T13:05:06.965Z">2026-04-22T13:05:06.965Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>按你这个仓库当前状态，这个任务应该分成 4 段做，而不是直接上来改 YAML。</p>
+<p><strong>总流程</strong></p>
+<ol>
+<li>先确认 TEB 包本身是否可用</li>
+<li>再在 <code>nav2</code> 配置里把 controller 从 DWB 切到 TEB</li>
+<li>再补 launch / 依赖 / 参数</li>
+<li>最后做联调和测试</li>
+</ol>
+<p><strong>第一步：确认接入前提</strong></p>
+<p>你先要确认两件事：</p>
+<ol>
+<li>你的环境里有没有 <code>teb_local_planner</code> 对应 ROS 2 包</li>
+<li>这个仓库到底是“只改主仓库配置就行”，还是要额外引入 TEB 源码/依赖</li>
+</ol>
+<p>结合我刚才的检查，仓库里只有一份历史 TEB 参数文件：
+<a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/nav2_params_scoutmini.yaml">nav2_params_scoutmini.yaml</a></p>
+<p>但当前默认使用的还是 DWB：
+<a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a></p>
+<p>所以你不能假设“项目已经完整支持 TEB”，要先确认运行环境里真有这个插件。</p>
+<p>这一步建议检查：</p>
+<pre><code class="language-bash">ros2 pkg list | grep teb
+</code></pre>
+<p>以及后面启动时 <code>controller_server</code> 能不能识别：
+<code>teb_local_planner::TebLocalPlannerROS</code></p>
+<p><strong>第二步：确定改动落点</strong></p>
+<p>如果只是把 Nav2 的局部规划器从 DWB 切换为 TEB，当前大概率只需要改主仓库内容，不是改子模块源码。</p>
+<p>最可能的修改位置会在这些地方：</p>
+<ul>
+<li><a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a></li>
+<li>可能还包括 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py">scout_mini_mapping.launch.py</a></li>
+<li>如果你要给 sentry 也接，再看 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/sentry/nav2_params.yaml">nav2_params.yaml</a></li>
+</ul>
+<p>具体要做的是：</p>
+<ol>
+<li>把 <code>controller_server.controller_plugins</code> 保持为 <code>["FollowPath"]</code></li>
+<li>把 <code>FollowPath.plugin</code> 从 <code>dwb_core::DWBLocalPlanner</code> 改成 <code>teb_local_planner::TebLocalPlannerROS</code></li>
+<li>把 DWB 参数块替换成 TEB 参数块</li>
+<li>根据底盘类型重新调：</li>
+<li><code>max_vel_x</code></li>
+<li><code>max_vel_theta</code></li>
+<li><code>acc_lim_x</code></li>
+<li><code>acc_lim_theta</code></li>
+<li><code>min_turning_radius</code></li>
+<li><code>footprint_model</code></li>
+<li>障碍物距离和优化权重</li>
+</ol>
+<p>你仓库里那份历史 TEB 配置可以作为起点，但不能直接盲信，必须按你现在的机器人尺寸、速度、costmap 再调。</p>
+<p><strong>第三步：补齐依赖和运行条件</strong></p>
+<p>这一步常被忽略，但实际上决定你能不能跑起来。</p>
+<p>你要确认：</p>
+<ul>
+<li>TEB 插件库已经安装或纳入工作区</li>
+<li>Nav2 启动时能加载这个插件</li>
+<li>costmap、footprint、odom、TF 都和 TEB 假设一致</li>
+</ul>
+<p>重点检查：</p>
+<ol>
+<li>
+<p><code>package.xml</code> / 依赖是否需要补充<br />
+   当前 <code>venom_bringup</code> 是 Python 包，本身不直接编译 controller，但如果项目文档或部署流程要完整，可能要把 TEB 依赖写清楚。</p>
+</li>
+<li>
+<p>机器人模型是不是差速/阿克曼<br />
+   如果是差速车，<code>min_turning_radius</code> 通常可为 <code>0.0</code>；如果是阿克曼，参数要完全不同。</p>
+</li>
+<li>
+<p>局部代价地图是否适合 TEB<br />
+   TEB 对 footprint、障碍物膨胀、局部地图更新频率比较敏感。</p>
+</li>
+</ol>
+<p><strong>第四步：测试</strong></p>
+<p>测试不要一步到位上真机冲终点，建议分层测。</p>
+<p>先做“能否启动”测试：</p>
+<ol>
+<li><code>colcon build</code></li>
+<li><code>source install/setup.bash</code></li>
+<li>启动对应 bringup</li>
+<li>看 <code>controller_server</code> 是否报插件加载错误</li>
+</ol>
+<p>再做“基础跟随路径”测试：</p>
+<ol>
+<li>给一个短距离目标点</li>
+<li>看机器人是否能稳定起步、转向、停下</li>
+<li>观察 <code>/cmd_vel</code> 是否连续平滑</li>
+</ol>
+<p>再做“复杂场景”测试：</p>
+<ol>
+<li>窄通道</li>
+<li>急转弯</li>
+<li>障碍绕行</li>
+<li>低速贴边通过</li>
+</ol>
+<p>你重点要看这些现象：</p>
+<ul>
+<li>是否频繁振荡</li>
+<li>是否原地左右摆</li>
+<li>是否路径跟随过度保守</li>
+<li>是否接近目标时抖动</li>
+<li>是否出现卡死或恢复行为频繁触发</li>
+</ul>
+<p><strong>建议你实际执行顺序</strong></p>
+<ol>
+<li>先确认环境里有没有 TEB 插件</li>
+<li>先选一个平台，建议先只做 <code>scout_mini</code></li>
+<li>基于当前 DWB 配置复制一份新的 TEB 参数文件</li>
+<li>让 launch 显式切到这份 TEB 参数</li>
+<li>编译并做最小启动测试</li>
+<li>再逐步调参</li>
+<li>测通后再考虑是否覆盖默认配置</li>
+</ol>
+<p><strong>按你现在这个仓库，我建议的第一轮实施范围</strong></p>
+<p>先只做 <code>scout_mini</code>，不要一开始同时碰 <code>sentry</code>。</p>
+<p>准备修改的位置大概率是：</p>
+<ul>
+<li><a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a></li>
+<li>或者新增一份专门的 TEB 参数文件，例如同目录下新增 <code>nav2_params_teb.yaml</code></li>
+<li>可能再小改 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py">scout_mini_mapping.launch.py</a>，让它能切换参数文件</li>
+</ul>
+<p>如果你要，我下一步可以先只读帮你做“实施前检查清单”，明确：
+- 当前环境是否有 TEB 包
+- 这次第一轮具体该改哪些文件
+- 哪些改动属于主仓库，哪些不是。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-27">
+  <div class="turn-head">
+    <div class="turn-title">Turn 27 · 确定现在DWA的话题接口,以确认TEB的话题接口</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-12-54-156Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-12-54-156Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:12:54.156Z" data-timestamp="2026-04-22T13:12:54.156Z">2026-04-22T13:12:54.156Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>确定现在DWA的话题接口,以确认TEB的话题接口</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-22T13-13-01-629Z-2026-04-22T13-13-10-817Z">
+  <summary>Codex process (12 items: 2 Reasoning, Commentary, 3 Tool Call, ...)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-22T13-13-01-629Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-13-01-629Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:01.629Z" data-timestamp="2026-04-22T13:13:01.629Z">2026-04-22T13:13:01.629Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message commentary" id="msg-2026-04-22T13-13-06-336Z">
+  <div class="message-header">
+    <span class="role-label">Commentary</span>
+    <a href="#msg-2026-04-22T13-13-06-336Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.336Z" data-timestamp="2026-04-22T13:13:06.336Z">2026-04-22T13:13:06.336Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>我先只读确认当前项目里 Nav2 控制器这一层实际依赖哪些 topic、action 和 TF 关系，用 DWB 的现有配置反推 TEB 接入时需要满足的接口，不会做任何修改。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-22T13-13-06-358Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-22T13-13-06-358Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.358Z" data-timestamp="2026-04-22T13:13:06.358Z">2026-04-22T13:13:06.358Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,260p&#39; venom_bringup/config/scout_mini/nav2_params.yaml&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv&#34;,&#34;max_output_tokens&#34;:5000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-22T13-13-06-366Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-22T13-13-06-366Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.366Z" data-timestamp="2026-04-22T13:13:06.366Z">2026-04-22T13:13:06.366Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;sed -n &#39;1,260p&#39; venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv&#34;,&#34;max_output_tokens&#34;:5000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool" id="msg-2026-04-22T13-13-06-370Z">
+  <div class="message-header">
+    <span class="role-label">Tool Call</span>
+    <a href="#msg-2026-04-22T13-13-06-370Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.370Z" data-timestamp="2026-04-22T13:13:06.370Z">2026-04-22T13:13:06.370Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-use" data-tool-id="">
+  <div class="tool-header">exec_command</div>
+  
+  <pre>{&#34;cmd&#34;:&#34;rg -n \&#34;cmd_vel|odom|scan|cloud_registered|map|tf|tf_static|follow_path|followWaypoints|navigate_to_pose|navigate_through_poses|controller_server|bt_navigator\&#34; docs venom_bringup venom_robot_description&#34;,&#34;workdir&#34;:&#34;/home/william/venom_ws/src/venom_vnv&#34;,&#34;max_output_tokens&#34;:5000}</pre>
+</div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-13-06-414Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-22T13-13-06-414Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.414Z" data-timestamp="2026-04-22T13:13:06.414Z">2026-04-22T13:13:06.414Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_UY4kT52U1M0Ozj7MMUfPF65O&quot;,
+  &quot;process_id&quot;: &quot;37743&quot;,
+  &quot;turn_id&quot;: &quot;019db552-788a-7bb0-b4d2-bd9cd04729ac&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;1,260p&#x27; venom_bringup/config/scout_mini/nav2_params.yaml&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;1,260p&#x27; venom_bringup/config/scout_mini/nav2_params.yaml&quot;,
+      &quot;name&quot;: &quot;nav2_params.yaml&quot;,
+      &quot;path&quot;: &quot;venom_bringup/config/scout_mini/nav2_params.yaml&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;# amcl:\n#   ros__parameters:\n#     use_sim_time: False\n#     alpha1: 0.2\n#     alpha2: 0.2\n#     alpha3: 0.2\n#     alpha4: 0.2\n#     alpha5: 0.2\n#     base_frame_id: \&quot;base_footprint\&quot;\n#     beam_skip_distance: 0.5\n#     beam_skip_error_threshold: 0.9\n#     beam_skip_threshold: 0.3\n#     do_beamskip: false\n#     global_frame_id: \&quot;map\&quot;\n#     lambda_short: 0.1\n#     laser_likelihood_max_dist: 2.0\n#     laser_max_range: 100.0\n#     laser_min_range: -1.0\n#     laser_model_type: \&quot;likelihood_field\&quot;\n#     max_beams: 60\n#     max_particles: 2000\n#     min_particles: 500\n#     odom_frame_id: \&quot;odom\&quot;\n#     pf_err: 0.05\n#     pf_z: 0.99\n#     recovery_alpha_fast: 0.0\n#     recovery_alpha_slow: 0.0\n#     resample_interval: 1\n#     robot_model_type: \&quot;nav2_amcl::DifferentialMotionModel\&quot;\n#     save_pose_rate: 0.5\n#     sigma_hit: 0.2\n#     tf_broadcast: true\n#     transform_tolerance: 1.0\n#     update_min_a: 0.2\n#     update_min_d: 0.25\n#     z_hit: 0.5\n#     z_max: 0.05\n#     z_rand: 0.5\n#     z_short: 0.05\n#     scan_topic: scan\n\nbt_navigator:\n  ros__parameters:\n    use_sim_time: False\n    global_frame: map\n    robot_base_frame: base_link\n    odom_topic: /odom\n    bt_loop_duration: 10\n    default_server_timeout: 20\n    wait_for_service_timeout: 1000\n    # &#x27;default_nav_through_poses_bt_xml&#x27; and &#x27;default_nav_to_pose_bt_xml&#x27; are use defaults:\n    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml\n    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml\n    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.\n    plugin_lib_names:\n      - nav2_compute_path_to_pose_action_bt_node\n      - nav2_compute_path_through_poses_action_bt_node\n      - nav2_smooth_path_action_bt_node\n      - nav2_follow_path_action_bt_node\n      - nav2_spin_action_bt_node\n      - nav2_wait_action_bt_node\n      - nav2_assisted_teleop_action_bt_node\n      - nav2_back_up_action_bt_node\n      - nav2_drive_on_heading_bt_node\n      - nav2_clear_costmap_service_bt_node\n      - nav2_is_stuck_condition_bt_node\n      - nav2_goal_reached_condition_bt_node\n      - nav2_goal_updated_condition_bt_node\n      - nav2_globally_updated_goal_condition_bt_node\n      - nav2_is_path_valid_condition_bt_node\n      - nav2_initial_pose_received_condition_bt_node\n      - nav2_reinitialize_global_localization_service_bt_node\n      - nav2_rate_controller_bt_node\n      - nav2_distance_controller_bt_node\n      - nav2_speed_controller_bt_node\n      - nav2_truncate_path_action_bt_node\n      - nav2_truncate_path_local_action_bt_node\n      - nav2_goal_updater_node_bt_node\n      - nav2_recovery_node_bt_node\n      - nav2_pipeline_sequence_bt_node\n      - nav2_round_robin_node_bt_node\n      - nav2_transform_available_condition_bt_node\n      - nav2_time_expired_condition_bt_node\n      - nav2_path_expiring_timer_condition\n      - nav2_distance_traveled_condition_bt_node\n      - nav2_single_trigger_bt_node\n      - nav2_goal_updated_controller_bt_node\n      - nav2_is_battery_low_condition_bt_node\n      - nav2_navigate_through_poses_action_bt_node\n      - nav2_navigate_to_pose_action_bt_node\n      - nav2_remove_passed_goals_action_bt_node\n      - nav2_planner_selector_bt_node\n      - nav2_controller_selector_bt_node\n      - nav2_goal_checker_selector_bt_node\n      - nav2_controller_cancel_bt_node\n      - nav2_path_longer_on_approach_bt_node\n      - nav2_wait_cancel_bt_node\n      - nav2_spin_cancel_bt_node\n      - nav2_back_up_cancel_bt_node\n      - nav2_assisted_teleop_cancel_bt_node\n      - nav2_drive_on_heading_cancel_bt_node\n      - nav2_is_battery_charging_condition_bt_node\n\nbt_navigator_navigate_through_poses_rclcpp_node:\n  ros__parameters:\n    use_sim_time: False\n\nbt_navigator_navigate_to_pose_rclcpp_node:\n  ros__parameters:\n    use_sim_time: False\n\ncontroller_server:\n  ros__parameters:\n    use_sim_time: False\n    controller_frequency: 20.0\n    min_x_velocity_threshold: 0.001\n    min_y_velocity_threshold: 0.001\n    min_theta_velocity_threshold: 0.001\n    failure_tolerance: 0.3\n    progress_checker_plugin: \&quot;progress_checker\&quot;\n    goal_checker_plugins: [\&quot;general_goal_checker\&quot;] # \&quot;precise_goal_checker\&quot;\n    controller_plugins: [\&quot;FollowPath\&quot;]\n\n    # Progress checker parameters\n    progress_checker:\n      plugin: \&quot;nav2_controller::SimpleProgressChecker\&quot;\n      required_movement_radius: 0.5\n      movement_time_allowance: 10.0\n    # Goal checker parameters\n    #precise_goal_checker:\n    #  plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n    #  xy_goal_tolerance: 0.25\n    #  yaw_goal_tolerance: 0.25\n    #  stateful: True\n    general_goal_checker:\n      stateful: True\n      plugin: \&quot;nav2_controller::SimpleGoalChecker\&quot;\n      xy_goal_tolerance: 0.25\n      yaw_goal_tolerance: 0.25\n    # DWB parameters\n    FollowPath:\n      plugin: \&quot;dwb_core::DWBLocalPlanner\&quot;\n      debug_trajectory_details: True\n      min_vel_x: 0.0\n      min_vel_y: 0.0\n      max_vel_x: 2.0\n      max_vel_y: 0.0\n      max_vel_theta: 2.0\n      min_speed_xy: 0.0\n      max_speed_xy: 2.0\n      min_speed_theta: 0.0\n      # Add high threshold velocity for turtlebot 3 issue.\n      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75\n      acc_lim_x: 3.5\n      acc_lim_y: 0.0\n      acc_lim_theta: 6.2\n      decel_lim_x: -2.5\n      decel_lim_y: 0.0\n      decel_lim_theta: -6.2\n      vx_samples: 20\n      vy_samples: 5\n      vtheta_samples: 20\n      sim_time: 1.7\n      linear_granularity: 0.05\n      angular_granularity: 0.025\n      transform_tolerance: 0.2\n      xy_goal_tolerance: 0.25\n      trans_stopped_velocity: 0.25\n      short_circuit_trajectory_evaluation: True\n      stateful: True\n      critics: [\&quot;RotateToGoal\&quot;, \&quot;Oscillation\&quot;, \&quot;BaseObstacle\&quot;, \&quot;GoalAlign\&quot;, \&quot;PathAlign\&quot;, \&quot;PathDist\&quot;, \&quot;GoalDist\&quot;]\n      BaseObstacle.scale: 0.02\n      PathAlign.scale: 32.0\n      PathAlign.forward_point_distance: 0.1\n      GoalAlign.scale: 24.0\n      GoalAlign.forward_point_distance: 0.1\n      PathDist.scale: 32.0\n      GoalDist.scale: 24.0\n      RotateToGoal.scale: 32.0\n      RotateToGoal.slowing_factor: 5.0\n      RotateToGoal.lookahead_time: -1.0\n\nlocal_costmap:\n  local_costmap:\n    ros__parameters:\n      update_frequency: 10.0\n      publish_frequency: 5.0\n      global_frame: odom\n      robot_base_frame: base_link\n      use_sim_time: False\n      rolling_window: true\n      width: 8\n      height: 8\n      resolution: 0.05\n      robot_radius: 0.35\n      plugins: [\&quot;voxel_layer\&quot;, \&quot;inflation_layer\&quot;]\n      inflation_layer:\n        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\n        cost_scaling_factor: 3.0\n        inflation_radius: 0.55\n      voxel_layer:\n        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\n        enabled: True\n        publish_voxel_map: True\n        origin_z: 0.0\n        z_resolution: 0.05\n        z_voxels: 16\n        max_obstacle_height: 2.0\n        mark_threshold: 0\n        observation_sources: scan\n        scan:\n          topic: /scan\n          max_obstacle_height: 2.0\n          clearing: True\n          marking: True\n          data_type: \&quot;LaserScan\&quot;\n          raytrace_max_range: 3.0\n          raytrace_min_range: 0.0\n          obstacle_max_range: 2.5\n          obstacle_min_range: 0.0\n      static_layer:\n        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\n        map_subscribe_transient_local: True\n      always_send_full_costmap: True\n\nglobal_costmap:\n  global_costmap:\n    ros__parameters:\n      update_frequency: 1.0\n      publish_frequency: 1.0\n      global_frame: map\n      robot_base_frame: base_link\n      use_sim_time: False\n      robot_radius: 0.35\n      resolution: 0.05\n      track_unknown_space: true\n      plugins: [\&quot;static_layer\&quot;, \&quot;obstacle_layer\&quot;, \&quot;inflation_layer\&quot;]\n      obstacle_layer:\n        plugin: \&quot;nav2_costmap_2d::ObstacleLayer\&quot;\n        enabled: True\n        observation_sources: scan\n        scan:\n          topic: /scan\n          max_obstacle_height: 2.0\n          clearing: True\n          marking: True\n          data_type: \&quot;LaserScan\&quot;\n          raytrace_max_range: 3.0\n          raytrace_min_range: 0.0\n          obstacle_max_range: 2.5\n          obstacle_min_range: 0.0\n      static_layer:\n        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\n        map_subscribe_transient_local: True\n      inflation_layer:\n        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\n        cost_scaling_factor: 3.0\n        inflation_radius: 0.55\n      always_send_full_costmap: True\n\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 41709
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-13-06-421Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-22T13-13-06-421Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.421Z" data-timestamp="2026-04-22T13:13:06.421Z">2026-04-22T13:13:06.421Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_BYRlF9wbWpG9Snpfv18jwv3D&quot;,
+  &quot;process_id&quot;: &quot;42263&quot;,
+  &quot;turn_id&quot;: &quot;019db552-788a-7bb0-b4d2-bd9cd04729ac&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;sed -n &#x27;1,260p&#x27; venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;read&quot;,
+      &quot;cmd&quot;: &quot;sed -n &#x27;1,260p&#x27; venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&quot;,
+      &quot;name&quot;: &quot;scout_mini_mapping.launch.py&quot;,
+      &quot;path&quot;: &quot;venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;\&quot;\&quot;\&quot;Scout Mini mapping bringup launch file.\n\nFull mapping stack for the Scout Mini platform:\n  1. Livox MID360 driver  -- publishes /livox/lidar and /livox/imu\n  2. Point-LIO            -- 3D LiDAR-inertial odometry; publishes /cloud_registered\n                             and odom-&gt;base_link TF; saves PCD to ~/Point-LIO/PCD/\n  3. pointcloud_to_laserscan -- converts /cloud_registered to /scan (2D)\n  4. slam_toolbox (async) -- builds a 2D occupancy map from /scan\n  5. nav2_bringup         -- navigation stack\n\nRun this file to build a map from scratch. When done, save the slam_toolbox\nmap via: ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap\n\&quot;\&quot;\&quot;\n\nimport os\nfrom ament_index_python.packages import get_package_share_directory\nfrom launch import LaunchDescription\nfrom launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction\nfrom launch.conditions import UnlessCondition\nfrom launch.launch_description_sources import PythonLaunchDescriptionSource\nfrom launch.substitutions import LaunchConfiguration, PythonExpression\nfrom launch_ros.actions import Node\n\n\ndef generate_launch_description():\n    scout_base_dir = get_package_share_directory(&#x27;scout_base&#x27;)\n    venom_bringup_dir = get_package_share_directory(&#x27;venom_bringup&#x27;)\n    robot_description_dir = get_package_share_directory(&#x27;venom_robot_description&#x27;)\n    nav2_bringup_dir = get_package_share_directory(&#x27;nav2_bringup&#x27;)\n\n    headless = LaunchConfiguration(&#x27;headless&#x27;)\n    odom_source = LaunchConfiguration(&#x27;odom_source&#x27;)\n    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)\n\n    declare_headless = DeclareLaunchArgument(\n        &#x27;headless&#x27;,\n        default_value=&#x27;false&#x27;,\n        description=&#x27;Do not launch RViz if true&#x27;\n    )\n    declare_odom_source = DeclareLaunchArgument(\n        &#x27;odom_source&#x27;,\n        default_value=&#x27;ekf&#x27;,\n        description=(\n            \&quot;Odometry source for scout_base only: \&quot;\n            \&quot;&#x27;wheel&#x27; = wheel encoder (odom-&gt;base_link); \&quot;\n            \&quot;&#x27;laser/ekf&#x27; = isolate wheel odom under scout_odom-&gt;scout_base_link \&quot;\n            \&quot;to avoid conflict with Point-LIO odom-&gt;base_link\&quot;\n        )\n    )\n    declare_nav2_params = DeclareLaunchArgument(\n        &#x27;nav2_params_file&#x27;,\n        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),\n        description=&#x27;Path to nav2 parameters file&#x27;\n    )\n\n    # ---------------------------------------------------------------------------\n    # 1. Livox MID360 driver\n    # ---------------------------------------------------------------------------\n    livox_config_path = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;MID360_config.json&#x27;)\n\n    livox_driver_node = Node(\n        package=&#x27;livox_ros_driver2&#x27;,\n        executable=&#x27;livox_ros_driver2_node&#x27;,\n        name=&#x27;livox_lidar_publisher&#x27;,\n        output=&#x27;screen&#x27;,\n        parameters=[\n            {&#x27;xfer_format&#x27;: 1},\n            {&#x27;multi_topic&#x27;: 0},\n            {&#x27;data_src&#x27;: 0},\n            {&#x27;publish_freq&#x27;: 10.0},\n            {&#x27;output_data_type&#x27;: 0},\n            {&#x27;frame_id&#x27;: &#x27;base_link&#x27;},\n            {&#x27;lvx_file_path&#x27;: &#x27;/home/livox/livox_test.lvx&#x27;},\n            {&#x27;user_config_path&#x27;: livox_config_path},\n            {&#x27;cmdline_input_bd_code&#x27;: &#x27;47MDLAS0020103&#x27;},\n        ]\n    )\n\n    # In wheel mode:  odom_frame=odom,       odom_topic=odom,       base_frame=base_link\n    # In laser/ekf:   odom_frame=scout_odom, odom_topic=scout_odom, base_frame=scout_base_link\n    # Wheel odometry is isolated in laser/ekf modes so it doesn&#x27;t conflict with\n    # the authoritative odom-&gt;base_link from Point-LIO.\n    scout_base_launch = IncludeLaunchDescription(\n        PythonLaunchDescriptionSource(\n            os.path.join(scout_base_dir, &#x27;launch&#x27;, &#x27;scout_mini_base.launch.py&#x27;)\n        ),\n        launch_arguments={\n            &#x27;port_name&#x27;: &#x27;can0&#x27;,\n            &#x27;is_scout_mini&#x27;: &#x27;true&#x27;,\n            &#x27;is_omni_wheel&#x27;: &#x27;false&#x27;,\n            &#x27;odom_frame&#x27;: PythonExpression(\n                [\&quot;&#x27;odom&#x27; if &#x27;\&quot;, odom_source, \&quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_odom&#x27;\&quot;]\n            ),\n            &#x27;odom_topic_name&#x27;: PythonExpression(\n                [\&quot;&#x27;odom&#x27; if &#x27;\&quot;, odom_source, \&quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_odom&#x27;\&quot;]\n            ),\n            &#x27;base_frame&#x27;: PythonExpression(\n                [\&quot;&#x27;base_link&#x27; if &#x27;\&quot;, odom_source, \&quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_base_link&#x27;\&quot;]\n            ),\n        }.items()\n    )\n\n    # ---------------------------------------------------------------------------\n    # 2. Point-LIO (3D LiDAR-inertial odometry + PCD save)\n    # ---------------------------------------------------------------------------\n    point_lio_config = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;point_lio_mapping.yaml&#x27;)\n\n    point_lio_node = Node(\n        package=&#x27;point_lio&#x27;,\n        executable=&#x27;pointlio_mapping&#x27;,\n        name=&#x27;point_lio&#x27;,\n        output=&#x27;screen&#x27;,\n        parameters=[point_lio_config],\n        remappings=[(&#x27;/tf&#x27;, &#x27;tf&#x27;), (&#x27;/tf_static&#x27;, &#x27;tf_static&#x27;)],\n    )\n\n    # ---------------------------------------------------------------------------\n    # 3. pointcloud_to_laserscan -- /cloud_registered -&gt; /scan\n    # ---------------------------------------------------------------------------\n    pointcloud_to_laserscan_node = Node(\n        package=&#x27;pointcloud_to_laserscan&#x27;,\n        executable=&#x27;pointcloud_to_laserscan_node&#x27;,\n        name=&#x27;pointcloud_to_laserscan&#x27;,\n        parameters=[{\n            &#x27;target_frame&#x27;: &#x27;base_link&#x27;,\n            &#x27;transform_tolerance&#x27;: 0.2,\n            &#x27;min_height&#x27;: 0.05,\n            &#x27;max_height&#x27;: 0.7,\n            &#x27;angle_min&#x27;: -3.14159,\n            &#x27;angle_max&#x27;: 3.14159,\n            &#x27;angle_increment&#x27;: 0.001,\n            &#x27;scan_time&#x27;: 0.1,\n            &#x27;range_min&#x27;: 0.3,\n            &#x27;range_max&#x27;: 50.0,\n            &#x27;use_inf&#x27;: True,\n        }],\n        remappings=[\n            (&#x27;cloud_in&#x27;, &#x27;/cloud_registered&#x27;),\n            (&#x27;scan&#x27;, &#x27;/scan&#x27;),\n        ]\n    )\n\n    # ---------------------------------------------------------------------------\n    # 4. slam_toolbox (async mapping, map-&gt;odom TF disabled -- Point-LIO owns it)\n    # ---------------------------------------------------------------------------\n    slam_toolbox_config = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;slam_toolbox_mapping.yaml&#x27;)\n\n    slam_toolbox_node = Node(\n        package=&#x27;slam_toolbox&#x27;,\n        executable=&#x27;async_slam_toolbox_node&#x27;,\n        name=&#x27;slam_toolbox&#x27;,\n        output=&#x27;screen&#x27;,\n        parameters=[\n            slam_toolbox_config,\n            {&#x27;use_sim_time&#x27;: False},\n        ]\n    )\n\n    # Delay slam_toolbox until Point-LIO has published the first odom-&gt;base_link TF.\n    delayed_slam_toolbox = TimerAction(\n        period=10.0,\n        actions=[slam_toolbox_node]\n    )\n\n    # ---------------------------------------------------------------------------\n    # 5. Robot description TF tree\n    # ---------------------------------------------------------------------------\n    robot_description_launch = IncludeLaunchDescription(\n        PythonLaunchDescriptionSource(\n            os.path.join(robot_description_dir, &#x27;launch&#x27;, &#x27;scout_mini_description.launch.py&#x27;)\n        )\n    )\n\n    # ---------------------------------------------------------------------------\n    # 6. Navigation stack\n    # ---------------------------------------------------------------------------\n    nav2_launch = IncludeLaunchDescription(\n        PythonLaunchDescriptionSource(\n            os.path.join(nav2_bringup_dir, &#x27;launch&#x27;, &#x27;navigation_launch.py&#x27;)\n        ),\n        launch_arguments={\n            &#x27;use_sim_time&#x27;: &#x27;false&#x27;,\n            &#x27;params_file&#x27;: nav2_params_file,\n        }.items()\n    )\n\n    # ---------------------------------------------------------------------------\n    # 7. RViz\n    # ---------------------------------------------------------------------------\n    rviz_node = Node(\n        package=&#x27;rviz2&#x27;,\n        executable=&#x27;rviz2&#x27;,\n        name=&#x27;rviz2&#x27;,\n        arguments=[&#x27;-d&#x27;, os.path.join(venom_bringup_dir, &#x27;rviz_cfg&#x27;, &#x27;mapping.rviz&#x27;)],\n        output=&#x27;screen&#x27;,\n        condition=UnlessCondition(headless)\n    )\n\n    return LaunchDescription([\n        declare_headless,\n        declare_odom_source,\n        declare_nav2_params,\n        livox_driver_node,\n        scout_base_launch,\n        point_lio_node,\n        pointcloud_to_laserscan_node,\n        delayed_slam_toolbox,\n        robot_description_launch,\n        nav2_launch,\n        rviz_node,\n    ])\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 9919
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message system" id="msg-2026-04-22T13-13-06-431Z">
+  <div class="message-header">
+    <span class="role-label">Exec Command End</span>
+    <a href="#msg-2026-04-22T13-13-06-431Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.431Z" data-timestamp="2026-04-22T13:13:06.431Z">2026-04-22T13:13:06.431Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><pre class="json">{
+  &quot;type&quot;: &quot;exec_command_end&quot;,
+  &quot;call_id&quot;: &quot;call_p0kaS1anfHr31xMOGOHiPHbk&quot;,
+  &quot;process_id&quot;: &quot;7306&quot;,
+  &quot;turn_id&quot;: &quot;019db552-788a-7bb0-b4d2-bd9cd04729ac&quot;,
+  &quot;command&quot;: [
+    &quot;/bin/bash&quot;,
+    &quot;-lc&quot;,
+    &quot;rg -n \&quot;cmd_vel|odom|scan|cloud_registered|map|tf|tf_static|follow_path|followWaypoints|navigate_to_pose|navigate_through_poses|controller_server|bt_navigator\&quot; docs venom_bringup venom_robot_description&quot;
+  ],
+  &quot;cwd&quot;: &quot;/home/william/venom_ws/src/venom_vnv&quot;,
+  &quot;parsed_cmd&quot;: [
+    {
+      &quot;type&quot;: &quot;search&quot;,
+      &quot;cmd&quot;: &quot;rg -n &#x27;cmd_vel|odom|scan|cloud_registered|map|tf|tf_static|follow_path|followWaypoints|navigate_to_pose|navigate_through_poses|controller_server|bt_navigator&#x27; docs venom_bringup venom_robot_description&quot;,
+      &quot;query&quot;: &quot;cmd_vel|odom|scan|cloud_registered|map|tf|tf_static|follow_path|followWaypoints|navigate_to_pose|navigate_through_poses|controller_server|bt_navigator&quot;,
+      &quot;path&quot;: &quot;docs&quot;
+    }
+  ],
+  &quot;source&quot;: &quot;unified_exec_startup&quot;,
+  &quot;stdout&quot;: &quot;&quot;,
+  &quot;stderr&quot;: &quot;&quot;,
+  &quot;aggregated_output&quot;: &quot;venom_robot_description/config/scout_mini.yaml:13:  - parent_frame: map\nvenom_robot_description/config/scout_mini.yaml:14:    child_frame: odom\ndocs/point_lio_handoff_2026-04-16.md:20:  - `upstream/point-lio-with-grid-map`\ndocs/point_lio_handoff_2026-04-16.md:34:  - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`\ndocs/point_lio_handoff_2026-04-16.md:42:- `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`\ndocs/point_lio_handoff_2026-04-16.md:129:- `/tf`\ndocs/point_lio_handoff_2026-04-16.md:130:- `/tf_static`\ndocs/point_lio_handoff_2026-04-16.md:194:     - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml:9`\ndocs/point_lio_handoff_2026-04-16.md:223:   - map incremental time\ndocs/point_lio_handoff_2026-04-16.md:226:   - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`\ndocs/point_lio_handoff_2026-04-16.md:233:- `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`\nvenom_robot_description/package.xml:12:  &lt;exec_depend&gt;tf2_ros&lt;/exec_depend&gt;\ndocs/px4_bridge_handoff_2026-04-17.md:60:- `/px4_bridge/odom`\nvenom_robot_description/launch/infantry_description.launch.py:15:            executable=&#x27;dynamic_tf_publisher&#x27;,\nvenom_bringup/config/nav2_params_scoutmini.yaml:1:bt_navigator:\nvenom_bringup/config/nav2_params_scoutmini.yaml:4:    global_frame: map\nvenom_bringup/config/nav2_params_scoutmini.yaml:6:    odom_topic: /Odometry\nvenom_bringup/config/nav2_params_scoutmini.yaml:13:      - nav2_follow_path_action_bt_node\nvenom_bringup/config/nav2_params_scoutmini.yaml:17:      - nav2_clear_costmap_service_bt_node\nvenom_bringup/config/nav2_params_scoutmini.yaml:35:controller_server:\nvenom_bringup/config/nav2_params_scoutmini.yaml:96:      include_costmap_obstacles: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:97:      costmap_obstacles_behind_robot_dist: 1.5\nvenom_bringup/config/nav2_params_scoutmini.yaml:103:      costmap_converter_plugin: \&quot;\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:104:      costmap_converter_spin_thread: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:105:      costmap_converter_rate: 5\nvenom_bringup/config/nav2_params_scoutmini.yaml:138:      roadmap_graph_no_samples: 15\nvenom_bringup/config/nav2_params_scoutmini.yaml:139:      roadmap_graph_area_width: 5\nvenom_bringup/config/nav2_params_scoutmini.yaml:140:      roadmap_graph_area_length_scale: 1.0\nvenom_bringup/config/nav2_params_scoutmini.yaml:151:local_costmap:\nvenom_bringup/config/nav2_params_scoutmini.yaml:152:  local_costmap:\nvenom_bringup/config/nav2_params_scoutmini.yaml:156:      global_frame: odom\nvenom_bringup/config/nav2_params_scoutmini.yaml:167:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:169:        publish_voxel_map: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:177:          topic: /cloud_registered\nvenom_bringup/config/nav2_params_scoutmini.yaml:188:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:192:      always_send_full_costmap: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:194:global_costmap:\nvenom_bringup/config/nav2_params_scoutmini.yaml:195:  global_costmap:\nvenom_bringup/config/nav2_params_scoutmini.yaml:199:      global_frame: map\nvenom_bringup/config/nav2_params_scoutmini.yaml:208:        plugin: \&quot;nav2_costmap_2d::StaticLayer\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:209:        map_subscribe_transient_local: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:212:        plugin: \&quot;nav2_costmap_2d::VoxelLayer\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:214:        publish_voxel_map: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:222:          topic: /cloud_registered\nvenom_bringup/config/nav2_params_scoutmini.yaml:233:        plugin: \&quot;nav2_costmap_2d::InflationLayer\&quot;\nvenom_bringup/config/nav2_params_scoutmini.yaml:237:      always_send_full_costmap: True\nvenom_bringup/config/nav2_params_scoutmini.yaml:252:    costmap_topic: local_costmap/costmap_raw\nvenom_bringup/config/nav2_params_scoutmini.yaml:253:    footprint_topic: local_costmap/published_footprint\nvenom_bringup/config/nav2_params_scoutmini.yaml:262:    global_frame: odom\nvenom_bringup/config/nav2_params_scoutmini.yaml:275:    node_names: [&#x27;controller_server&#x27;, &#x27;planner_server&#x27;, &#x27;behavior_server&#x27;, &#x27;bt_navigator&#x27;]\nvenom_robot_description/launch/sentry_description.launch.py:17:    for tf in config.get(&#x27;transforms&#x27;, []):\nvenom_robot_description/launch/sentry_description.launch.py:18:        parent = tf[&#x27;parent_frame&#x27;]\nvenom_robot_description/launch/sentry_description.launch.py:19:        child = tf[&#x27;child_frame&#x27;]\nvenom_robot_description/launch/sentry_description.launch.py:20:        tx, ty, tz = tf[&#x27;translation&#x27;]\nvenom_robot_description/launch/sentry_description.launch.py:21:        roll, pitch, yaw = tf[&#x27;rotation&#x27;]\nvenom_robot_description/launch/sentry_description.launch.py:25:                packa…78865 chars truncated…lts.innerHTML = results.map((entry, index) =&gt; {\ndocs/_layouts/default.html:425:            .map(entry =&gt; ({ entry, score: scoreSearchEntry(entry, terms) }))\ndocs/_layouts/default.html:429:            .map(item =&gt; item.entry);\nvenom_bringup/launch/infantry/infantry_auto_aim.launch.py:91:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,\ndocs/en/deployment/run_modes.md:16:- A mapping or relocalization flow\ndocs/en/deployment/run_modes.md:26:| Mapping | Validate localization and mapping outputs |\ndocs/en/deployment/run_modes.md:27:| Relocalization | Validate global localization against an existing map |\nvenom_bringup/launch/infantry/tracker_prediction_center_lock_test.launch.py:99:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,\nvenom_bringup/launch/infantry/tracker_center_lock_test.launch.py:93:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,\nvenom_bringup/launch/infantry/center_lock_test.launch.py:84:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:4:waypoint_follower action server via BasicNavigator.followWaypoints(),\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:110:    goals, and sends them to Nav2 via followWaypoints().  Polls feedback\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:161:    # Wait for bt_navigator to become active.\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:165:    # _waitForNodeToActivate(bt_navigator) is sufficient: bt_navigator\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:166:    # reaches ACTIVE only after costmaps and controller_server are ready.\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:168:    navigator.get_logger().info(&#x27;Waiting for bt_navigator to become active...&#x27;)\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:169:    navigator._waitForNodeToActivate(&#x27;bt_navigator&#x27;)\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:176:        f&#x27;Sending {total} waypoint(s) to Nav2 followWaypoints...&#x27;\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:178:    accepted = navigator.followWaypoints(goal_poses)\nvenom_bringup/venom_bringup/multi_waypoint_commander.py:181:            &#x27;[ERROR] followWaypoints goal was rejected by Nav2.&#x27;\nvenom_bringup/launch/examples/mid360_record_raw.launch.py:59:            \&quot;/tf\&quot;,\nvenom_bringup/launch/examples/mid360_record_raw.launch.py:60:            \&quot;/tf_static\&quot;,\nvenom_bringup/launch/examples/mid360_point_lio.launch.py:21:        venom_bringup_dir, \&quot;config\&quot;, \&quot;examples\&quot;, \&quot;point_lio_mapping.yaml\&quot;\nvenom_bringup/launch/examples/mid360_point_lio.launch.py:54:        executable=\&quot;pointlio_mapping\&quot;,\nvenom_bringup/launch/examples/mid360_point_lio.launch.py:58:        remappings=[(\&quot;/tf\&quot;, \&quot;tf\&quot;), (\&quot;/tf_static\&quot;, \&quot;tf_static\&quot;)],\nvenom_bringup/launch/infantry/tracker_prediction_ballistic_test.launch.py:114:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,\nvenom_bringup/venom_bringup/health_aware_commander.py:83:        self.base_position.header.frame_id = &#x27;map&#x27;\nvenom_bringup/venom_bringup/health_aware_commander.py:196:        self.get_logger().info(&#x27;Waiting for bt_navigator to become active...&#x27;)\nvenom_bringup/venom_bringup/health_aware_commander.py:197:        self.navigator._waitForNodeToActivate(&#x27;bt_navigator&#x27;)\nvenom_bringup/venom_bringup/health_aware_commander.py:280:                self.navigator.followWaypoints(goal_pose)\nvenom_bringup/venom_bringup/plugins/navigation_plugin.py:142:            pose.header.frame_id = wp.get(&#x27;frame_id&#x27;, &#x27;map&#x27;)\nvenom_bringup/venom_bringup/plugins/navigation_plugin.py:211:        accepted = self.navigator.followWaypoints(goal_pose)\nvenom_bringup/venom_bringup/mission_controller/behavior_plugins.py:148:            if self.navigator.followWaypoints(goal_poses):\ndocs/en/home/index.md:4:desc: A general-purpose robotics platform for multi-vehicle systems, navigation, manipulation, auto aim, and multi-module coordination.\ndocs/en/home/index.md:11:Venom VNV is a general-purpose robotics platform built on ROS 2 Humble.\ndocs/en/home/index.md:18:- UGV platforms\ndocs/en/home/index.md:19:- UAV platforms\ndocs/en/home/index.md:20:- USV platforms\ndocs/en/home/index.md:26:- Sensors, serial links, chassis platforms, and robot arm integration\ndocs/en/home/index.md:28:- LIO, odometry, and relocalization\ndocs/en/home/index.md:90:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/scout_ros2&lt;/code&gt;&lt;/td&gt;&lt;td&gt;ROS 2 wrapper for Scout / Scout Mini platforms&lt;/td&gt;&lt;/tr&gt;\ndocs/en/home/index.md:91:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/hunter_ros2&lt;/code&gt;&lt;/td&gt;&lt;td&gt;ROS 2 wrapper for Hunter platforms&lt;/td&gt;&lt;/tr&gt;\ndocs/en/home/index.md:92:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/ugv_sdk&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Low-level C++ SDK and CAN tools for AgileX / Weston Robot platforms&lt;/td&gt;&lt;/tr&gt;\ndocs/en/home/index.md:101:    &lt;tr&gt;&lt;td&gt;Localization&lt;/td&gt;&lt;td&gt;&lt;code&gt;localization/lio/Point-LIO&lt;/code&gt;&lt;/td&gt;&lt;td&gt;High-bandwidth LiDAR-inertial odometry, tuned for MID360 workflows&lt;/td&gt;&lt;/tr&gt;\ndocs/en/home/index.md:103:    &lt;tr&gt;&lt;td&gt;Localization&lt;/td&gt;&lt;td&gt;&lt;code&gt;localization/lio/rf2o_laser_odometry&lt;/code&gt;&lt;/td&gt;&lt;td&gt;2D laser odometry based on range flow&lt;/td&gt;&lt;/tr&gt;\n&quot;,
+  &quot;exit_code&quot;: 0,
+  &quot;duration&quot;: {
+    &quot;secs&quot;: 0,
+    &quot;nanos&quot;: 249601
+  },
+  &quot;formatted_output&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-22T13-13-06-432Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-22T13-13-06-432Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.432Z" data-timestamp="2026-04-22T13:13:06.432Z">2026-04-22T13:13:06.432Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: 6787f2
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 2084
+Output:
+# amcl:
+#   ros__parameters:
+#     use_sim_time: False
+#     alpha1: 0.2
+#     alpha2: 0.2
+#     alpha3: 0.2
+#     alpha4: 0.2
+#     alpha5: 0.2
+#     base_frame_id: &quot;base_footprint&quot;
+#     beam_skip_distance: 0.5
+#     beam_skip_error_threshold: 0.9
+#     beam_skip_threshold: 0.3
+#     do_beamskip: false
+#     global_frame_id: &quot;map&quot;
+#     lambda_short: 0.1
+#     laser_likelihood_max_dist: 2.0
+#     laser_max_range: 100.0
+#     laser_min_range: -1.0
+#     laser_model_type: &quot;likelihood_field&quot;
+#     max_beams: 60
+#     max_particles: 2000
+#     min_particles: 500
+#     odom_frame_id: &quot;odom&quot;
+#     pf_err: 0.05
+#     pf_z: 0.99
+#     recovery_alpha_fast: 0.0
+#     recovery_alpha_slow: 0.0
+#     resample_interval: 1
+#     robot_model_type: &quot;nav2_amcl::DifferentialMotionModel&quot;
+#     save_pose_rate: 0.5
+#     sigma_hit: 0.2
+#     tf_broadcast: true
+#     transform_tolerance: 1.0
+#     update_min_a: 0.2
+#     update_min_d: 0.25
+#     z_hit: 0.5
+#     z_max: 0.05
+#     z_rand: 0.5
+#     z_short: 0.05
+#     scan_topic: scan
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: False
+    global_frame: map
+    robot_base_frame: base_link
+    odom_topic: /odom
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    wait_for_service_timeout: 1000
+    # &#x27;default_nav_through_poses_bt_xml&#x27; and &#x27;default_nav_to_pose_bt_xml&#x27; are use defaults:
+    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
+    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
+    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
+    plugin_lib_names:
+      - nav2_compute_path_to_pose_action_bt_node
+      - nav2_compute_path_through_poses_action_bt_node
+      - nav2_smooth_path_action_bt_node
+      - nav2_follow_path_action_bt_node
+      - nav2_spin_action_bt_node
+      - nav2_wait_action_bt_node
+      - nav2_assisted_teleop_action_bt_node
+      - nav2_back_up_action_bt_node
+      - nav2_drive_on_heading_bt_node
+      - nav2_clear_costmap_service_bt_node
+      - nav2_is_stuck_condition_bt_node
+      - nav2_goal_reached_condition_bt_node
+      - nav2_goal_updated_condition_bt_node
+      - nav2_globally_updated_goal_condition_bt_node
+      - nav2_is_path_valid_condition_bt_node
+      - nav2_initial_pose_received_condition_bt_node
+      - nav2_reinitialize_global_localization_service_bt_node
+      - nav2_rate_controller_bt_node
+      - nav2_distance_controller_bt_node
+      - nav2_speed_controller_bt_node
+      - nav2_truncate_path_action_bt_node
+      - nav2_truncate_path_local_action_bt_node
+      - nav2_goal_updater_node_bt_node
+      - nav2_recovery_node_bt_node
+      - nav2_pipeline_sequence_bt_node
+      - nav2_round_robin_node_bt_node
+      - nav2_transform_available_condition_bt_node
+      - nav2_time_expired_condition_bt_node
+      - nav2_path_expiring_timer_condition
+      - nav2_distance_traveled_condition_bt_node
+      - nav2_single_trigger_bt_node
+      - nav2_goal_updated_controller_bt_node
+      - nav2_is_battery_low_condition_bt_node
+      - nav2_navigate_through_poses_action_bt_node
+      - nav2_navigate_to_pose_action_bt_node
+      - nav2_remove_passed_goals_action_bt_node
+      - nav2_planner_selector_bt_node
+      - nav2_controller_selector_bt_node
+      - nav2_goal_checker_selector_bt_node
+      - nav2_controller_cancel_bt_node
+      - nav2_path_longer_on_approach_bt_node
+      - nav2_wait_cancel_bt_node
+      - nav2_spin_cancel_bt_node
+      - nav2_back_up_cancel_bt_node
+      - nav2_assisted_teleop_cancel_bt_node
+      - nav2_drive_on_heading_cancel_bt_node
+      - nav2_is_battery_charging_condition_bt_node
+
+bt_navigator_navigate_through_poses_rclcpp_node:
+  ros__parameters:
+    use_sim_time: False
+
+bt_navigator_navigate_to_pose_rclcpp_node:
+  ros__parameters:
+    use_sim_time: False
+
+controller_server:
+  ros__parameters:
+    use_sim_time: False
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugin: &quot;progress_checker&quot;
+    goal_checker_plugins: [&quot;general_goal_checker&quot;] # &quot;precise_goal_checker&quot;
+    controller_plugins: [&quot;FollowPath&quot;]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: &quot;nav2_controller::SimpleProgressChecker&quot;
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+    general_goal_checker:
+      stateful: True
+      plugin: &quot;nav2_controller::SimpleGoalChecker&quot;
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    # DWB parameters
+    FollowPath:
+      plugin: &quot;dwb_core::DWBLocalPlanner&quot;
+      debug_trajectory_details: True
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 2.0
+      max_vel_y: 0.0
+      max_vel_theta: 2.0
+      min_speed_xy: 0.0
+      max_speed_xy: 2.0
+      min_speed_theta: 0.0
+      # Add high threshold velocity for turtlebot 3 issue.
+      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
+      acc_lim_x: 3.5
+      acc_lim_y: 0.0
+      acc_lim_theta: 6.2
+      decel_lim_x: -2.5
+      decel_lim_y: 0.0
+      decel_lim_theta: -6.2
+      vx_samples: 20
+      vy_samples: 5
+      vtheta_samples: 20
+      sim_time: 1.7
+      linear_granularity: 0.05
+      angular_granularity: 0.025
+      transform_tolerance: 0.2
+      xy_goal_tolerance: 0.25
+      trans_stopped_velocity: 0.25
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      critics: [&quot;RotateToGoal&quot;, &quot;Oscillation&quot;, &quot;BaseObstacle&quot;, &quot;GoalAlign&quot;, &quot;PathAlign&quot;, &quot;PathDist&quot;, &quot;GoalDist&quot;]
+      BaseObstacle.scale: 0.02
+      PathAlign.scale: 32.0
+      PathAlign.forward_point_distance: 0.1
+      GoalAlign.scale: 24.0
+      GoalAlign.forward_point_distance: 0.1
+      PathDist.scale: 32.0
+      GoalDist.scale: 24.0
+      RotateToGoal.scale: 32.0
+      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.lookahead_time: -1.0
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      update_frequency: 10.0
+      publish_frequency: 5.0
+      global_frame: odom
+      robot_base_frame: base_link
+      use_sim_time: False
+      rolling_window: true
+      width: 8
+      height: 8
+      resolution: 0.05
+      robot_radius: 0.35
+      plugins: [&quot;voxel_layer&quot;, &quot;inflation_layer&quot;]
+      inflation_layer:
+        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.55
+      voxel_layer:
+        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+        enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: &quot;LaserScan&quot;
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
+      static_layer:
+        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+        map_subscribe_transient_local: True
+      always_send_full_costmap: True
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map
+      robot_base_frame: base_link
+      use_sim_time: False
+      robot_radius: 0.35
+      resolution: 0.05
+      track_unknown_space: true
+      plugins: [&quot;static_layer&quot;, &quot;obstacle_layer&quot;, &quot;inflation_layer&quot;]
+      obstacle_layer:
+        plugin: &quot;nav2_costmap_2d::ObstacleLayer&quot;
+        enabled: True
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: &quot;LaserScan&quot;
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
+      static_layer:
+        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+        map_subscribe_transient_local: True
+      inflation_layer:
+        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.55
+      always_send_full_costmap: True
+
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-22T13-13-06-432Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-22T13-13-06-432Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.432Z" data-timestamp="2026-04-22T13:13:06.432Z">2026-04-22T13:13:06.432Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: cfe083
+Wall time: 0.0000 seconds
+Process exited with code 0
+Original token count: 2087
+Output:
+&quot;&quot;&quot;Scout Mini mapping bringup launch file.
+
+Full mapping stack for the Scout Mini platform:
+  1. Livox MID360 driver  -- publishes /livox/lidar and /livox/imu
+  2. Point-LIO            -- 3D LiDAR-inertial odometry; publishes /cloud_registered
+                             and odom-&gt;base_link TF; saves PCD to ~/Point-LIO/PCD/
+  3. pointcloud_to_laserscan -- converts /cloud_registered to /scan (2D)
+  4. slam_toolbox (async) -- builds a 2D occupancy map from /scan
+  5. nav2_bringup         -- navigation stack
+
+Run this file to build a map from scratch. When done, save the slam_toolbox
+map via: ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap
+&quot;&quot;&quot;
+
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.conditions import UnlessCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch_ros.actions import Node
+
+
+def generate_launch_description():
+    scout_base_dir = get_package_share_directory(&#x27;scout_base&#x27;)
+    venom_bringup_dir = get_package_share_directory(&#x27;venom_bringup&#x27;)
+    robot_description_dir = get_package_share_directory(&#x27;venom_robot_description&#x27;)
+    nav2_bringup_dir = get_package_share_directory(&#x27;nav2_bringup&#x27;)
+
+    headless = LaunchConfiguration(&#x27;headless&#x27;)
+    odom_source = LaunchConfiguration(&#x27;odom_source&#x27;)
+    nav2_params_file = LaunchConfiguration(&#x27;nav2_params_file&#x27;)
+
+    declare_headless = DeclareLaunchArgument(
+        &#x27;headless&#x27;,
+        default_value=&#x27;false&#x27;,
+        description=&#x27;Do not launch RViz if true&#x27;
+    )
+    declare_odom_source = DeclareLaunchArgument(
+        &#x27;odom_source&#x27;,
+        default_value=&#x27;ekf&#x27;,
+        description=(
+            &quot;Odometry source for scout_base only: &quot;
+            &quot;&#x27;wheel&#x27; = wheel encoder (odom-&gt;base_link); &quot;
+            &quot;&#x27;laser/ekf&#x27; = isolate wheel odom under scout_odom-&gt;scout_base_link &quot;
+            &quot;to avoid conflict with Point-LIO odom-&gt;base_link&quot;
+        )
+    )
+    declare_nav2_params = DeclareLaunchArgument(
+        &#x27;nav2_params_file&#x27;,
+        default_value=os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;nav2_params.yaml&#x27;),
+        description=&#x27;Path to nav2 parameters file&#x27;
+    )
+
+    # ---------------------------------------------------------------------------
+    # 1. Livox MID360 driver
+    # ---------------------------------------------------------------------------
+    livox_config_path = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;MID360_config.json&#x27;)
+
+    livox_driver_node = Node(
+        package=&#x27;livox_ros_driver2&#x27;,
+        executable=&#x27;livox_ros_driver2_node&#x27;,
+        name=&#x27;livox_lidar_publisher&#x27;,
+        output=&#x27;screen&#x27;,
+        parameters=[
+            {&#x27;xfer_format&#x27;: 1},
+            {&#x27;multi_topic&#x27;: 0},
+            {&#x27;data_src&#x27;: 0},
+            {&#x27;publish_freq&#x27;: 10.0},
+            {&#x27;output_data_type&#x27;: 0},
+            {&#x27;frame_id&#x27;: &#x27;base_link&#x27;},
+            {&#x27;lvx_file_path&#x27;: &#x27;/home/livox/livox_test.lvx&#x27;},
+            {&#x27;user_config_path&#x27;: livox_config_path},
+            {&#x27;cmdline_input_bd_code&#x27;: &#x27;47MDLAS0020103&#x27;},
+        ]
+    )
+
+    # In wheel mode:  odom_frame=odom,       odom_topic=odom,       base_frame=base_link
+    # In laser/ekf:   odom_frame=scout_odom, odom_topic=scout_odom, base_frame=scout_base_link
+    # Wheel odometry is isolated in laser/ekf modes so it doesn&#x27;t conflict with
+    # the authoritative odom-&gt;base_link from Point-LIO.
+    scout_base_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(scout_base_dir, &#x27;launch&#x27;, &#x27;scout_mini_base.launch.py&#x27;)
+        ),
+        launch_arguments={
+            &#x27;port_name&#x27;: &#x27;can0&#x27;,
+            &#x27;is_scout_mini&#x27;: &#x27;true&#x27;,
+            &#x27;is_omni_wheel&#x27;: &#x27;false&#x27;,
+            &#x27;odom_frame&#x27;: PythonExpression(
+                [&quot;&#x27;odom&#x27; if &#x27;&quot;, odom_source, &quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_odom&#x27;&quot;]
+            ),
+            &#x27;odom_topic_name&#x27;: PythonExpression(
+                [&quot;&#x27;odom&#x27; if &#x27;&quot;, odom_source, &quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_odom&#x27;&quot;]
+            ),
+            &#x27;base_frame&#x27;: PythonExpression(
+                [&quot;&#x27;base_link&#x27; if &#x27;&quot;, odom_source, &quot;&#x27; == &#x27;wheel&#x27; else &#x27;scout_base_link&#x27;&quot;]
+            ),
+        }.items()
+    )
+
+    # ---------------------------------------------------------------------------
+    # 2. Point-LIO (3D LiDAR-inertial odometry + PCD save)
+    # ---------------------------------------------------------------------------
+    point_lio_config = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;point_lio_mapping.yaml&#x27;)
+
+    point_lio_node = Node(
+        package=&#x27;point_lio&#x27;,
+        executable=&#x27;pointlio_mapping&#x27;,
+        name=&#x27;point_lio&#x27;,
+        output=&#x27;screen&#x27;,
+        parameters=[point_lio_config],
+        remappings=[(&#x27;/tf&#x27;, &#x27;tf&#x27;), (&#x27;/tf_static&#x27;, &#x27;tf_static&#x27;)],
+    )
+
+    # ---------------------------------------------------------------------------
+    # 3. pointcloud_to_laserscan -- /cloud_registered -&gt; /scan
+    # ---------------------------------------------------------------------------
+    pointcloud_to_laserscan_node = Node(
+        package=&#x27;pointcloud_to_laserscan&#x27;,
+        executable=&#x27;pointcloud_to_laserscan_node&#x27;,
+        name=&#x27;pointcloud_to_laserscan&#x27;,
+        parameters=[{
+            &#x27;target_frame&#x27;: &#x27;base_link&#x27;,
+            &#x27;transform_tolerance&#x27;: 0.2,
+            &#x27;min_height&#x27;: 0.05,
+            &#x27;max_height&#x27;: 0.7,
+            &#x27;angle_min&#x27;: -3.14159,
+            &#x27;angle_max&#x27;: 3.14159,
+            &#x27;angle_increment&#x27;: 0.001,
+            &#x27;scan_time&#x27;: 0.1,
+            &#x27;range_min&#x27;: 0.3,
+            &#x27;range_max&#x27;: 50.0,
+            &#x27;use_inf&#x27;: True,
+        }],
+        remappings=[
+            (&#x27;cloud_in&#x27;, &#x27;/cloud_registered&#x27;),
+            (&#x27;scan&#x27;, &#x27;/scan&#x27;),
+        ]
+    )
+
+    # ---------------------------------------------------------------------------
+    # 4. slam_toolbox (async mapping, map-&gt;odom TF disabled -- Point-LIO owns it)
+    # ---------------------------------------------------------------------------
+    slam_toolbox_config = os.path.join(venom_bringup_dir, &#x27;config&#x27;, &#x27;scout_mini&#x27;, &#x27;slam_toolbox_mapping.yaml&#x27;)
+
+    slam_toolbox_node = Node(
+        package=&#x27;slam_toolbox&#x27;,
+        executable=&#x27;async_slam_toolbox_node&#x27;,
+        name=&#x27;slam_toolbox&#x27;,
+        output=&#x27;screen&#x27;,
+        parameters=[
+            slam_toolbox_config,
+            {&#x27;use_sim_time&#x27;: False},
+        ]
+    )
+
+    # Delay slam_toolbox until Point-LIO has published the first odom-&gt;base_link TF.
+    delayed_slam_toolbox = TimerAction(
+        period=10.0,
+        actions=[slam_toolbox_node]
+    )
+
+    # ---------------------------------------------------------------------------
+    # 5. Robot description TF tree
+    # ---------------------------------------------------------------------------
+    robot_description_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(robot_description_dir, &#x27;launch&#x27;, &#x27;scout_mini_description.launch.py&#x27;)
+        )
+    )
+
+    # ---------------------------------------------------------------------------
+    # 6. Navigation stack
+    # ---------------------------------------------------------------------------
+    nav2_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(nav2_bringup_dir, &#x27;launch&#x27;, &#x27;navigation_launch.py&#x27;)
+        ),
+        launch_arguments={
+            &#x27;use_sim_time&#x27;: &#x27;false&#x27;,
+            &#x27;params_file&#x27;: nav2_params_file,
+        }.items()
+    )
+
+    # ---------------------------------------------------------------------------
+    # 7. RViz
+    # ---------------------------------------------------------------------------
+    rviz_node = Node(
+        package=&#x27;rviz2&#x27;,
+        executable=&#x27;rviz2&#x27;,
+        name=&#x27;rviz2&#x27;,
+        arguments=[&#x27;-d&#x27;, os.path.join(venom_bringup_dir, &#x27;rviz_cfg&#x27;, &#x27;mapping.rviz&#x27;)],
+        output=&#x27;screen&#x27;,
+        condition=UnlessCondition(headless)
+    )
+
+    return LaunchDescription([
+        declare_headless,
+        declare_odom_source,
+        declare_nav2_params,
+        livox_driver_node,
+        scout_base_launch,
+        point_lio_node,
+        pointcloud_to_laserscan_node,
+        delayed_slam_toolbox,
+        robot_description_launch,
+        nav2_launch,
+        rviz_node,
+    ])
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message tool-reply" id="msg-2026-04-22T13-13-06-433Z">
+  <div class="message-header">
+    <span class="role-label">Tool Result</span>
+    <a href="#msg-2026-04-22T13-13-06-433Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:06.433Z" data-timestamp="2026-04-22T13:13:06.433Z">2026-04-22T13:13:06.433Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="tool-result"><pre>Chunk ID: f70355
+Wall time: 0.0002 seconds
+Process exited with code 0
+Original token count: 23507
+Output:
+Total output lines: 891
+
+venom_robot_description/config/scout_mini.yaml:13:  - parent_frame: map
+venom_robot_description/config/scout_mini.yaml:14:    child_frame: odom
+docs/point_lio_handoff_2026-04-16.md:20:  - `upstream/point-lio-with-grid-map`
+docs/point_lio_handoff_2026-04-16.md:34:  - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`
+docs/point_lio_handoff_2026-04-16.md:42:- `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`
+docs/point_lio_handoff_2026-04-16.md:129:- `/tf`
+docs/point_lio_handoff_2026-04-16.md:130:- `/tf_static`
+docs/point_lio_handoff_2026-04-16.md:194:     - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml:9`
+docs/point_lio_handoff_2026-04-16.md:223:   - map incremental time
+docs/point_lio_handoff_2026-04-16.md:226:   - `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`
+docs/point_lio_handoff_2026-04-16.md:233:- `/Users/liyh/venom_vnv/venom_bringup/config/examples/point_lio_mapping.yaml`
+venom_robot_description/package.xml:12:  &lt;exec_depend&gt;tf2_ros&lt;/exec_depend&gt;
+docs/px4_bridge_handoff_2026-04-17.md:60:- `/px4_bridge/odom`
+venom_robot_description/launch/infantry_description.launch.py:15:            executable=&#x27;dynamic_tf_publisher&#x27;,
+venom_bringup/config/nav2_params_scoutmini.yaml:1:bt_navigator:
+venom_bringup/config/nav2_params_scoutmini.yaml:4:    global_frame: map
+venom_bringup/config/nav2_params_scoutmini.yaml:6:    odom_topic: /Odometry
+venom_bringup/config/nav2_params_scoutmini.yaml:13:      - nav2_follow_path_action_bt_node
+venom_bringup/config/nav2_params_scoutmini.yaml:17:      - nav2_clear_costmap_service_bt_node
+venom_bringup/config/nav2_params_scoutmini.yaml:35:controller_server:
+venom_bringup/config/nav2_params_scoutmini.yaml:96:      include_costmap_obstacles: True
+venom_bringup/config/nav2_params_scoutmini.yaml:97:      costmap_obstacles_behind_robot_dist: 1.5
+venom_bringup/config/nav2_params_scoutmini.yaml:103:      costmap_converter_plugin: &quot;&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:104:      costmap_converter_spin_thread: True
+venom_bringup/config/nav2_params_scoutmini.yaml:105:      costmap_converter_rate: 5
+venom_bringup/config/nav2_params_scoutmini.yaml:138:      roadmap_graph_no_samples: 15
+venom_bringup/config/nav2_params_scoutmini.yaml:139:      roadmap_graph_area_width: 5
+venom_bringup/config/nav2_params_scoutmini.yaml:140:      roadmap_graph_area_length_scale: 1.0
+venom_bringup/config/nav2_params_scoutmini.yaml:151:local_costmap:
+venom_bringup/config/nav2_params_scoutmini.yaml:152:  local_costmap:
+venom_bringup/config/nav2_params_scoutmini.yaml:156:      global_frame: odom
+venom_bringup/config/nav2_params_scoutmini.yaml:167:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:169:        publish_voxel_map: True
+venom_bringup/config/nav2_params_scoutmini.yaml:177:          topic: /cloud_registered
+venom_bringup/config/nav2_params_scoutmini.yaml:188:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:192:      always_send_full_costmap: True
+venom_bringup/config/nav2_params_scoutmini.yaml:194:global_costmap:
+venom_bringup/config/nav2_params_scoutmini.yaml:195:  global_costmap:
+venom_bringup/config/nav2_params_scoutmini.yaml:199:      global_frame: map
+venom_bringup/config/nav2_params_scoutmini.yaml:208:        plugin: &quot;nav2_costmap_2d::StaticLayer&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:209:        map_subscribe_transient_local: True
+venom_bringup/config/nav2_params_scoutmini.yaml:212:        plugin: &quot;nav2_costmap_2d::VoxelLayer&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:214:        publish_voxel_map: True
+venom_bringup/config/nav2_params_scoutmini.yaml:222:          topic: /cloud_registered
+venom_bringup/config/nav2_params_scoutmini.yaml:233:        plugin: &quot;nav2_costmap_2d::InflationLayer&quot;
+venom_bringup/config/nav2_params_scoutmini.yaml:237:      always_send_full_costmap: True
+venom_bringup/config/nav2_params_scoutmini.yaml:252:    costmap_topic: local_costmap/costmap_raw
+venom_bringup/config/nav2_params_scoutmini.yaml:253:    footprint_topic: local_costmap/published_footprint
+venom_bringup/config/nav2_params_scoutmini.yaml:262:    global_frame: odom
+venom_bringup/config/nav2_params_scoutmini.yaml:275:    node_names: [&#x27;controller_server&#x27;, &#x27;planner_server&#x27;, &#x27;behavior_server&#x27;, &#x27;bt_navigator&#x27;]
+venom_robot_description/launch/sentry_description.launch.py:17:    for tf in config.get(&#x27;transforms&#x27;, []):
+venom_robot_description/launch/sentry_description.launch.py:18:        parent = tf[&#x27;parent_frame&#x27;]
+venom_robot_description/launch/sentry_description.launch.py:19:        child = tf[&#x27;child_frame&#x27;]
+venom_robot_description/launch/sentry_description.launch.py:20:        tx, ty, tz = tf[&#x27;translation&#x27;]
+venom_robot_description/launch/sentry_description.launch.py:21:        roll, pitch, yaw = tf[&#x27;rotation&#x27;]
+venom_robot_description/launch/sentry_description.launch.py:25:                package=&#x27;tf2_ros&#x27;,
+venom_robot_description/launch/sentry_description.launch.py:27:                name=f&#x27;static_tf_{parent}_to_{child}&#x27;.replace(&#x27;/&#x27;, &#x27;_&#x27;),
+docs/modules/lio/index.md:15:- 发布 `/odom`
+docs/modules/lio/index.md:16:- 发布 `odom -&gt; base_link` 变换
+docs/modules/lio/index.md:26:- LIO 负责 `odom -&gt; base_link`
+docs/modules/lio/index.md:27:- 不负责 `map -&gt; odom`
+docs/modules/lio/index.md:29:- 主 TF 只能有一套有效来源，不能同时存在多套 `odom -&gt; base_link`
+docs/modules/lio/index.md:33:- 里程计输出统一为 `/odom`
+docs/modules/lio/index.md:34:- 配准后点云输出统一包含 `/cloud_registered` 和 `/cloud_registered_body`
+docs/modules/lio/index.md:35:- 地图点云输出统一为 `/map_cloud`
+docs/modules/lio/index.md:40:- `/odom` 的 `header.frame_id` 必须为 `odom`
+docs/modules/lio/index.md:41:- `/odom` 的 `child_frame_id` 必须为 `base_link`
+docs/modules/lio/index.md:42:- `/cloud_registered` 的 `frame_id` 必须为 `odom`
+docs/modules/lio/index.md:43:- `/cloud_registered_body` 的 `frame_id` 必须为 `base_link`
+docs/modules/lio/index.md:44:- `/map_cloud` 的 `frame_id` 必须为 `odom`
+docs/modules/lio/index.md:50:- `/map_cloud` 必须视为低频、稀疏、面向可视化的地图输出
+docs/modules/lio/index.md:51:- 导出的 PCD 必须来自内部配准地图，而不是直接从 `/map_cloud` 导出
+docs/modules/lio/index.md:60:- `mapping`
+docs/modules/lio/index.md:61:- `odometry`
+docs/modules/lio/index.md:68:- `publish.odom_topic = &quot;odom&quot;`
+docs/modules/lio/index.md:69:- `publish.cloud_registered_topic = &quot;cloud_registered&quot;`
+docs/modules/lio/index.md:70:- `publish.cloud_registered_body_topic = &quot;cloud_registered_body&quot;`
+docs/modules/lio/index.md:71:- `publish.map_topic = &quot;map_cloud&quot;`
+docs/modules/lio/index.md:73:- `frame.odom_frame_id = &quot;odom&quot;`
+docs/modules/lio/index.md:75:- `frame.cloud_registered_frame_id = &quot;odom&quot;`
+docs/modules/lio/index.md:76:- `frame.cloud_registered_body_frame_id = &quot;base_link&quot;`
+docs/modules/lio/index.md:77:- `frame.map_frame_id = &quot;odom&quot;`
+docs/modules/lio/index.md:88:- [TF 树]({{ &#x27;/tf_tree&#x27; | relative_url }})
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:11:from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:35:        super().__init__(&#x27;dynamic_tf_publisher&#x27;)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:42:        with open(config_file, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as file:
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:48:        self._tf_broadcaster = TransformBroadcaster(self)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:49:        self._static_tf_broadcaster = StaticTransformBroadcaster(self)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:64:            self._build_transform(tf_config, stamp=None)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:65:            for tf_config in self._config.get(&#x27;static_transforms&#x27;, [])
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:68:            self._static_tf_broadcaster.sendTransform(transforms)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:76:        for tf_config in self._dynamic_transforms:
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:77:            angle = self._read_angle(tf_config.get(&#x27;angle_source&#x27;, &#x27;&#x27;))
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:78:            sign = float(tf_config.get(&#x27;sign&#x27;, 1.0))
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:79:            axis = str(tf_config.get(&#x27;axis&#x27;, &#x27;z&#x27;))
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:80:            rotation = list(tf_config.get(&#x27;rotation&#x27;, [0.0, 0.0, 0.0]))
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:88:            transforms.append(self._build_transform({**tf_config, &#x27;rotation&#x27;: rotation}, stamp=stamp))
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:91:            self._tf_broadcaster.sendTransform(transforms)
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:101:    def _build_transform(self, tf_config: dict[str, Any], stamp) -&gt; TransformStamped:
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:104:        transform.header.frame_id = tf_config[&#x27;parent_frame&#x27;]
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:105:        transform.child_frame_id = tf_config[&#x27;child_frame&#x27;]
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:107:        tx, ty, tz = tf_config.get(&#x27;translation&#x27;, [0.0, 0.0, 0.0])
+venom_robot_description/venom_robot_description/dynamic_tf_publisher.py:108:        roll, pitch, yaw = tf_config.get(&#x27;rotation&#x27;, [0.0, 0.0, 0.0])
+docs/modules/drivers/chassis_driver.md:27:        ↓ /cmd_vel
+docs…18507 tokens truncated…                               and odom-&gt;base_link TF
+venom_bringup/launch/scout_mini/relocalization.launch.py:7:  3. pointcloud_to_laserscan      -- converts /cloud_registered to /scan (2D)
+venom_bringup/launch/scout_mini/relocalization.launch.py:8:  4. small_gicp prior map publisher -- publishes the saved PCD as /prior_map
+venom_bringup/launch/scout_mini/relocalization.launch.py:9:  5. small_gicp relocalization    -- estimates map-&gt;odom transform from prior PCD
+venom_bringup/launch/scout_mini/relocalization.launch.py:10:  6. slam_toolbox (localization)  -- loads a serialized 2D map for costmap use
+venom_bringup/launch/scout_mini/relocalization.launch.py:15:  pcd_file    -- path to the 3D prior map PCD (from Point-LIO PCD save)
+venom_bringup/launch/scout_mini/relocalization.launch.py:16:  map_2d_file -- path to the slam_toolbox serialized map (without extension)
+venom_bringup/launch/scout_mini/relocalization.launch.py:37:    map_2d_file = LaunchConfiguration(&#x27;map_2d_file&#x27;)
+venom_bringup/launch/scout_mini/relocalization.launch.py:49:            &#x27;venom_ws/src/venom_vnv/lio/Point-LIO/PCD/scans.pcd&#x27;
+venom_bringup/launch/scout_mini/relocalization.launch.py:51:        description=&#x27;Path to prior 3D map PCD file (produced by Point-LIO during mapping)&#x27;
+venom_bringup/launch/scout_mini/relocalization.launch.py:53:    declare_map_2d_file = DeclareLaunchArgument(
+venom_bringup/launch/scout_mini/relocalization.launch.py:54:        &#x27;map_2d_file&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:57:            &#x27;venom_ws/src/venom_vnv/lio/Point-LIO/PCD/map_2d&#x27;
+venom_bringup/launch/scout_mini/relocalization.launch.py:59:        description=&#x27;Path to slam_toolbox serialized map (without file extension)&#x27;
+venom_bringup/launch/scout_mini/relocalization.launch.py:91:    # 2. Point-LIO (3D LiDAR-inertial odometry, PCD save disabled in localization)
+venom_bringup/launch/scout_mini/relocalization.launch.py:97:        executable=&#x27;pointlio_mapping&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:102:            {&#x27;pcd_save.pcd_save_en&#x27;: False},  # Do not overwrite the prior map
+venom_bringup/launch/scout_mini/relocalization.launch.py:104:        remappings=[(&#x27;/tf&#x27;, &#x27;tf&#x27;), (&#x27;/tf_static&#x27;, &#x27;tf_static&#x27;)],
+venom_bringup/launch/scout_mini/relocalization.launch.py:108:    # 3. pointcloud_to_laserscan -- /cloud_registered -&gt; /scan
+venom_bringup/launch/scout_mini/relocalization.launch.py:110:    pointcloud_to_laserscan_node = Node(
+venom_bringup/launch/scout_mini/relocalization.launch.py:111:        package=&#x27;pointcloud_to_laserscan&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:112:        executable=&#x27;pointcloud_to_laserscan_node&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:113:        name=&#x27;pointcloud_to_laserscan&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:122:            &#x27;scan_time&#x27;: 0.1,
+venom_bringup/launch/scout_mini/relocalization.launch.py:127:        remappings=[
+venom_bringup/launch/scout_mini/relocalization.launch.py:128:            (&#x27;cloud_in&#x27;, &#x27;/cloud_registered&#x27;),
+venom_bringup/launch/scout_mini/relocalization.launch.py:129:            (&#x27;scan&#x27;, &#x27;/scan&#x27;),
+venom_bringup/launch/scout_mini/relocalization.launch.py:134:    # 4. Prior map publisher (PCD -&gt; /prior_map topic)
+venom_bringup/launch/scout_mini/relocalization.launch.py:136:    prior_map_launch = IncludeLaunchDescription(
+venom_bringup/launch/scout_mini/relocalization.launch.py:138:            os.path.join(small_gicp_dir, &#x27;launch&#x27;, &#x27;prior_map_publisher.launch.py&#x27;)
+venom_bringup/launch/scout_mini/relocalization.launch.py:144:    # 5. small_gicp relocalization (map-&gt;odom TF)
+venom_bringup/launch/scout_mini/relocalization.launch.py:154:    # 6. slam_toolbox (localization mode -- loads serialized 2D map)
+venom_bringup/launch/scout_mini/relocalization.launch.py:163:            &#x27;odom_frame&#x27;: &#x27;odom&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:164:            &#x27;map_frame&#x27;: &#x27;map&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:166:            &#x27;scan_topic&#x27;: &#x27;/scan&#x27;,
+venom_bringup/launch/scout_mini/relocalization.launch.py:168:            &#x27;map_file_name&#x27;: map_2d_file,
+venom_bringup/launch/scout_mini/relocalization.launch.py:169:            &#x27;transform_publish_period&#x27;: 0.0,  # small_gicp owns map-&gt;odom
+venom_bringup/launch/scout_mini/relocalization.launch.py:173:    # Delay until small_gicp has established the map-&gt;odom transform.
+venom_bringup/launch/scout_mini/relocalization.launch.py:216:        declare_map_2d_file,
+venom_bringup/launch/scout_mini/relocalization.launch.py:220:        pointcloud_to_laserscan_node,
+venom_bringup/launch/scout_mini/relocalization.launch.py:221:        prior_map_launch,
+venom_bringup/launch/health_aware_navigation.launch.py:71:        remappings=[
+venom_bringup/launch/health_aware_navigation.launch.py:73:            (&#x27;/cmd_vel&#x27;, &#x27;/cmd_vel&#x27;),
+venom_bringup/launch/health_aware_navigation.launch.py:74:            (&#x27;/odom&#x27;, &#x27;/odom&#x27;)
+docs/_layouts/default.html:394:        searchResults.innerHTML = results.map((entry, index) =&gt; {
+docs/_layouts/default.html:425:            .map(entry =&gt; ({ entry, score: scoreSearchEntry(entry, terms) }))
+docs/_layouts/default.html:429:            .map(item =&gt; item.entry);
+venom_bringup/launch/infantry/infantry_auto_aim.launch.py:91:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,
+docs/en/deployment/run_modes.md:16:- A mapping or relocalization flow
+docs/en/deployment/run_modes.md:26:| Mapping | Validate localization and mapping outputs |
+docs/en/deployment/run_modes.md:27:| Relocalization | Validate global localization against an existing map |
+venom_bringup/launch/infantry/tracker_prediction_center_lock_test.launch.py:99:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,
+venom_bringup/launch/infantry/tracker_center_lock_test.launch.py:93:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,
+venom_bringup/launch/infantry/center_lock_test.launch.py:84:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,
+venom_bringup/venom_bringup/multi_waypoint_commander.py:4:waypoint_follower action server via BasicNavigator.followWaypoints(),
+venom_bringup/venom_bringup/multi_waypoint_commander.py:110:    goals, and sends them to Nav2 via followWaypoints().  Polls feedback
+venom_bringup/venom_bringup/multi_waypoint_commander.py:161:    # Wait for bt_navigator to become active.
+venom_bringup/venom_bringup/multi_waypoint_commander.py:165:    # _waitForNodeToActivate(bt_navigator) is sufficient: bt_navigator
+venom_bringup/venom_bringup/multi_waypoint_commander.py:166:    # reaches ACTIVE only after costmaps and controller_server are ready.
+venom_bringup/venom_bringup/multi_waypoint_commander.py:168:    navigator.get_logger().info(&#x27;Waiting for bt_navigator to become active...&#x27;)
+venom_bringup/venom_bringup/multi_waypoint_commander.py:169:    navigator._waitForNodeToActivate(&#x27;bt_navigator&#x27;)
+venom_bringup/venom_bringup/multi_waypoint_commander.py:176:        f&#x27;Sending {total} waypoint(s) to Nav2 followWaypoints...&#x27;
+venom_bringup/venom_bringup/multi_waypoint_commander.py:178:    accepted = navigator.followWaypoints(goal_poses)
+venom_bringup/venom_bringup/multi_waypoint_commander.py:181:            &#x27;[ERROR] followWaypoints goal was rejected by Nav2.&#x27;
+venom_bringup/launch/examples/mid360_record_raw.launch.py:59:            &quot;/tf&quot;,
+venom_bringup/launch/examples/mid360_record_raw.launch.py:60:            &quot;/tf_static&quot;,
+venom_bringup/launch/examples/mid360_point_lio.launch.py:21:        venom_bringup_dir, &quot;config&quot;, &quot;examples&quot;, &quot;point_lio_mapping.yaml&quot;
+venom_bringup/launch/examples/mid360_point_lio.launch.py:54:        executable=&quot;pointlio_mapping&quot;,
+venom_bringup/launch/examples/mid360_point_lio.launch.py:58:        remappings=[(&quot;/tf&quot;, &quot;tf&quot;), (&quot;/tf_static&quot;, &quot;tf_static&quot;)],
+venom_bringup/launch/infantry/tracker_prediction_ballistic_test.launch.py:114:            &#x27;map_frame&#x27;: &#x27;base_link&#x27;,
+venom_bringup/venom_bringup/health_aware_commander.py:83:        self.base_position.header.frame_id = &#x27;map&#x27;
+venom_bringup/venom_bringup/health_aware_commander.py:196:        self.get_logger().info(&#x27;Waiting for bt_navigator to become active...&#x27;)
+venom_bringup/venom_bringup/health_aware_commander.py:197:        self.navigator._waitForNodeToActivate(&#x27;bt_navigator&#x27;)
+venom_bringup/venom_bringup/health_aware_commander.py:280:                self.navigator.followWaypoints(goal_pose)
+venom_bringup/venom_bringup/plugins/navigation_plugin.py:142:            pose.header.frame_id = wp.get(&#x27;frame_id&#x27;, &#x27;map&#x27;)
+venom_bringup/venom_bringup/plugins/navigation_plugin.py:211:        accepted = self.navigator.followWaypoints(goal_pose)
+venom_bringup/venom_bringup/mission_controller/behavior_plugins.py:148:            if self.navigator.followWaypoints(goal_poses):
+docs/en/home/index.md:4:desc: A general-purpose robotics platform for multi-vehicle systems, navigation, manipulation, auto aim, and multi-module coordination.
+docs/en/home/index.md:11:Venom VNV is a general-purpose robotics platform built on ROS 2 Humble.
+docs/en/home/index.md:18:- UGV platforms
+docs/en/home/index.md:19:- UAV platforms
+docs/en/home/index.md:20:- USV platforms
+docs/en/home/index.md:26:- Sensors, serial links, chassis platforms, and robot arm integration
+docs/en/home/index.md:28:- LIO, odometry, and relocalization
+docs/en/home/index.md:90:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/scout_ros2&lt;/code&gt;&lt;/td&gt;&lt;td&gt;ROS 2 wrapper for Scout / Scout Mini platforms&lt;/td&gt;&lt;/tr&gt;
+docs/en/home/index.md:91:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/hunter_ros2&lt;/code&gt;&lt;/td&gt;&lt;td&gt;ROS 2 wrapper for Hunter platforms&lt;/td&gt;&lt;/tr&gt;
+docs/en/home/index.md:92:    &lt;tr&gt;&lt;td&gt;Drivers&lt;/td&gt;&lt;td&gt;&lt;code&gt;driver/ugv_sdk&lt;/code&gt;&lt;/td&gt;&lt;td&gt;Low-level C++ SDK and CAN tools for AgileX / Weston Robot platforms&lt;/td&gt;&lt;/tr&gt;
+docs/en/home/index.md:101:    &lt;tr&gt;&lt;td&gt;Localization&lt;/td&gt;&lt;td&gt;&lt;code&gt;localization/lio/Point-LIO&lt;/code&gt;&lt;/td&gt;&lt;td&gt;High-bandwidth LiDAR-inertial odometry, tuned for MID360 workflows&lt;/td&gt;&lt;/tr&gt;
+docs/en/home/index.md:103:    &lt;tr&gt;&lt;td&gt;Localization&lt;/td&gt;&lt;td&gt;&lt;code&gt;localization/lio/rf2o_laser_odometry&lt;/code&gt;&lt;/td&gt;&lt;td&gt;2D laser odometry based on range flow&lt;/td&gt;&lt;/tr&gt;
+</pre></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message thinking" id="msg-2026-04-22T13-13-10-817Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-22T13-13-10-817Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:10.817Z" data-timestamp="2026-04-22T13:13:10.817Z">2026-04-22T13:13:10.817Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-22T13-13-25-086Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-13-25-086Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:13:25.086Z" data-timestamp="2026-04-22T13:13:25.086Z">2026-04-22T13:13:25.086Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>先纠正一个术语：这个项目当前接的不是 <code>DWA</code>，而是 Nav2 里的 <code>DWB</code>，配置在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a>。</p>
+<p>就“接口”而言，<code>DWB</code> 和你准备接入的 <code>TEB</code> 在 Nav2 里处在同一层，都是 <code>controller_server</code> 的 <code>FollowPath</code> 插件，所以外部接口基本不变，变的是插件名和内部参数。</p>
+<p>当前 <code>scout_mini</code> 这条导航链的关键接口是：</p>
+<ul>
+<li>目标输入：<code>BasicNavigator.followWaypoints()</code> 调 Nav2 action，代码在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/venom_bringup/multi_waypoint_commander.py">multi_waypoint_commander.py</a></li>
+<li>控制器插件入口：<code>controller_server -&gt; FollowPath</code>，当前是 <code>dwb_core::DWBLocalPlanner</code>，配置在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a></li>
+<li>里程计输入：<code>/odom</code>，见同文件里 <code>bt_navigator.odom_topic: /odom</code></li>
+<li>局部代价地图障碍物输入：<code>/scan</code>，见同文件 <code>local_costmap</code> 和 <code>global_costmap</code></li>
+<li>TF 关系：至少要有 <code>map -&gt; odom -&gt; base_link</code></li>
+<li>控制输出：Nav2 最终对外仍是 <code>/cmd_vel</code></li>
+<li>全局/局部规划运行入口：<code>nav2_bringup/navigation_launch.py</code> 由 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py">scout_mini_mapping.launch.py</a> 包进来</li>
+</ul>
+<p>当前项目里 <code>/scan</code> 是这样来的：</p>
+<ul>
+<li>Point-LIO 发布 <code>/cloud_registered</code></li>
+<li><code>pointcloud_to_laserscan</code> 把 <code>/cloud_registered</code> 转成 <code>/scan</code></li>
+<li>这条链路在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py">scout_mini_mapping.launch.py</a></li>
+</ul>
+<p>所以你接 TEB 时，通常不需要改“外部话题接口”，而是把控制器插件从：</p>
+<ul>
+<li><code>dwb_core::DWBLocalPlanner</code></li>
+</ul>
+<p>换成：</p>
+<ul>
+<li><code>teb_local_planner::TebLocalPlannerROS</code></li>
+</ul>
+<p>然后继续复用同样的外部输入：</p>
+<ul>
+<li><code>/odom</code></li>
+<li><code>/scan</code> 或 costmap 障碍物</li>
+<li><code>map / odom / base_link</code> TF</li>
+<li>Nav2 的 path/action 流程</li>
+</ul>
+<p>也就是说，接口层面你可以先按下面这个结论记：</p>
+<ul>
+<li><code>DWB</code> 当前吃的是 Nav2 标准接口</li>
+<li><code>TEB</code> 也应接在同一个 <code>controller_server</code> 标准接口上</li>
+<li>对主仓库来说，重点不是换 topic 名，而是确认 TEB 插件能否加载，以及它需要的参数和 footprint 是否匹配当前机器人</li>
+</ul>
+<p>如果你要，我下一步可以继续只读帮你把“当前 DWB 接口”整理成一张更明确的表：
+<code>输入 topic / TF / action -&gt; controller_server -&gt; 输出 /cmd_vel</code>，然后对照列出 TEB 接入时哪些保持不变，哪些参数必须重配。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-28">
+  <div class="turn-head">
+    <div class="turn-title">Turn 28 · 好的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-17-03-593Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-17-03-593Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:17:03.593Z" data-timestamp="2026-04-22T13:17:03.593Z">2026-04-22T13:17:03.593Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>好的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T13-17-25-400Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-17-25-400Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:17:25.400Z" data-timestamp="2026-04-22T13:17:25.400Z">2026-04-22T13:17:25.400Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>当前 <code>scout_mini</code> 的控制器链可以整理成这张表。</p>
+<p><strong>现有 DWB 接口</strong></p>
+<ul>
+<li>
+<p>目标输入：Nav2 action
+  代码入口在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/venom_bringup/multi_waypoint_commander.py">multi_waypoint_commander.py</a>
+  这里通过 <code>BasicNavigator.followWaypoints()</code> 把目标送给 <code>bt_navigator</code></p>
+</li>
+<li>
+<p>行为树导航入口：<code>bt_navigator</code>
+  配置在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a>
+  关键依赖：</p>
+</li>
+<li><code>global_frame: map</code></li>
+<li><code>robot_base_frame: base_link</code></li>
+<li>
+<p><code>odom_topic: /odom</code></p>
+</li>
+<li>
+<p>控制器层：<code>controller_server</code>
+  同样在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a>
+  当前插件是：</p>
+</li>
+<li><code>controller_plugins: ["FollowPath"]</code></li>
+<li>
+<p><code>FollowPath.plugin: "dwb_core::DWBLocalPlanner"</code></p>
+</li>
+<li>
+<p>里程计输入：<code>/odom</code>
+  由定位链提供，文档约束也要求统一输出 <code>/odom</code></p>
+</li>
+<li>
+<p>障碍物输入：<code>/scan</code>
+  由 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/launch/scout_mini/scout_mini_mapping.launch.py">scout_mini_mapping.launch.py</a> 中的 <code>pointcloud_to_laserscan</code> 从 <code>/cloud_registered</code> 转换而来</p>
+</li>
+<li>
+<p>局部代价地图依赖：</p>
+</li>
+<li><code>global_frame: odom</code></li>
+<li><code>robot_base_frame: base_link</code></li>
+<li><code>observation_sources: scan</code></li>
+<li>
+<p><code>scan.topic: /scan</code></p>
+</li>
+<li>
+<p>全局代价地图依赖：</p>
+</li>
+<li><code>global_frame: map</code></li>
+<li><code>robot_base_frame: base_link</code></li>
+<li>
+<p><code>scan.topic: /scan</code></p>
+</li>
+<li>
+<p>TF 依赖：</p>
+</li>
+<li><code>map -&gt; odom</code></li>
+<li>
+<p><code>odom -&gt; base_link</code></p>
+</li>
+<li>
+<p>控制输出：</p>
+</li>
+<li><code>/cmd_vel</code>
+  文档里底盘驱动链也是按这个接口组织的</li>
+</ul>
+<p><strong>TEB 接入后，哪些不变</strong></p>
+<p>这些通常都不变：</p>
+<ul>
+<li>上层 action 接口不变</li>
+<li><code>bt_navigator</code> 不变</li>
+<li><code>/odom</code> 不变</li>
+<li><code>/scan</code> 或 costmap 输入不变</li>
+<li><code>map -&gt; odom -&gt; base_link</code> TF 不变</li>
+<li>最终输出 <code>/cmd_vel</code> 不变</li>
+</ul>
+<p>也就是说，外部看来仍然是：
+目标 -&gt; Nav2 -&gt; controller_server -&gt; <code>/cmd_vel</code></p>
+<p><strong>TEB 接入后，主要变化点</strong></p>
+<p>真正变化的是 <code>controller_server</code> 里 <code>FollowPath</code> 的实现和参数：</p>
+<ul>
+<li>从 <code>dwb_core::DWBLocalPlanner</code></li>
+<li>换成 <code>teb_local_planner::TebLocalPlannerROS</code></li>
+</ul>
+<p>然后把 DWB 参数块换成 TEB 参数块，比如：</p>
+<ul>
+<li>速度/加速度约束</li>
+<li>footprint</li>
+<li>obstacle distance</li>
+<li>turning radius</li>
+<li>optimization weights</li>
+<li>homotopy class 相关参数</li>
+</ul>
+<p><strong>你现在可以把这件事理解成</strong></p>
+<p>不是“换一套话题接口”，而是：</p>
+<ul>
+<li>复用 Nav2 标准输入输出接口</li>
+<li>把局部控制器插件从 DWB 切到 TEB</li>
+<li>再重新调控制器参数</li>
+</ul>
+<p>如果你要继续推进，我下一步可以只读帮你列一份：
+“当前项目里接 TEB 最小需要确认的接口检查清单”，也就是你测试前必须确认的那几条 topic、TF 和插件加载点。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-29">
+  <div class="turn-head">
+    <div class="turn-title">Turn 29 · 所以说现在的DWB是以插件的形式接入的是吧</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-20-39-423Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-20-39-423Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:20:39.423Z" data-timestamp="2026-04-22T13:20:39.423Z">2026-04-22T13:20:39.423Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以说现在的DWB是以插件的形式接入的是吧</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T13-20-50-724Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-20-50-724Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:20:50.724Z" data-timestamp="2026-04-22T13:20:50.724Z">2026-04-22T13:20:50.724Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>对。</p>
+<p>当前项目里的 <code>DWB</code> 是作为 Nav2 <code>controller_server</code> 的一个控制器插件接入的，不是单独起一个独立节点自己接话题。</p>
+<p>你现在这个配置里，关键就是这两行，在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/config/scout_mini/nav2_params.yaml">nav2_params.yaml</a>：</p>
+<ul>
+<li><code>controller_plugins: ["FollowPath"]</code></li>
+<li><code>FollowPath.plugin: "dwb_core::DWBLocalPlanner"</code></li>
+</ul>
+<p>意思是：</p>
+<ul>
+<li><code>controller_server</code> 会加载一个名叫 <code>FollowPath</code> 的控制器插件</li>
+<li>这个插件的具体实现是 <code>dwb_core::DWBLocalPlanner</code></li>
+</ul>
+<p>所以更准确地说：</p>
+<ul>
+<li>Nav2 提供 <code>controller_server</code></li>
+<li><code>DWB</code> 是被 <code>controller_server</code> 动态加载进去的插件实现</li>
+</ul>
+<p>你后面接 <code>TEB</code>，思路也是一样：</p>
+<ul>
+<li>不是新造一套导航接口</li>
+<li>而是把 <code>FollowPath.plugin</code> 从 <code>dwb_core::DWBLocalPlanner</code></li>
+<li>改成 <code>teb_local_planner::TebLocalPlannerROS</code></li>
+</ul>
+<p>也就是说，接入方式仍然是“插件式接入 Nav2 controller_server”。</p>
+<p>如果你愿意，我下一步可以继续只读给你讲清楚：
+<code>controller_server</code>、<code>planner_server</code>、<code>bt_navigator</code> 三者之间的关系，这样你会更清楚 TEB 在 Nav2 里到底插在什么位置。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-30">
+  <div class="turn-head">
+    <div class="turn-title">Turn 30 · 好的</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-22T13-21-09-618Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-22T13-21-09-618Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:21:09.618Z" data-timestamp="2026-04-22T13:21:09.618Z">2026-04-22T13:21:09.618Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>好的</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-22T13-21-22-765Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-22T13-21-22-765Z" class="timestamp-link">
+      <time datetime="2026-04-22T13:21:22.765Z" data-timestamp="2026-04-22T13:21:22.765Z">2026-04-22T13:21:22.765Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>在这个项目里，你可以把 Nav2 简化成三层看。</p>
+<p><strong>1. <code>bt_navigator</code>：任务调度层</strong></p>
+<p>它负责接收“去哪里”的导航请求，比如：</p>
+<ul>
+<li><code>NavigateToPose</code></li>
+<li><code>NavigateThroughPoses</code></li>
+<li><code>followWaypoints</code></li>
+</ul>
+<p>然后按行为树流程去调下面的规划器、控制器、恢复行为。</p>
+<p>你在 <a href="/home/william/venom_ws/src/venom_vnv/venom_bringup/venom_bringup/multi_waypoint_commander.py">multi_waypoint_commander.py</a> 里调用 <code>BasicNavigator.followWaypoints()</code>，最终就是在跟 <code>bt_navigator</code> 打交道。</p>
+<p><strong>2. <code>planner_server</code>：全局规划层</strong></p>
+<p>它负责从当前位置到目标位置生成一条全局路径。</p>
+<p>你可以理解成：
+“从 A 点到 B 点，大致走哪条路。”</p>
+<p>输出通常是一条 <code>Path</code>。</p>
+<p><strong>3. <code>controller_server</code>：局部控制层</strong></p>
+<p>它负责拿着全局路径、当前里程计、局部代价地图，算出机器人下一刻该怎么动，最后输出 <code>/cmd_vel</code>。</p>
+<p>你可以理解成：
+“眼前这几米具体怎么走，怎么转，怎么避障。”</p>
+<p>这里才是 <code>DWB</code> 或 <code>TEB</code> 所在的位置。</p>
+<p>所以当前关系是：</p>
+<ol>
+<li><code>bt_navigator</code> 收到导航目标</li>
+<li><code>planner_server</code> 先算全局路径</li>
+<li><code>controller_server</code> 再沿着全局路径做局部跟踪和避障</li>
+<li>最后输出 <code>/cmd_vel</code> 给底盘</li>
+</ol>
+<p>在你的项目当前配置里：</p>
+<ul>
+<li><code>planner_server</code> 还是 Nav2 常规全局规划器</li>
+<li><code>controller_server</code> 里加载的是 <code>DWB</code></li>
+<li>你要做的事情就是把这一层的插件从 <code>DWB</code> 换成 <code>TEB</code></li>
+</ul>
+<p>所以 TEB 不会替代：</p>
+<ul>
+<li><code>bt_navigator</code></li>
+<li><code>planner_server</code></li>
+<li>上层 action 接口</li>
+</ul>
+<p>它只替代：</p>
+<ul>
+<li><code>controller_server</code> 里的局部控制器插件</li>
+</ul>
+<p>也就是从：</p>
+<ul>
+<li><code>dwb_core::DWBLocalPlanner</code></li>
+</ul>
+<p>换成：</p>
+<ul>
+<li><code>teb_local_planner::TebLocalPlannerROS</code></li>
+</ul>
+<p>你可以把它记成一句话：</p>
+<p><code>TEB</code> 是插在 Nav2 “局部控制层”的插件，不是整套导航系统的替代品。</p>
+<p>如果你要继续，我下一步可以直接给你画一版“结合本项目实际 topic/TF 的 Nav2 数据流”，这样你后面测试 TEB 时就知道该盯哪些接口。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-005.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <a href="page-002.html">2</a>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <span class="current">6</span>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+  
+  <a href="page-007.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollout-2026-04-21T16-42-33-019daf34-98bb-7220-96c7-b766421c38ce · Page 2</title>
+  <style>
+:root {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --user-bg: #e3f2fd;
+  --user-border: #1976d2;
+  --assistant-bg: #f5f5f5;
+  --assistant-border: #9e9e9e;
+  --thinking-bg: #fff8e1;
+  --thinking-border: #ffc107;
+  --thinking-text: #666;
+  --tool-bg: #f3e5f5;
+  --tool-border: #9c27b0;
+  --tool-result-bg: #e8f5e9;
+  --tool-error-bg: #ffebee;
+  --commentary-bg: #e8f1ff;
+  --commentary-border: #5c6bc0;
+  --system-bg: #eceff1;
+  --system-border: #78909c;
+  --text-color: #212121;
+  --text-muted: #757575;
+  --code-bg: #263238;
+  --code-text: #aed581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+.hero {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+.hero h1, h1 {
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.hero p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-row h1 {
+  margin-bottom: 8px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.meta-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.meta-label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.summary {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.turn-shell,
+.index-item,
+.message {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.turn-shell {
+  background: var(--card-bg);
+}
+.turn-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0,0,0,0.03);
+}
+.turn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.turn-status {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.turn-body {
+  padding: 14px;
+}
+.process-group {
+  margin-bottom: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.process-group summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+.process-group summary::-webkit-details-marker {
+  display: none;
+}
+.process-group summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+.process-group[open] summary::before {
+  transform: rotate(90deg);
+}
+.process-group-body {
+  padding: 0 14px 14px;
+}
+.process-group-body .message:last-child {
+  margin-bottom: 0;
+}
+.floating-process-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.floating-process-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.floating-process-btn-right {
+  right: 20px;
+}
+.floating-process-btn:hover {
+  color: var(--text-color);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1120px) {
+  .floating-process-btn-right {
+    right: 12px;
+  }
+}
+.message.user { background: var(--user-bg); border-left: 4px solid var(--user-border); }
+.message.assistant { background: var(--card-bg); border-left: 4px solid var(--assistant-border); }
+.message.commentary { background: var(--commentary-bg); border-left: 4px solid var(--commentary-border); }
+.message.system { background: var(--system-bg); border-left: 4px solid var(--system-border); }
+.message.thinking { background: var(--thinking-bg); border-left: 4px solid var(--thinking-border); }
+.message.tool { background: var(--tool-bg); border-left: 4px solid var(--tool-border); }
+.message.tool-reply { background: #fff8e1; border-left: 4px solid #ff9800; }
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.06);
+}
+.role-label {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+.message-content {
+  padding: 14px;
+}
+.message-content p:first-child { margin-top: 0; }
+.message-content p:last-child { margin-bottom: 0; }
+.tool-use, .tool-result, .thinking, .meta-block, .user-content, .assistant-text {
+  border-radius: 14px;
+}
+.tool-use {
+  background: var(--tool-bg);
+  border: 1px solid var(--tool-border);
+  padding: 12px;
+}
+.tool-result {
+  background: var(--tool-result-bg);
+  padding: 12px;
+}
+.thinking {
+  background: var(--thinking-bg);
+  border: 1px solid var(--thinking-border);
+  color: var(--thinking-text);
+  padding: 12px;
+}
+.meta-block {
+  background: rgba(0,0,0,0.03);
+  padding: 12px;
+}
+.tool-header {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 0.84rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+  border-radius: 6px;
+}
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  background: rgba(0,0,0,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.pagination a, .pagination span {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--user-border);
+  background: var(--card-bg);
+  color: var(--user-border);
+}
+.pagination .current, .pagination .index-link {
+  background: var(--user-border);
+  color: white;
+  border-color: var(--user-border);
+}
+.index-item {
+  background: var(--user-bg);
+  border-left: 4px solid var(--user-border);
+}
+.index-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.index-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.03);
+}
+.index-item-content,
+.index-item-stats {
+  padding: 14px 16px;
+}
+.index-item-stats {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.index-item-stats > span {
+  display: inline-block;
+}
+.index-item-long-text {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border-left: 3px solid var(--assistant-border);
+}
+.index-item-long-text-content {
+  color: var(--text-color);
+}
+.index-item-long-text .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.index-commit {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.index-commit a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.index-commit a:hover {
+  background: rgba(255, 152, 0, 0.1);
+  margin: -10px -16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+.index-commit-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.index-commit-hash {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  color: #e65100;
+  font-weight: 600;
+}
+.index-commit-msg {
+  color: #5d4037;
+}
+.index-commit time {
+  color: var(--text-muted);
+}
+.timestamp-link {
+  color: inherit;
+  text-decoration: none;
+}
+.timestamp-link:hover {
+  text-decoration: underline;
+}
+.truncatable { position: relative; }
+.truncatable.truncated .truncatable-content {
+  max-height: 220px;
+  overflow: hidden;
+}
+.truncatable.truncated::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.96));
+}
+.message.user .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--user-bg));
+}
+.message.assistant .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+}
+.message.commentary .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--commentary-bg));
+}
+.message.system .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--system-bg));
+}
+.message.thinking .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--thinking-bg));
+}
+.message.tool .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, var(--tool-bg));
+}
+.message.tool-reply .truncatable.truncated::after {
+  background: linear-gradient(to bottom, transparent, #fff8e1);
+}
+.expand-btn {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.72);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.truncatable.truncated .expand-btn,
+.truncatable.expanded .expand-btn {
+  display: block;
+}
+#search-box {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#search-box input,
+.search-modal-header input {
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--card-bg);
+}
+#search-box input {
+  min-width: 180px;
+}
+#search-box button,
+#modal-search-btn,
+#modal-close-btn {
+  background: var(--user-border);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-box button:hover,
+#modal-search-btn:hover {
+  background: #1565c0;
+}
+#modal-close-btn {
+  background: var(--text-muted);
+  margin-left: 8px;
+}
+#modal-close-btn:hover {
+  background: #616161;
+}
+#search-modal[open] {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  padding: 0;
+  width: min(92vw, 900px);
+  height: min(82vh, 720px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+}
+#search-modal::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color);
+  border-radius: 14px 14px 0 0;
+}
+.search-modal-header input {
+  flex: 1;
+}
+#search-status {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+#search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.search-result {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-result a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.search-result a:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+.search-result-page {
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.03);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-result-content {
+  padding: 12px;
+}
+.search-result mark {
+  background: #fff59d;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .container { padding: 16px 10px 32px; }
+  .hero { padding: 18px; border-radius: 12px; }
+  .turn-head { display: block; }
+  .header-row { align-items: flex-start; }
+  #search-box input { min-width: 120px; }
+  #search-modal[open] { width: 95vw; height: 90vh; max-height: 90vh; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    
+<div class="hero">
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">rollout-2026-04-21T16-42-33-019daf34-98bb-7220-96c7-b766421c38ce</a></h1>
+  <p>Page 2 / 8</p>
+</div>
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-001.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <span class="current">2</span>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-003.html">Next &rarr;</a>
+  
+</div>
+
+
+
+<section class="turn-shell" id="turn-6">
+  <div class="turn-head">
+    <div class="turn-title">Turn 6 · 所以说user_loop是个循环调用命令吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-21T10-26-06-182Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-21T10-26-06-182Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:26:06.182Z" data-timestamp="2026-04-21T10:26:06.182Z">2026-04-21T10:26:06.182Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以说user_loop是个循环调用命令吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-21T10-26-14-101Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-21T10-26-14-101Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:26:14.101Z" data-timestamp="2026-04-21T10:26:14.101Z">2026-04-21T10:26:14.101Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>对，可以这样理解。</p>
+<p><code>user_loop</code> 不是“命令”本身，而是 <code>App.run()</code> 的一个参数，用来告诉 App Lab：</p>
+<p>“请把我传进去的这个函数，当作主循环反复调用。”</p>
+<p>比如：</p>
+<pre><code class="language-python">App.run(user_loop=loop)
+</code></pre>
+<p>意思就是把 <code>loop</code> 这个函数交给运行时，让它持续重复执行。</p>
+<p>所以更准确地说：</p>
+<ul>
+<li><code>user_loop</code> 是参数名</li>
+<li><code>loop</code> 是你传进去的函数</li>
+<li>App Lab 会循环调用这个函数</li>
+</ul>
+<p>你可以把它近似理解成 Arduino 里的：</p>
+<pre><code class="language-cpp">void loop() {
+}
+</code></pre>
+<p>只是这里是在 Python 侧，由 <code>App.run(...)</code> 负责调度。</p>
+<p>如果你愿意，我可以顺手给你画一个 <code>App.run(user_loop=loop)</code> 的执行流程图。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-7">
+  <div class="turn-head">
+    <div class="turn-title">Turn 7 · 那我可以说在loop函数中，while true:...达到同样的效果吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-21T10-26-55-557Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-21T10-26-55-557Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:26:55.557Z" data-timestamp="2026-04-21T10:26:55.557Z">2026-04-21T10:26:55.557Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>那我可以说在loop函数中，while true:...达到同样的效果吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-21T10-27-07-651Z-2026-04-21T10-27-07-651Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-21T10-27-07-651Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-21T10-27-07-651Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:27:07.651Z" data-timestamp="2026-04-21T10:27:07.651Z">2026-04-21T10:27:07.651Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-21T10-27-15-287Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-21T10-27-15-287Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:27:15.287Z" data-timestamp="2026-04-21T10:27:15.287Z">2026-04-21T10:27:15.287Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以达到“反复执行”的效果，但不完全等价，不建议这么写。</p>
+<p>如果你在 <code>loop()</code> 里再套一个：</p>
+<pre><code class="language-python">def loop():
+    while True:
+        ...
+</code></pre>
+<p>那效果会变成：</p>
+<ul>
+<li><code>App.run(user_loop=loop)</code> 调用一次 <code>loop()</code></li>
+<li>这个 <code>loop()</code> 里面自己就死循环了</li>
+<li>运行时拿不到控制权去正常调度下一轮</li>
+</ul>
+<p>而官方推荐的写法是：</p>
+<pre><code class="language-python">def loop():
+    ...
+    ...
+
+App.run(user_loop=loop)
+</code></pre>
+<p>意思是：</p>
+<ul>
+<li>App 运行时负责一轮一轮调用 <code>loop()</code></li>
+<li><code>loop()</code> 自己只做“一次循环该做的事”</li>
+<li>不要在里面再套无限循环</li>
+</ul>
+<p>你可以这样理解：</p>
+<ul>
+<li><code>App.run(user_loop=loop)</code> 已经帮你提供了外层循环</li>
+<li><code>loop()</code> 里再写 <code>while True</code>，就相当于又套了一层死循环</li>
+</ul>
+<p>所以结论是：</p>
+<ul>
+<li>“看起来会一直跑”这点相似</li>
+<li>但设计上不一样</li>
+<li>在 <code>user_loop</code> 模式下，通常不要在 <code>loop()</code> 里再写 <code>while True</code></li>
+</ul>
+<p>对比一下更清楚：</p>
+<p>推荐：</p>
+<pre><code class="language-python">def loop():
+    time.sleep(1)
+    do_something()
+
+App.run(user_loop=loop)
+</code></pre>
+<p>不推荐：</p>
+<pre><code class="language-python">def loop():
+    while True:
+        time.sleep(1)
+        do_something()
+
+App.run(user_loop=loop)
+</code></pre>
+<p>第二种会让 <code>App.run()</code> 只进入一次 <code>loop()</code>，之后就被你自己的死循环卡住了。</p>
+<p>如果你愿意，我可以继续给你讲一下为什么天气项目用 <code>App.run()</code>，而 Blink 项目用 <code>App.run(user_loop=loop)</code>。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-8">
+  <div class="turn-head">
+    <div class="turn-title">Turn 8 · .ino是什么</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-21T10-28-01-260Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-21T10-28-01-260Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:28:01.260Z" data-timestamp="2026-04-21T10:28:01.260Z">2026-04-21T10:28:01.260Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>.ino是什么</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-21T10-28-09-884Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-21T10-28-09-884Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:28:09.884Z" data-timestamp="2026-04-21T10:28:09.884Z">2026-04-21T10:28:09.884Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p><code>.ino</code> 是 Arduino 草图文件的扩展名，本质上就是 Arduino 风格的 C++ 源代码文件。</p>
+<p>你可以把它简单理解成：</p>
+<ul>
+<li>Arduino 平台专用的主程序文件</li>
+<li>最终会被当成 C++ 代码编译</li>
+<li>里面通常写硬件控制逻辑</li>
+</ul>
+<p>最典型的结构就是：</p>
+<pre><code class="language-cpp">void setup() {
+}
+
+void loop() {
+}
+</code></pre>
+<p>含义是：</p>
+<ul>
+<li><code>setup()</code>：上电后执行一次，用来做初始化</li>
+<li><code>loop()</code>：之后反复执行，用来做持续运行的逻辑</li>
+</ul>
+<p>在你前面看的项目里：</p>
+<ul>
+<li>Python 的 <code>main.py</code> 跑在 UNO Q 的 Linux 系统一侧</li>
+<li><code>.ino</code> 文件跑在微控制器一侧</li>
+<li>它更适合写 GPIO、LED、传感器、串口这类底层硬件控制代码</li>
+</ul>
+<p>比如这个文件就是 <code>.ino</code>：
+<a href="/home/william/Desktop/Arduino UNO Q 4GB/例程分析/BLink_LED/blink-led/sketch/sketch.ino">sketch.ino</a></p>
+<p>所以一句话说：</p>
+<p><code>.ino</code> = Arduino 程序主文件 = Arduino 风格的 C++ 源文件</p>
+<p>如果你愿意，我可以接着讲 <code>.ino</code> 和普通 <code>.cpp</code> 的区别。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-9">
+  <div class="turn-head">
+    <div class="turn-title">Turn 9 · 这不是C语言吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-21T10-28-42-106Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-21T10-28-42-106Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:28:42.106Z" data-timestamp="2026-04-21T10:28:42.106Z">2026-04-21T10:28:42.106Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>这不是C语言吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<div class="message assistant" id="msg-2026-04-21T10-28-49-882Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-21T10-28-49-882Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:28:49.882Z" data-timestamp="2026-04-21T10:28:49.882Z">2026-04-21T10:28:49.882Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>更准确地说：<strong>不是纯 C，而是 Arduino 风格的 C++</strong>。</p>
+<p>很多初学者会觉得它像 C，是因为：</p>
+<ul>
+<li>语法看起来很像 C</li>
+<li>经常写 <code>if</code>、<code>for</code>、<code>while</code></li>
+<li>常用函数风格也很接近 C</li>
+<li>做硬件控制时写法比较朴素</li>
+</ul>
+<p>但 <code>.ino</code> 实际上是按 <strong>C++</strong> 编译的，不是按纯 C 编译的。</p>
+<p>比如你前面看到的这句：</p>
+<pre><code class="language-cpp">#include &lt;Arduino_LED_Matrix.h&gt;
+</code></pre>
+<p>以及：</p>
+<pre><code class="language-cpp">String city = &quot;Guangzhou&quot;;
+</code></pre>
+<p>这里的 <code>String</code>、库类、对象方法这些，都是 C++ 风格。</p>
+<p>再比如：</p>
+<pre><code class="language-cpp">Arduino_LED_Matrix matrix;
+matrix.begin();
+matrix.clear();
+</code></pre>
+<p>这已经明显是对象和方法调用了，也是 C++ 的用法。</p>
+<p>所以你可以这样理解：</p>
+<ul>
+<li><code>.ino</code> 看起来很像 C</li>
+<li>但底层编译方式是 C++</li>
+<li>Arduino 只是把它包装得比普通 C++ 更容易上手</li>
+</ul>
+<p>一句话：</p>
+<p><strong>Arduino 代码像 C，但本质上是简化使用场景下的 C++。</strong></p>
+<p>如果你愿意，我可以下一步专门给你举几个“看起来像 C、其实是 C++”的例子。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="turn-shell" id="turn-10">
+  <div class="turn-head">
+    <div class="turn-title">Turn 10 · 所以call是发送，provide是接收吗</div>
+    <div class="turn-status">completed</div>
+  </div>
+  <div class="turn-body">
+<div class="message user" id="msg-2026-04-21T10-31-13-489Z">
+  <div class="message-header">
+    <span class="role-label">User</span>
+    <a href="#msg-2026-04-21T10-31-13-489Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:31:13.489Z" data-timestamp="2026-04-21T10:31:13.489Z">2026-04-21T10:31:13.489Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="user-content"><p>所以call是发送，provide是接收吗</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+
+<details class="process-group" id="process-2026-04-21T10-31-19-305Z-2026-04-21T10-31-19-305Z">
+  <summary>Codex process (1 item: Reasoning)</summary>
+  <div class="process-group-body">
+<div class="message thinking" id="msg-2026-04-21T10-31-19-305Z">
+  <div class="message-header">
+    <span class="role-label">Reasoning</span>
+    <a href="#msg-2026-04-21T10-31-19-305Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:31:19.305Z" data-timestamp="2026-04-21T10:31:19.305Z">2026-04-21T10:31:19.305Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="meta-block"><p>Reasoning captured privately.</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</details>
+
+<div class="message assistant" id="msg-2026-04-21T10-31-37-284Z">
+  <div class="message-header">
+    <span class="role-label">Assistant</span>
+    <a href="#msg-2026-04-21T10-31-37-284Z" class="timestamp-link">
+      <time datetime="2026-04-21T10:31:37.284Z" data-timestamp="2026-04-21T10:31:37.284Z">2026-04-21T10:31:37.284Z</time>
+    </a>
+  </div>
+  <div class="message-content">
+    <div class="truncatable">
+      <div class="truncatable-content">
+<div class="assistant-text"><p>可以这么粗略理解，但更准确一点：</p>
+<ul>
+<li><code>provide</code>：把一个函数“注册出来”，让对方可以调用</li>
+<li><code>call</code>：去调用对方已经注册好的函数</li>
+</ul>
+<p>所以它们不是单纯的“发送/接收”，而是“提供服务 / 调用服务”。</p>
+<p>拿你前面的例子说：</p>
+<p>Arduino 这边：</p>
+<pre><code class="language-cpp">Bridge.provide(&quot;set_led_state&quot;, set_led_state);
+</code></pre>
+<p>意思是：
+“我这里提供一个叫 <code>set_led_state</code> 的接口，你别的一端可以来调我。”</p>
+<p>Python 这边：</p>
+<pre><code class="language-python">Bridge.call(&quot;set_led_state&quot;, led_state)
+</code></pre>
+<p>意思是：
+“我现在去调用你提供的 <code>set_led_state</code>，并把 <code>led_state</code> 这个参数传过去。”</p>
+<p>所以关系更像：</p>
+<ul>
+<li><code>provide</code> = 开一个可调用接口</li>
+<li><code>call</code> = 调这个接口</li>
+</ul>
+<p>如果你非要对应“发送/接收”去记，也可以暂时记成：</p>
+<ul>
+<li><code>call</code> 更像主动发起请求</li>
+<li><code>provide</code> 更像提前准备好接收调用</li>
+</ul>
+<p>但最好记成“注册接口”和“调用接口”，这样更准确。</p></div>
+</div>
+      <button class="expand-btn" type="button">Show more</button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<div class="pagination">
+  <a href="index.html" class="index-link">Index</a>
+  
+  <a href="page-001.html">&larr; Prev</a>
+  
+  
+    
+    <a href="page-001.html">1</a>
+    
+  
+    
+    <span class="current">2</span>
+    
+  
+    
+    <a href="page-003.html">3</a>
+    
+  
+    
+    <a href="page-004.html">4</a>
+    
+  
+    
+    <a href="page-005.html">5</a>
+    
+  
+    
+    <a href="page-006.html">6</a>
+    
+  
+    
+    <a href="page-007.html">7</a>
+    
+  
+    
+    <a href="page-008.html">8</a>
+    
+  
+  
+  <a href="page-003.html">Next &rarr;</a>
+  
+</div>
+
+
+
+  </div>
+  <div class="floating-process-controls" hidden aria-hidden="true">
+    <button class="floating-process-btn floating-process-btn-right" type="button">Hide details</button>
+  </div>
+  <script>
+document.querySelectorAll('time[data-timestamp]').forEach(function(el) {
+  const timestamp = el.getAttribute('data-timestamp');
+  const date = new Date(timestamp);
+  if (String(date) === 'Invalid Date') return;
+  el.textContent = date.toLocaleString();
+});
+document.querySelectorAll('.truncatable').forEach(function(wrapper) {
+  const content = wrapper.querySelector('.truncatable-content');
+  const btn = wrapper.querySelector('.expand-btn');
+  if (!content || !btn) return;
+  if (content.scrollHeight > 250) {
+    wrapper.classList.add('truncated');
+    btn.addEventListener('click', function() {
+      if (wrapper.classList.contains('truncated')) {
+        wrapper.classList.remove('truncated');
+        wrapper.classList.add('expanded');
+        btn.textContent = 'Show less';
+      } else {
+        wrapper.classList.remove('expanded');
+        wrapper.classList.add('truncated');
+        btn.textContent = 'Show more';
+      }
+    });
+  }
+});
+
+(function() {
+  const controls = document.querySelector('.floating-process-controls');
+  if (!controls) return;
+  const buttons = controls.querySelectorAll('.floating-process-btn');
+  let activeGroup = null;
+
+  function hideControls() {
+    activeGroup = null;
+    controls.hidden = true;
+    controls.setAttribute('aria-hidden', 'true');
+  }
+
+  function showControls(group) {
+    activeGroup = group;
+    controls.hidden = false;
+    controls.setAttribute('aria-hidden', 'false');
+  }
+
+  function findActiveGroup() {
+    const openGroups = Array.from(document.querySelectorAll('details.process-group[open]'));
+    if (!openGroups.length) return null;
+
+    const viewportProbe = window.innerHeight * 0.5;
+    const centered = openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top <= viewportProbe && rect.bottom >= viewportProbe;
+    });
+    if (centered) return centered;
+
+    return openGroups.find(function(group) {
+      const rect = group.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    }) || null;
+  }
+
+  function syncControls() {
+    const group = findActiveGroup();
+    if (!group) {
+      hideControls();
+      return;
+    }
+    showControls(group);
+  }
+
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      if (!activeGroup) return;
+      const groupTop = activeGroup.getBoundingClientRect().top + window.scrollY;
+      button.blur();
+      activeGroup.open = false;
+      window.requestAnimationFrame(function() {
+        window.scrollTo({ top: Math.max(groupTop - 16, 0), behavior: 'auto' });
+      });
+      syncControls();
+    });
+  });
+
+  document.addEventListener('toggle', function(event) {
+    if (event.target && event.target.matches('details.process-group')) {
+      syncControls();
+    }
+  }, true);
+  window.addEventListener('scroll', syncControls, { passive: true });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+})();
+</script>
+</body>
+</html>
