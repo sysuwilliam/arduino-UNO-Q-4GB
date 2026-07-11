@@ -9,7 +9,7 @@
 1. 图像采集模块：通过摄像头实时捕获视频帧
 2. 矩形检测模块：检测图像中的矩形区域并提取顶点坐标
 3. 矩形验证模块：验证检测到的四边形是否为标准矩形
-4. 中心计算模块：计算矩形的几何中心（质心方法，更鲁棒）
+4. 中心计算模块：计算矩形的几何中心（对角线交点）
 5. HTTP服务模块：提供Web界面和API接口
 
 【图像处理流程】
@@ -84,34 +84,8 @@ def are_segments_vertical(theta1, theta2, tolerance=30):
     return math.isclose(angle_difference, 90, abs_tol=tolerance)
 
 
-def calculate_centroid(vertices):
-    """
-    计算四边形质心（推荐方法）
-    
-    优势：
-    1. 对透视变形更鲁棒
-    2. 平均化平滑噪声
-    3. 计算简单高效
-    4. 数学性质稳定
-    
-    参数：
-        vertices: 四个顶点列表 [[x1,y1], [x2,y2], [x3,y3], [x4,y4]]
-    
-    返回：
-        (center_x, center_y): 质心坐标
-    """
-    x = sum(v[0] for v in vertices) // len(vertices)
-    y = sum(v[1] for v in vertices) // len(vertices)
-    return (x, y)
-
-
 def find_intersection(x1, y1, x2, y2, x3, y3, x4, y4):
-    """
-    计算两条直线的交点（对角线交点）
-    
-    注意：此方法在透视变形下误差较大
-    主要用于对比验证，实际应用推荐使用 calculate_centroid()
-    """
+    """计算两条直线的交点（对角线交点）"""
     def calculate_determinant(A, B):
         return A[0] * B[1] - A[1] * B[0]
 
@@ -299,38 +273,35 @@ def process_frame(frame):
                     rect_detected = True
                     vertices = [[int(c[i][0]), int(c[i][1])] for i in range(4)]
                     
-                    # 计算质心（推荐方法，对透视变形更鲁棒）
-                    centroid = calculate_centroid(vertices)
+                    # 计算对角线交点（中心）
+                    intersection = find_intersection(
+                        c[0][0], c[0][1], c[2][0], c[2][1],
+                        c[1][0], c[1][1], c[3][0], c[3][1]
+                    )
                     
-                    # 可选：计算对角线交点用于对比（调试用）
-                    # intersection = find_intersection(
-                    #     c[0][0], c[0][1], c[2][0], c[2][1],
-                    #     c[1][0], c[1][1], c[3][0], c[3][1]
-                    # )
-                    
-                    if centroid:
-                        center = list(centroid)
+                    if intersection:
+                        center = list(intersection)
                         
-                        # 绘制质心中心点（绿色，较大）
-                        cv2.circle(frame, centroid, 8, (0, 255, 0), -1)
+                        # 绘制中心点
+                        cv2.circle(frame, intersection, 8, (0, 255, 0), -1)
                         
-                        # 绘制标准矩形边框（绿色）
+                        # 绘制标准矩形（绿色）
                         for s in range(4):
                             next_s = (s + 1) % 4
                             cv2.line(frame, (c[s][0], c[s][1]), 
                                     (c[next_s][0], c[next_s][1]), (0, 255, 0), 3)
                             cv2.circle(frame, (c[s][0], c[s][1]), 5, (255, 0, 0), -1)
                         
-                        # 显示质心坐标
-                        text = f"Centroid: ({centroid[0]}, {centroid[1]})"
+                        # 显示中心坐标
+                        text = f"Center: ({intersection[0]}, {intersection[1]})"
                         cv2.putText(frame, text, (10, 30), 
                                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
                         
                         # 计算与图像中心的偏差
                         center_x = WIDTH // 2
                         center_y = HEIGHT // 2
-                        error_x = center_x - centroid[0]
-                        error_y = center_y - centroid[1]
+                        error_x = center_x - intersection[0]
+                        error_y = center_y - intersection[1]
                         error = [error_x, error_y]
                         
                         # 显示偏差

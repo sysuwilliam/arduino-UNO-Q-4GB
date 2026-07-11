@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brushless Motor Control</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Brushless Motor Control</h1>
+      <p>UNO Q + SimpleFOCmini live tuning</p>
+    </div>
+    <div class="connection" id="connectionStatus">Connecting</div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls-panel">
+      <div class="section-title">Motion</div>
+
+      <label class="control">
+        <span>Target angle <strong id="targetAngleValue">0.00 rad</strong></span>
+        <input id="targetAngle" type="range" min="-6.28" max="6.28" step="0.01" value="0">
+      </label>
+
+      <div class="number-row">
+        <label>
+          <span>Target rad</span>
+          <input id="targetAngleInput" type="number" min="-25" max="25" step="0.01" value="0">
+        </label>
+        <label>
+          <span>Target deg</span>
+          <input id="targetDegreesInput" type="number" min="-1440" max="1440" step="1" value="0">
+        </label>
+      </div>
+
+      <div class="button-row">
+        <button id="holdButton" type="button">Hold</button>
+        <button id="zeroButton" type="button">Zero</button>
+        <button id="enableButton" type="button" class="primary">Disable</button>
+      </div>
+
+      <div class="section-title">Limits</div>
+
+      <label class="control">
+        <span>Voltage limit <strong id="voltageLimitValue">1.50 V</strong></span>
+        <input id="voltageLimit" type="range" min="0.5" max="6" step="0.1" value="1.5">
+      </label>
+
+      <label class="control">
+        <span>Velocity limit <strong id="velocityLimitValue">10.0 rad/s</strong></span>
+        <input id="velocityLimit" type="range" min="1" max="50" step="0.5" value="10">
+      </label>
+
+      <div class="section-title">Control Gains</div>
+
+      <label class="control">
+        <span>Angle P <strong id="anglePValue">20.0</strong></span>
+        <input id="angleP" type="range" min="0" max="60" step="0.5" value="20">
+      </label>
+
+      <div class="number-row three">
+        <label>
+          <span>Vel P</span>
+          <input id="velocityP" type="number" min="0" max="5" step="0.01" value="0.05">
+        </label>
+        <label>
+          <span>Vel I</span>
+          <input id="velocityI" type="number" min="0" max="5" step="0.01" value="0.02">
+        </label>
+        <label>
+          <span>Vel D</span>
+          <input id="velocityD" type="number" min="0" max="2" step="0.001" value="0">
+        </label>
+      </div>
+
+      <div class="section-title">Auto Tune</div>
+
+      <div class="number-row">
+        <label>
+          <span>Step rad</span>
+          <input id="autoTuneStep" type="number" min="0.1" max="1" step="0.05" value="0.5">
+        </label>
+        <label>
+          <span>Max voltage</span>
+          <input id="autoTuneVoltage" type="number" min="0.5" max="4" step="0.1" value="2.5">
+        </label>
+      </div>
+
+      <div class="number-row">
+        <label>
+          <span>Max velocity</span>
+          <input id="autoTuneMaxVelocity" type="number" min="8" max="35" step="1" value="25">
+        </label>
+      </div>
+
+      <div class="check-grid">
+        <label class="check-control">
+          <input id="autoTuneD" type="checkbox">
+          <span>Tune D after PID</span>
+        </label>
+        <label class="check-control">
+          <input id="autoTuneVelocityLimit" type="checkbox">
+          <span>Tune velocity limit</span>
+        </label>
+        <label class="check-control">
+          <input id="autoTuneVoltageLimit" type="checkbox">
+          <span>Tune voltage limit</span>
+        </label>
+      </div>
+
+      <div class="button-row">
+        <button id="autoTuneStartButton" type="button" class="primary">Auto Tune</button>
+        <button id="autoTuneStopButton" type="button">Stop Tune</button>
+        <button id="autoTuneApplyButton" type="button">Apply Best</button>
+      </div>
+
+      <div class="autotune-box">
+        <div id="autoTuneState">Idle</div>
+        <div id="autoTuneBest">No recommendation yet</div>
+      </div>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="chart-header">
+        <div>
+          <div class="section-title">Telemetry</div>
+          <p>Target, angle, and error over time</p>
+        </div>
+        <button id="clearChartButton" type="button">Clear</button>
+      </div>
+      <canvas id="telemetryChart" width="960" height="420"></canvas>
+      <div class="legend">
+        <span><i class="target"></i>Target</span>
+        <span><i class="angle"></i>Angle</span>
+        <span><i class="error"></i>Error</span>
+      </div>
+    </section>
+
+    <section class="panel autotune-panel">
+      <div class="chart-header">
+        <div>
+          <div class="section-title">Auto Tune Results</div>
+          <p>Lower score is better; candidates are tested with a small angle step.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Stage</th>
+              <th>Angle P</th>
+              <th>Vel P</th>
+              <th>Vel I</th>
+              <th>Vel D</th>
+              <th>Volt Limit</th>
+              <th>Vel Limit</th>
+              <th>Settling</th>
+              <th>Overshoot</th>
+              <th>Steady Error</th>
+              <th>Jitter</th>
+              <th>Small Final</th>
+              <th>Small Error</th>
+              <th>Small Jitter</th>
+              <th>Score</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="autoTuneResults">
+            <tr><td colspan="17">No tests yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel stats-panel">
+      <div class="stat">
+        <span>Current angle</span>
+        <strong id="shaftAngleStat">--</strong>
+      </div>
+      <div class="stat">
+        <span>Target angle</span>
+        <strong id="targetAngleStat">--</strong>
+      </div>
+      <div class="stat">
+        <span>Error</span>
+        <strong id="angleErrorStat">--</strong>
+      </div>
+      <div class="stat">
+        <span>Velocity</span>
+        <strong id="shaftVelocityStat">--</strong>
+      </div>
+      <div class="stat">
+        <span>Voltage limit</span>
+        <strong id="voltageLimitStat">--</strong>
+      </div>
+      <div class="stat">
+        <span>Motor</span>
+        <strong id="enabledStat">--</strong>
+      </div>
+    </section>
+  </main>
+
+  <div id="statusLog" class="status-log">Waiting for telemetry...</div>
+
+  <script src="libs/socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

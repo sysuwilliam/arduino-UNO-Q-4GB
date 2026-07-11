@@ -1,0 +1,6 @@
+name: Brushless Motor Control
+description: Arduino UNO Q SimpleFOC angle control with live Web UI tuning and telemetry plots.
+ports: []
+bricks:
+  - arduino:web_ui: {}
+icon: ⚙️
